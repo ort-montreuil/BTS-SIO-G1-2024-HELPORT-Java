@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <Label text="Modifier une demande" />
+    <HBox spacing="10">
+        <Label text="Changer la date finale :" />
+        <DatePicker />
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Changer de matière :" />
+        <TextField />
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Changer de sous matière :" />
+        <TextField />
+    </HBox>
+    <Button text="Annuler X" />
+    <Button text="Mathématiques" />
+    <Button text="Statistiques, Trigo" />
+    <Button text="Annuler la demande x" />
+    <Button text="Valider" />
+</VBox>
