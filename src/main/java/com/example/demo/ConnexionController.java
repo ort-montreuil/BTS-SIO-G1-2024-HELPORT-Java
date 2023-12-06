@@ -64,6 +64,9 @@ public class ConnexionController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Accueil.fxml"));
             Parent root = loader.load();
 
+            Stage currentStage = (Stage) btnLogin.getScene().getWindow();
+            currentStage.close();
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
