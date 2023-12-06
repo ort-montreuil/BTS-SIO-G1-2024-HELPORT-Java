@@ -1,9 +1,10 @@
 package com.example.demo;
 
-import Tools.ConnexionBDD;
+import com.example.demo.Tools.ConnexionBDD;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,19 +13,26 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.net.URL;
 
-public class ConnexionController {
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-    private Connection cnx;
-    private PreparedStatement ps;
-    private ResultSet rs;
+public class ConnexionController implements Initializable
 
-    public ConnexionController() {
-        cnx = ConnexionBDD.getCnx();
+{
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            maCnx = new ConnexionBDD();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        RequeteSql = new RequeteSQLController();
+
     }
 
     @FXML
@@ -36,28 +44,14 @@ public class ConnexionController {
     @FXML
     private TextField txtId;
 
+    private  RequeteSQLController RequeteSql;
+
+    private  ConnexionBDD maCnx;
+
     @FXML
     private Button btnLogin;
 
-    private boolean verifierIdentifiants() {
-        try {
-            // Préparer la requête SQL
-            ps = cnx.prepareStatement("SELECT * FROM user WHERE email = ? AND password = ?");
-            ps.setString(1, txtId.getText());
-            ps.setString(2, txtMdp.getText()); // Vous devriez hacher le mot de passe dans une application réelle
 
-            // Exécuter la requête
-            ResultSet resultSet = ps.executeQuery();
-
-            // Si une ligne est renvoyée, les identifiants sont corrects
-            return resultSet.next();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Gérer les erreurs de base de données
-            return false;
-        }
-    }
 
     public void ouvrirAccueil(ActionEvent event) {
         try {
@@ -82,6 +76,7 @@ public class ConnexionController {
 
 
 
+
     private void afficherMessageErreur(String message) {
         // Vous pouvez personnaliser la façon dont vous affichez le message d'erreur
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -93,7 +88,13 @@ public class ConnexionController {
 
     @FXML
     public void btnClicked(ActionEvent event) {
-
-        ouvrirAccueil(event);
+        if (RequeteSql.verifierIdentifiants(txtId.getText(), txtMdp.getText())) {
+            ouvrirAccueil(event);
+        }
+        else {
+                afficherMessageErreur("Identifiants incorrects. Veuillez réessayer.");
+            }
     }
+
+
 }
