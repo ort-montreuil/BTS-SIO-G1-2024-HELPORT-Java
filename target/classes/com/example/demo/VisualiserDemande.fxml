@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<BorderPane >
+
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="5">
+            <Button text="Visualiser mes demandes"/>
+        </HBox>
+    </bottom>
+
+    <center>
+        <TableView>
+            <columns>
+                <TableColumn text="Date de la demande"/>
+                <TableColumn text="Matière souhaitée"/>
+                <TableColumn text="Matière"/>
+                <TableColumn text="Sous matière"/>
+                <TableColumn text="Status"/>
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>
