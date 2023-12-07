@@ -27,6 +27,14 @@ public class AccueilController implements Initializable {
     private Button btnAccueil;
     @FXML
     private Button btnDeco;
+    @FXML
+    private MenuButton mnubtnAider;
+    @FXML
+    private MenuButton mnubtnCompte;
+    @FXML
+    private Button btnStat;
+    @FXML
+    private AnchorPane apVD;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,13 +60,20 @@ public class AccueilController implements Initializable {
         // Mettez ici le code pour afficher l'AnchorPane apSDemande
         apSDemande.setVisible(true);
         apAccueil.setVisible(false); // Vous pouvez masquer l'AnchorPane apAccueil si nécessaire
+        apVD.setVisible(false);
+
     }
 
     private void afficherVisualiserDemandes() {
-        // Mettez ici le code pour afficher l'AnchorPane approprié
-        // Par exemple, si vous avez une vue spécifique pour visualiser les demandes, vous pouvez la rendre visible ici
-        // apVisualiserDemandes.setVisible(true);
-        // apFaireDemande.setVisible(false); // Vous pouvez masquer l'AnchorPane apFaireDemande si nécessaire
+        // Mettez ici le code pour afficher l'AnchorPane apVD
+        apVD.setVisible(true);
+
+        // Assurez-vous de masquer les autres AnchorPane si nécessaire
+        apSDemande.setVisible(false);
+        apAccueil.setVisible(false);
+        // Vous pouvez également masquer d'autres AnchorPane selon votre structure
+
+        // Vous pouvez ajouter d'autres actions nécessaires ici
     }
 
     private void afficherModifierDemande() {
@@ -71,6 +86,8 @@ public class AccueilController implements Initializable {
         // Mettez ici le code pour afficher l'AnchorPane apAccueil
         apAccueil.setVisible(true);
         apSDemande.setVisible(false); // Vous pouvez masquer l'AnchorPane apSDemande si nécessaire
+        apVD.setVisible(false);
+
     }
 
     private void deconnexion() {
