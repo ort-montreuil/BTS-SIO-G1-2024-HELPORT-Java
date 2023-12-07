@@ -62,11 +62,15 @@ public class AccueilController implements Initializable {
     }
 
     private void ajouterSousMatiereSelectionnee() {
+        String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem();
         String sousMatiereSelectionnee = (String) lvsSousmatiere.getSelectionModel().getSelectedItem();
-        if (sousMatiereSelectionnee != null) {
-            lsvSMS.getItems().add(sousMatiereSelectionnee);
+
+        if (matiereSelectionnee != null && sousMatiereSelectionnee != null) {
+            String matiereAvecSousMatiere = matiereSelectionnee + " : " + sousMatiereSelectionnee;
+            lsvSMS.getItems().add(matiereAvecSousMatiere);
         }
     }
+
 
     private void afficherFaireDemande() {
         apSDemande.setVisible(true);
@@ -124,5 +128,8 @@ public class AccueilController implements Initializable {
             lvsSousmatiere.getItems().clear();
             lvsSousmatiere.getItems().addAll(sousMatieresUniques);
         }
+
+
     }
+
 }
