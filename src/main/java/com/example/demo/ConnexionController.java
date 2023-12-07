@@ -28,18 +28,7 @@ public class ConnexionController implements Initializable
     @FXML
     private Button btnMotDePasseOublie;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            maCnx = new ConnexionBDD();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        RequeteSql = new RequeteSQLController();
 
-    }
 
     @FXML
     private PasswordField txtMdp;
@@ -53,6 +42,19 @@ public class ConnexionController implements Initializable
 
     @FXML
     private Button btnLogin;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            maCnx = new ConnexionBDD();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        RequeteSql = new RequeteSQLController();
+
+    }
 
 
 

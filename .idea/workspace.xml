@@ -4,13 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ff7178e-16a9-4baa-8718-82b0d93c4b5f" name="Changes" comment="Bouton déconnexion et menu bouton activés">
+    <list default="true" id="6ff7178e-16a9-4baa-8718-82b0d93c4b5f" name="Changes" comment="Test">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/AccueilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/AccueilController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/ConnexionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/ConnexionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/RequeteSQLController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/RequeteSQLController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Tools/ConnexionBDD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Tools/ConnexionBDD.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/demo/Accueil.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/demo/Accueil.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/Accueil.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/Accueil.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/AccueilController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/AccueilController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/ConnexionController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/ConnexionController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/RequeteSQLController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/RequeteSQLController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +85,6 @@
       <workItem from="1701850103040" duration="14500000" />
       <workItem from="1701870082296" duration="6695000" />
       <workItem from="1701939465940" duration="3602000" />
-      <workItem from="1701948650118" duration="2579000" />
     </task>
     <task id="LOCAL-00001" summary="connexion">
       <option name="closed" value="true" />
@@ -115,15 +118,7 @@
       <option name="project" value="LOCAL" />
       <updated>1701875871186</updated>
     </task>
-    <task id="LOCAL-00005" summary="Bouton déconnexion et menu bouton activés">
-      <option name="closed" value="true" />
-      <created>1701948714869</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1701948714869</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -134,7 +129,6 @@
     <MESSAGE value="ouvre l'autre page" />
     <MESSAGE value="Connexion et check dans la base de donnees" />
     <MESSAGE value="Test" />
-    <MESSAGE value="Bouton déconnexion et menu bouton activés" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bouton déconnexion et menu bouton activés" />
+    <option name="LAST_COMMIT_MESSAGE" value="Test" />
   </component>
 </project>

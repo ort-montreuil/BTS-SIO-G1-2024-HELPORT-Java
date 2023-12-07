@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RequeteSQLController
 {
@@ -45,5 +47,20 @@ public class RequeteSQLController
 
         return verification;
     }
+    public List<String> getDesignationsMatiere() {
+        List<String> designations = new ArrayList<>();
+        try {
+            ps = cnx.prepareStatement("SELECT matiere.designation FROM matiere");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String designation = rs.getString("designation");
+                designations.add(designation);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return designations;
+    }
+
 }
 

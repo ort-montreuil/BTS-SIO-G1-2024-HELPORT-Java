@@ -3,6 +3,7 @@ package com.example.demo;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
@@ -13,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AccueilController implements Initializable {
@@ -28,13 +30,13 @@ public class AccueilController implements Initializable {
     @FXML
     private Button btnDeco;
     @FXML
+    private ComboBox cboMatiereSouhaitee;
+    @FXML
     private MenuButton mnubtnAider;
     @FXML
     private MenuButton mnubtnCompte;
     @FXML
     private Button btnStat;
-    @FXML
-    private AnchorPane apVD;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -45,6 +47,7 @@ public class AccueilController implements Initializable {
         visualiserDemandesItem.setOnAction(event -> afficherVisualiserDemandes());
         MenuItem modifierDemandeItem = new MenuItem("Modifier une demande");
         modifierDemandeItem.setOnAction(event -> afficherModifierDemande());
+        peuplerComboBoxMatiere();
 
         // Inversion des éléments
         mnubtnDemande.getItems().addAll(faireDemandeItem, visualiserDemandesItem, modifierDemandeItem);
@@ -60,20 +63,13 @@ public class AccueilController implements Initializable {
         // Mettez ici le code pour afficher l'AnchorPane apSDemande
         apSDemande.setVisible(true);
         apAccueil.setVisible(false); // Vous pouvez masquer l'AnchorPane apAccueil si nécessaire
-        apVD.setVisible(false);
-
     }
 
     private void afficherVisualiserDemandes() {
-        // Mettez ici le code pour afficher l'AnchorPane apVD
-        apVD.setVisible(true);
-
-        // Assurez-vous de masquer les autres AnchorPane si nécessaire
-        apSDemande.setVisible(false);
-        apAccueil.setVisible(false);
-        // Vous pouvez également masquer d'autres AnchorPane selon votre structure
-
-        // Vous pouvez ajouter d'autres actions nécessaires ici
+        // Mettez ici le code pour afficher l'AnchorPane approprié
+        // Par exemple, si vous avez une vue spécifique pour visualiser les demandes, vous pouvez la rendre visible ici
+        // apVisualiserDemandes.setVisible(true);
+        // apFaireDemande.setVisible(false); // Vous pouvez masquer l'AnchorPane apFaireDemande si nécessaire
     }
 
     private void afficherModifierDemande() {
@@ -86,8 +82,6 @@ public class AccueilController implements Initializable {
         // Mettez ici le code pour afficher l'AnchorPane apAccueil
         apAccueil.setVisible(true);
         apSDemande.setVisible(false); // Vous pouvez masquer l'AnchorPane apSDemande si nécessaire
-        apVD.setVisible(false);
-
     }
 
     private void deconnexion() {
@@ -104,4 +98,17 @@ public class AccueilController implements Initializable {
             // Gérer l'exception en conséquence
         }
     }
+    // Méthode pour peupler la ComboBox avec des valeurs de matières
+    private void peuplerComboBoxMatiere() {
+        // Utilisez votre classe RequeteSQLController pour récupérer les valeurs de matières
+
+        RequeteSQLController requeteSQLController = new RequeteSQLController();
+        List<String> designationsMatiere = requeteSQLController.getDesignationsMatiere();
+
+        // Ajoutez les valeurs à la ComboBox
+        cboMatiereSouhaitee.getItems().addAll(designationsMatiere);
+        cboMatiereSouhaitee.getSelectionModel().selectFirst();
+    }
+
+
 }

@@ -16,7 +16,7 @@
 
 <AnchorPane prefHeight="600" prefWidth="800" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.AccueilController">
    <children>
-      <AnchorPane fx:id="apAccueil" layoutX="42.0" prefHeight="599.0" prefWidth="812.0">
+      <AnchorPane fx:id="apAccueil" layoutX="42.0" prefHeight="599.0" prefWidth="812.0" visible="false">
          <children>
             <Label layoutX="99.0" layoutY="88.0" text="Bienvenue sur l'application HelpOrt ( Prénom de l'eleve )">
                <font>
@@ -40,7 +40,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="apSDemande" layoutX="101.0" layoutY="78.0" prefHeight="531.0" prefWidth="749.0" visible="false">
+      <AnchorPane fx:id="apSDemande" layoutX="101.0" layoutY="78.0" prefHeight="531.0" prefWidth="749.0">
          <children>
             <Label id="label1" layoutX="288.0" layoutY="83.0" text="Matière souhaitée :" />
             <Label id="label2" layoutX="307.0" layoutY="155.0" text="Sous matière :" />
@@ -50,7 +50,7 @@
             <Button id="bouton_demande" layoutX="437.0" layoutY="387.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="184.0" text="Soumettre la demande" />
             <Label layoutX="270.0" layoutY="26.0" text="SOUMETTRE UNE DEMANDE DE SOUTIEN" />
             <ListView layoutX="244.0" layoutY="172.0" prefHeight="30.0" prefWidth="252.0" />
-            <ComboBox layoutX="252.0" layoutY="108.0" prefHeight="25.0" prefWidth="240.0" />
+            <ComboBox fx:id="cboMatiereSouhaitee" layoutX="252.0" layoutY="108.0" prefHeight="25.0" prefWidth="240.0" />
          </children>
       </AnchorPane>
       <VBox layoutX="-6.0" layoutY="-4.0" prefHeight="613.0" prefWidth="119.0" style="-fx-background-color: #498FA7;">
