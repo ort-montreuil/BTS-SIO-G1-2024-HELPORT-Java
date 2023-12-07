@@ -1,11 +1,10 @@
 package com.example.demo;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class AccueilController implements Initializable {
@@ -37,6 +37,11 @@ public class AccueilController implements Initializable {
     private MenuButton mnubtnCompte;
     @FXML
     private Button btnStat;
+    @FXML
+    private ListView lvsousmatiere;
+    @FXML
+    private AnchorPane apVD;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -48,6 +53,8 @@ public class AccueilController implements Initializable {
         MenuItem modifierDemandeItem = new MenuItem("Modifier une demande");
         modifierDemandeItem.setOnAction(event -> afficherModifierDemande());
         peuplerComboBoxMatiere();
+        cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
+
 
         // Inversion des éléments
         mnubtnDemande.getItems().addAll(faireDemandeItem, visualiserDemandesItem, modifierDemandeItem);
@@ -108,6 +115,25 @@ public class AccueilController implements Initializable {
         // Ajoutez les valeurs à la ComboBox
         cboMatiereSouhaitee.getItems().addAll(designationsMatiere);
         cboMatiereSouhaitee.getSelectionModel().selectFirst();
+    }
+    private void miseAJourSousMatieres() {
+        // Récupérer la matière sélectionnée dans la ComboBox
+        String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem();
+
+        if (matiereSelectionnee != null) {
+            // Utiliser la classe RequeteSQLController pour obtenir les sous-matières
+            RequeteSQLController requeteSQLController = new RequeteSQLController();
+            List<String> sousMatieres = requeteSQLController.getSousMatieresPourMatiere(matiereSelectionnee);
+
+            // Effacer les éléments existants
+            lvsousmatiere.getItems().clear();
+
+            // Ajouter les sous-matières à la ListView
+            for (String sousMatiere : sousMatieres) {
+                // Ajouter les sous-matières à la ListView
+                lvsousmatiere.getItems().add(sousMatiere);
+            }
+        }
     }
 
 

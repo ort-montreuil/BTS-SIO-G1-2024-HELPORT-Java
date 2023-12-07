@@ -8,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RequeteSQLController
 {
@@ -61,6 +63,26 @@ public class RequeteSQLController
         }
         return designations;
     }
+    public List<String> getSousMatieresPourMatiere(String matiereSelectionnee) {
+        List<String> sousMatieres = new ArrayList<>();
+        try {
+            // Utiliser une requête préparée pour éviter les injections SQL
+            String query = "SELECT DISTINCT sous_matiere FROM competence WHERE id_matiere = (SELECT id FROM matiere WHERE designation = ?)";
+            ps = cnx.prepareStatement(query);
+            ps.setString(1, matiereSelectionnee);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String sousMatiere = rs.getString("sous_matiere");
+                sousMatieres.add(sousMatiere);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return sousMatieres;
+    }
+
 
 }
 
