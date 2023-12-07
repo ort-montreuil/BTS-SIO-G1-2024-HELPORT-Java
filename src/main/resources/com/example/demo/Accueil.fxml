@@ -49,8 +49,10 @@
             <Button id="bouton_demande" layoutX="92.0" layoutY="387.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="184.0" text="Annuler la demande" />
             <Button id="bouton_demande" layoutX="437.0" layoutY="387.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="184.0" text="Soumettre la demande" />
             <Label layoutX="270.0" layoutY="26.0" text="SOUMETTRE UNE DEMANDE DE SOUTIEN" />
-            <ListView fx:id="lvsousmatiere" layoutX="244.0" layoutY="172.0" prefHeight="73.0" prefWidth="252.0" />
+            <ListView fx:id="lvsSousmatiere" layoutX="244.0" layoutY="172.0" prefHeight="73.0" prefWidth="252.0" />
             <ComboBox fx:id="cboMatiereSouhaitee" layoutX="252.0" layoutY="108.0" prefHeight="25.0" prefWidth="240.0" />
+            <ListView fx:id="lsvSMS" layoutX="547.0" layoutY="175.0" prefHeight="73.0" prefWidth="174.0" />
+            <Label id="label2" layoutX="563.0" layoutY="155.0" text="Sous matières selectionnés :" />
          </children>
       </AnchorPane>
       <VBox layoutX="-6.0" layoutY="-4.0" prefHeight="613.0" prefWidth="119.0" style="-fx-background-color: #498FA7;">

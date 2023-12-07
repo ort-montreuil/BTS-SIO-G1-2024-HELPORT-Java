@@ -1,14 +1,12 @@
 package com.example.demo;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -37,14 +35,14 @@ public class AccueilController implements Initializable {
     @FXML
     private Button btnStat;
     @FXML
-    private ListView lvsousmatiere;
-    @FXML
     private AnchorPane apVD;
-
+    @FXML
+    private ListView lsvSMS;
+    @FXML
+    private ListView lvsSousmatiere;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // MenuButton "Demande" avec des choix
         MenuItem faireDemandeItem = new MenuItem("Faire une demande");
         faireDemandeItem.setOnAction(event -> afficherFaireDemande());
         MenuItem visualiserDemandesItem = new MenuItem("Visualiser mes demandes");
@@ -54,44 +52,41 @@ public class AccueilController implements Initializable {
         peuplerComboBoxMatiere();
         cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
 
-
-        // Inversion des éléments
         mnubtnDemande.getItems().addAll(faireDemandeItem, visualiserDemandesItem, modifierDemandeItem);
 
-        // Lier la méthode afficherAccueil au bouton "Accueil"
         btnAccueil.setOnAction(event -> afficherAccueil());
-
-        // Lier la méthode deconnexion au bouton "Déconnexion"
         btnDeco.setOnAction(event -> deconnexion());
+
+        // Ajouter un gestionnaire d'événements à la lvsousmatiere
+        lvsSousmatiere.setOnMouseClicked(event -> ajouterSousMatiereSelectionnee());
+    }
+
+    private void ajouterSousMatiereSelectionnee() {
+        String sousMatiereSelectionnee = (String) lvsSousmatiere.getSelectionModel().getSelectedItem();
+        if (sousMatiereSelectionnee != null) {
+            lsvSMS.getItems().add(sousMatiereSelectionnee);
+        }
     }
 
     private void afficherFaireDemande() {
-        // Mettez ici le code pour afficher l'AnchorPane apSDemande
         apSDemande.setVisible(true);
-        apAccueil.setVisible(false); // Vous pouvez masquer l'AnchorPane apAccueil si nécessaire
+        apAccueil.setVisible(false);
     }
 
     private void afficherVisualiserDemandes() {
         // Mettez ici le code pour afficher l'AnchorPane approprié
-        // Par exemple, si vous avez une vue spécifique pour visualiser les demandes, vous pouvez la rendre visible ici
-        // apVisualiserDemandes.setVisible(true);
-        // apFaireDemande.setVisible(false); // Vous pouvez masquer l'AnchorPane apFaireDemande si nécessaire
     }
 
     private void afficherModifierDemande() {
         // Mettez ici le code pour afficher l'AnchorPane approprié pour la modification des demandes
-        // apModifierDemande.setVisible(true);
-        // apAccueil.setVisible(false); // Vous pouvez masquer l'AnchorPane apAccueil si nécessaire
     }
 
     private void afficherAccueil() {
-        // Mettez ici le code pour afficher l'AnchorPane apAccueil
         apAccueil.setVisible(true);
-        apSDemande.setVisible(false); // Vous pouvez masquer l'AnchorPane apSDemande si nécessaire
+        apSDemande.setVisible(false);
     }
 
     private void deconnexion() {
-        // Mettez ici le code pour revenir à l'ancienne page FXML lors de la déconnexion
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/ConnexionInscription.fxml"));
             Parent root = loader.load();
@@ -101,56 +96,33 @@ public class AccueilController implements Initializable {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            // Gérer l'exception en conséquence
         }
     }
 
-    // Méthode pour peupler la ComboBox avec des valeurs de matières
     private void peuplerComboBoxMatiere() {
-        // Utilisez votre classe RequeteSQLController pour récupérer les valeurs de matières
-
         RequeteSQLController requeteSQLController = new RequeteSQLController();
         List<String> designationsMatiere = requeteSQLController.getDesignationsMatiere();
-
-        // Ajoutez les valeurs à la ComboBox
         cboMatiereSouhaitee.getItems().addAll(designationsMatiere);
         cboMatiereSouhaitee.getSelectionModel().selectFirst();
     }
 
     private void miseAJourSousMatieres() {
-        // Récupérer la matière sélectionnée dans la ComboBox
         String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem();
 
         if (matiereSelectionnee != null) {
-            // Utiliser la classe RequeteSQLController pour obtenir les sous-matières
             RequeteSQLController requeteSQLController = new RequeteSQLController();
             List<String> sousMatieres = requeteSQLController.getSousMatieresPourMatiere(matiereSelectionnee);
-
-            // Utiliser un ensemble pour stocker temporairement les sous-matières uniques
             Set<String> sousMatieresUniques = new HashSet<>();
 
-            // Ajouter les sous-matières à l'ensemble en séparant les hashtags
             for (String sousMatiere : sousMatieres) {
-                // Diviser la sous-matière en fonction des hashtags
                 String[] sousMatiereSplit = sousMatiere.split("#");
-
-                // Ajouter chaque partie non vide à l'ensemble
                 sousMatieresUniques.addAll(Arrays.stream(sousMatiereSplit)
                         .filter(part -> !part.isEmpty())
                         .collect(Collectors.toList()));
             }
 
-            // Effacer les éléments existants
-            lvsousmatiere.getItems().clear();
-
-            // Ajouter les sous-matières uniques à la ListView
-            lvsousmatiere.getItems().addAll(sousMatieresUniques);
+            lvsSousmatiere.getItems().clear();
+            lvsSousmatiere.getItems().addAll(sousMatieresUniques);
         }
     }
-
-
 }
-
-
-
-
