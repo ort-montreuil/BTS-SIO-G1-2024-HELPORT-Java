@@ -13,9 +13,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AccueilController implements Initializable {
 
@@ -105,6 +104,7 @@ public class AccueilController implements Initializable {
             // Gérer l'exception en conséquence
         }
     }
+
     // Méthode pour peupler la ComboBox avec des valeurs de matières
     private void peuplerComboBoxMatiere() {
         // Utilisez votre classe RequeteSQLController pour récupérer les valeurs de matières
@@ -116,6 +116,7 @@ public class AccueilController implements Initializable {
         cboMatiereSouhaitee.getItems().addAll(designationsMatiere);
         cboMatiereSouhaitee.getSelectionModel().selectFirst();
     }
+
     private void miseAJourSousMatieres() {
         // Récupérer la matière sélectionnée dans la ComboBox
         String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem();
@@ -125,16 +126,31 @@ public class AccueilController implements Initializable {
             RequeteSQLController requeteSQLController = new RequeteSQLController();
             List<String> sousMatieres = requeteSQLController.getSousMatieresPourMatiere(matiereSelectionnee);
 
+            // Utiliser un ensemble pour stocker temporairement les sous-matières uniques
+            Set<String> sousMatieresUniques = new HashSet<>();
+
+            // Ajouter les sous-matières à l'ensemble en séparant les hashtags
+            for (String sousMatiere : sousMatieres) {
+                // Diviser la sous-matière en fonction des hashtags
+                String[] sousMatiereSplit = sousMatiere.split("#");
+
+                // Ajouter chaque partie non vide à l'ensemble
+                sousMatieresUniques.addAll(Arrays.stream(sousMatiereSplit)
+                        .filter(part -> !part.isEmpty())
+                        .collect(Collectors.toList()));
+            }
+
             // Effacer les éléments existants
             lvsousmatiere.getItems().clear();
 
-            // Ajouter les sous-matières à la ListView
-            for (String sousMatiere : sousMatieres) {
-                // Ajouter les sous-matières à la ListView
-                lvsousmatiere.getItems().add(sousMatiere);
-            }
+            // Ajouter les sous-matières uniques à la ListView
+            lvsousmatiere.getItems().addAll(sousMatieresUniques);
         }
     }
 
 
 }
+
+
+
+
