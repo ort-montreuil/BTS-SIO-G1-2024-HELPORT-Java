@@ -13,6 +13,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import java.sql.SQLException;
@@ -21,6 +24,9 @@ import java.util.ResourceBundle;
 public class ConnexionController implements Initializable
 
 {
+
+    @FXML
+    private Button btnMotDePasseOublie;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -37,9 +43,6 @@ public class ConnexionController implements Initializable
 
     @FXML
     private PasswordField txtMdp;
-
-    @FXML
-    private Button motDePasseOublie;
 
     @FXML
     private TextField txtId;
@@ -69,6 +72,17 @@ public class ConnexionController implements Initializable
         }
     }
 
+    @FXML
+    public void btnClickedMotDePasseOublie(ActionEvent event) {
+        try {
+            // Ouvrir le lien dans le navigateur par défaut
+            URI uri = new URI("https://api.ecoledirecte.com/mot-de-passe-oublie.awp");
+            java.awt.Desktop.getDesktop().browse(uri);
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+            // Gérer l'exception en conséquence
+        }
+    }
 
 
 
@@ -77,8 +91,8 @@ public class ConnexionController implements Initializable
 
 
 
+// Méthode pour message erreur
     private void afficherMessageErreur(String message) {
-        // Vous pouvez personnaliser la façon dont vous affichez le message d'erreur
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur");
         alert.setHeaderText(null);
@@ -86,6 +100,8 @@ public class ConnexionController implements Initializable
         alert.showAndWait();
     }
 
+
+    /// Méthode connexion a partir du bouton click
     @FXML
     public void btnClicked(ActionEvent event) {
         if (RequeteSql.verifierIdentifiants(txtId.getText(), txtMdp.getText())) {

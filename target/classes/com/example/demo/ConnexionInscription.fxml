@@ -34,7 +34,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="motDePasseOublie" layoutX="296.0" layoutY="406.0" prefHeight="39.0" prefWidth="203.0" text="Mot de passe oublié">
+      <Button fx:id="btnMotDePasseOublie" layoutX="296.0" layoutY="406.0" onAction="#btnClickedMotDePasseOublie" prefHeight="39.0" prefWidth="203.0" text="Mot de passe oublié">
          <font>
             <Font size="18.0" />
          </font>
