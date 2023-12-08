@@ -114,6 +114,7 @@
 
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
+            afficherAccueil();
             MenuItem faireDemandeItem = new MenuItem("Faire une demande");
             faireDemandeItem.setOnAction(event -> afficherFaireDemande());
             MenuItem visualiserDemandesItem = new MenuItem("Visualiser mes demandes");
@@ -122,6 +123,7 @@
             peuplerComboBoxMatieresC();
             cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
             cboMatiereSComp.setOnAction(event -> miseAJourSousMatieresComp());
+
 
 
             lvsSousmatiere.setOnMouseClicked(event -> sousMatiereSelectionnee());
