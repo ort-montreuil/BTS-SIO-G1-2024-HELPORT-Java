@@ -75,6 +75,7 @@ public class AccueilController implements Initializable {
     private void afficherFaireDemande() {
         apSDemande.setVisible(true);
         apAccueil.setVisible(false);
+        apVD.setVisible(false);
     }
 
     private void afficherVisualiserDemandes() {
@@ -110,10 +111,12 @@ public class AccueilController implements Initializable {
         cboMatiereSouhaitee.getSelectionModel().selectFirst();
     }
 
+    private String matiereSelectionneeActuelle = null; // Variable pour stocker la matière sélectionnée
+
     private void miseAJourSousMatieres() {
         String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem();
 
-        if (matiereSelectionnee != null) {
+        if (matiereSelectionnee != null && (matiereSelectionneeActuelle == null || matiereSelectionnee.equals(matiereSelectionneeActuelle))) {
             RequeteSQLController requeteSQLController = new RequeteSQLController();
             List<String> sousMatieres = requeteSQLController.getSousMatieresPourMatiere(matiereSelectionnee);
             Set<String> sousMatieresUniques = new HashSet<>();
@@ -127,9 +130,19 @@ public class AccueilController implements Initializable {
 
             lvsSousmatiere.getItems().clear();
             lvsSousmatiere.getItems().addAll(sousMatieresUniques);
+
+            // Met à jour la matière sélectionnée actuelle
+            matiereSelectionneeActuelle = matiereSelectionnee;
+        } else {
+            // Affiche un message d'erreur si l'utilisateur sélectionne des sous-matières d'une autre matière
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de sélection");
+            alert.setHeaderText(null);
+            alert.setContentText("Vous ne pouvez choisir que des sous-matières de la matière sélectionnée.");
+            alert.showAndWait();
+
+            // Désélectionne la matière incorrecte
+            cboMatiereSouhaitee.getSelectionModel().select(matiereSelectionneeActuelle);
         }
-
-
     }
-
 }

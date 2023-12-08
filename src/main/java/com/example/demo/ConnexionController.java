@@ -23,6 +23,8 @@ import java.util.ResourceBundle;
 
 public class ConnexionController implements Initializable
 
+
+
 {
 
     @FXML
@@ -36,12 +38,22 @@ public class ConnexionController implements Initializable
     @FXML
     private TextField txtId;
 
+    public String getTxtId() {
+        return txtId.getText();
+    }
+
+    public String getTxtMdp() {
+        return txtMdp.getText();
+    }
+
     private  RequeteSQLController RequeteSql;
 
     private  ConnexionBDD maCnx;
 
     @FXML
     private Button btnLogin;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,6 +67,8 @@ public class ConnexionController implements Initializable
         RequeteSql = new RequeteSQLController();
 
     }
+
+
 
 
 
@@ -87,6 +101,11 @@ public class ConnexionController implements Initializable
     }
 
 
+    public String getTxtIdText() {
+        return txtId.getText();
+    }
+
+
 
 
 
@@ -108,6 +127,8 @@ public class ConnexionController implements Initializable
     public void btnClicked(ActionEvent event) {
         if (RequeteSql.verifierIdentifiants(txtId.getText(), txtMdp.getText())) {
             ouvrirAccueil(event);
+            int idUtilisateur = RequeteSql.getIdUtilisateur(txtId.getText(), txtMdp.getText());
+
         }
         else {
                 afficherMessageErreur("Identifiants incorrects. Veuillez réessayer.");

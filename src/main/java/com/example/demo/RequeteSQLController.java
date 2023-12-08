@@ -7,10 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RequeteSQLController
 {
@@ -21,11 +18,7 @@ public class RequeteSQLController
     public RequeteSQLController()
     {
         cnx = ConnexionBDD.getCnx();
-        if (cnx != null) {
-            System.out.println("Connexion à la base de données réussie.");
-        } else {
-            System.err.println("Échec de la connexion à la base de données.");
-        }
+
     }
 // Partie connexion et check dans la base de données
     public boolean verifierIdentifiants(String emailUtilisateur, String mdpUtilisateur)
@@ -66,7 +59,6 @@ public class RequeteSQLController
     public List<String> getSousMatieresPourMatiere(String matiereSelectionnee) {
         List<String> sousMatieres = new ArrayList<>();
         try {
-            // Utiliser une requête préparée pour éviter les injections SQL
             String query = "SELECT DISTINCT sous_matiere FROM competence WHERE id_matiere = (SELECT id FROM matiere WHERE designation = ?)";
             ps = cnx.prepareStatement(query);
             ps.setString(1, matiereSelectionnee);
@@ -82,6 +74,135 @@ public class RequeteSQLController
         }
         return sousMatieres;
     }
+
+
+    public List<DemandeAide> getDemandesUtilisateur(int idUtilisateur) {
+        List<DemandeAide> demandes = new ArrayList<>();
+
+        try {
+            String query = "SELECT id, date_updated, date_fin_demande, sous_matiere, id_user, id_matiere, status " +
+                    "FROM demande " +
+                    "WHERE id_user = ?";
+            ps = cnx.prepareStatement(query);
+            ps.setInt(1, idUtilisateur);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                DemandeAide demande = new DemandeAide();
+                demande.setId(rs.getInt("id"));
+                demande.setDateUpdated(rs.getDate("date_updated"));
+                demande.setDateFinDemande(rs.getDate("date_fin_demande"));
+                demande.setSousMatiere(rs.getString("sous_matiere"));
+                demande.setIdUser(rs.getInt("id_user"));
+                demande.setIdMatiere(rs.getInt("id_matiere"));
+                demande.setStatus(rs.getString("status"));
+                demandes.add(demande);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return demandes;
+    }
+
+
+
+    public int getIdUtilisateur(String emailUtilisateur, String mdpUtilisateur) {
+        int idUtilisateur = -1; // Valeur par défaut si l'utilisateur n'est pas trouvé
+
+        try {
+            ps = cnx.prepareStatement("SELECT id FROM user WHERE email = ? AND password = ?");
+            ps.setString(1, emailUtilisateur);
+            ps.setString(2, mdpUtilisateur);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                idUtilisateur = rs.getInt("id");
+                System.out.println("ID de l'utilisateur récupéré : " + idUtilisateur);
+            } else {
+                System.out.println("Aucun utilisateur trouvé avec ces identifiants.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return idUtilisateur;
+    }
+
+
+
+    public class DemandeAide {
+        private int id;
+        private Date dateUpdated;
+        private Date dateFinDemande;
+        private String sousMatiere;
+        private int idUser;
+        private int idMatiere;
+        private String status;
+
+        // Ajoutez d'autres attributs nécessaires
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public Date getDateUpdated() {
+            return dateUpdated;
+        }
+
+        public void setDateUpdated(Date dateUpdated) {
+            this.dateUpdated = dateUpdated;
+        }
+
+        public Date getDateFinDemande() {
+            return dateFinDemande;
+        }
+
+        public void setDateFinDemande(Date dateFinDemande) {
+            this.dateFinDemande = dateFinDemande;
+        }
+
+        public String getSousMatiere() {
+            return sousMatiere;
+        }
+
+        public void setSousMatiere(String sousMatiere) {
+            this.sousMatiere = sousMatiere;
+        }
+
+        public int getIdUser() {
+            return idUser;
+        }
+
+        public void setIdUser(int idUser) {
+            this.idUser = idUser;
+        }
+
+        public int getIdMatiere() {
+            return idMatiere;
+        }
+
+        public void setIdMatiere(int idMatiere) {
+            this.idMatiere = idMatiere;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        // Ajoutez des getters et setters pour les autres attributs si nécessaire
+    }
+
+
+
 
 
 }
