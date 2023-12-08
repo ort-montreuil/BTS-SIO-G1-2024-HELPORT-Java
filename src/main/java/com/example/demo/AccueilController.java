@@ -6,10 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import javax.swing.text.html.ImageView;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -30,8 +32,6 @@ public class AccueilController implements Initializable {
     @FXML
     private ComboBox cboMatiereSouhaitee;
     @FXML
-    private MenuButton mnubtnAider;
-    @FXML
     private MenuButton mnubtnCompte;
     @FXML
     private Button btnStat;
@@ -42,7 +42,44 @@ public class AccueilController implements Initializable {
     @FXML
     private ListView<String> lvsSousmatiere;
     private List<String> sousMatieresSelectionnees = new ArrayList<>();
-
+    @FXML
+    private AnchorPane apPrincipal;
+    @FXML
+    private AnchorPane apAider;
+    @FXML
+    private ListView lstvAider;
+    @FXML
+    private Button btnAiderFinale;
+    @FXML
+    private Button btnAider;
+    @FXML
+    private Button btnModifDemande;
+    @FXML
+    private Label lblSelec;
+    @FXML
+    private ListView lstVMesdemandes;
+    @FXML
+    private AnchorPane apSDemande1;
+    @FXML
+    private ListView lvsSousmatiere1;
+    @FXML
+    private ComboBox cboMatiereSouhaitee1;
+    @FXML
+    private ListView lsvSMS1;
+    @FXML
+    private AnchorPane apModifDemande;
+    @FXML
+    private ListView lvsSousmatiere11;
+    @FXML
+    private ComboBox cboMatiereSouhaitee11;
+    @FXML
+    private ListView lsvSMS11;
+    @FXML
+    private BarChart graphDemande;
+    @FXML
+    private BarChart graphSoutiens;
+    @FXML
+    private AnchorPane apStats;
 
 
     @Override
@@ -51,18 +88,19 @@ public class AccueilController implements Initializable {
         faireDemandeItem.setOnAction(event -> afficherFaireDemande());
         MenuItem visualiserDemandesItem = new MenuItem("Visualiser mes demandes");
         visualiserDemandesItem.setOnAction(event -> afficherVisualiserDemandes());
-        MenuItem modifierDemandeItem = new MenuItem("Modifier une demande");
-        modifierDemandeItem.setOnAction(event -> afficherModifierDemande());
         peuplerComboBoxMatiere();
         cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
 
         lvsSousmatiere.setOnMouseClicked(event -> sousMatiereSelectionnee());
 
 
-        mnubtnDemande.getItems().addAll(faireDemandeItem, visualiserDemandesItem, modifierDemandeItem);
+        mnubtnDemande.getItems().addAll(faireDemandeItem, visualiserDemandesItem);
 
         btnAccueil.setOnAction(event -> afficherAccueil());
         btnDeco.setOnAction(event -> deconnexion());
+        btnAider.setOnAction(event -> afficherAider());
+        btnStat.setOnAction(event -> afficherStats());
+
 
         // Ajouter un gestionnaire d'événements à la lvsousmatiere
         lvsSousmatiere.setOnMouseClicked(event -> ajouterSousMatiereSelectionnee());
@@ -93,19 +131,65 @@ public class AccueilController implements Initializable {
         apSDemande.setVisible(true);
         apAccueil.setVisible(false);
         apVD.setVisible(false);
+        apAider.setVisible(false);
+        apModifDemande.setVisible(false);
+        apStats.setVisible(false);
+
+
+
     }
 
     private void afficherVisualiserDemandes() {
         // Mettez ici le code pour afficher l'AnchorPane approprié
+
+        apVD.setVisible(true);
+        apAccueil.setVisible(false);
+        apSDemande.setVisible(false);
+        apAider.setVisible(false);
+        apModifDemande.setVisible(false);
+        apStats.setVisible(false);
+
+
     }
 
-    private void afficherModifierDemande() {
-        // Mettez ici le code pour afficher l'AnchorPane approprié pour la modification des demandes
+    private void afficherStats() {
+        // Mettez ici le code pour afficher l'AnchorPane approprié
+
+
+        apStats.setVisible(true);
+        apVD.setVisible(false);
+        apAccueil.setVisible(false);
+        apSDemande.setVisible(false);
+        apAider.setVisible(false);
+        apModifDemande.setVisible(false);
+        apAccueil.setVisible(false);
+
+
+
     }
 
     private void afficherAccueil() {
         apAccueil.setVisible(true);
         apSDemande.setVisible(false);
+        apVD.setVisible(false);
+        apAider.setVisible(false);
+        apModifDemande.setVisible(false);
+        apStats.setVisible(false);
+
+
+    }
+
+    private void afficherAider() {
+        apAider.setVisible(true);
+        apAccueil.setVisible(false);
+        apSDemande.setVisible(false);
+        apVD.setVisible(false);
+        apModifDemande.setVisible(false);
+        apStats.setVisible(false);
+
+
+
+
     }
 
     private void deconnexion() {
