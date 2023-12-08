@@ -13,6 +13,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="apPrincipal" prefHeight="583.0" prefWidth="808.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.AccueilController">
@@ -54,7 +55,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="apSDemande" layoutX="92.0" layoutY="75.0" prefHeight="531.0" prefWidth="749.0" visible="false">
+      <AnchorPane fx:id="apSDemande" layoutX="112.0" layoutY="75.0" prefHeight="531.0" prefWidth="749.0" visible="false">
          <children>
             <Label id="label1" layoutX="288.0" layoutY="83.0" text="Matière souhaitée :" />
             <Label id="label2" layoutX="307.0" layoutY="155.0" text="Sous matière :" />
@@ -153,6 +154,37 @@
                   <NumberAxis minorTickCount="1" side="LEFT" upperBound="10.0" />
                </yAxis>
             </BarChart>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="apCreerCompetence" layoutX="113.0" layoutY="76.0" prefHeight="550.0" prefWidth="757.0" visible="false">
+         <children>
+            <Label layoutX="119.0" layoutY="53.0" prefHeight="27.0" prefWidth="200.0" text="Creer ses compétences">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Line endX="6.0" endY="47.0" layoutX="455.0" layoutY="30.0" startX="6.0" startY="522.0" />
+            <Label layoutX="610.0" layoutY="53.0" prefHeight="27.0" prefWidth="75.0" text="Recap">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ListView layoutX="510.0" layoutY="135.0" prefHeight="260.0" prefWidth="232.0" />
+            <Label id="label1" layoutX="37.0" layoutY="170.0" text="Matière souhaitée :" />
+            <Label id="label2" layoutX="50.0" layoutY="277.0" text="Sous matière :" />
+            <ListView fx:id="lvsSousmatiereComp" layoutX="214.0" layoutY="257.0" prefHeight="57.0" prefWidth="232.0" />
+            <ComboBox fx:id="cboMatiereSComp" layoutX="210.0" layoutY="166.0" prefHeight="25.0" prefWidth="240.0" />
+            <Button fx:id="btnValidComp" layoutX="303.0" layoutY="451.0" mnemonicParsing="false" text="Valider" />
+            <Button fx:id="btnAnnuleComp" layoutX="81.0" layoutY="451.0" mnemonicParsing="false" text="Annuler" />
+            <Button fx:id="btnValidCompFinale" layoutX="594.0" layoutY="451.0" mnemonicParsing="false" text="Validation Finale " />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="apVC" layoutX="123.0" layoutY="85.0" prefHeight="488.0" prefWidth="739.0" visible="false">
+         <children>
+            <Button fx:id="btnModifCompetence" layoutX="594.0" layoutY="243.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Modifier la competence " />
+            <Label fx:id="lblMatiereCompModif" layoutX="110.0" layoutY="39.0" prefHeight="52.0" prefWidth="58.0" text="Matiere" />
+            <ListView fx:id="lstvModifComp" layoutX="66.0" layoutY="98.0" prefHeight="390.0" prefWidth="470.0" />
+            <Label fx:id="lblSelec11" layoutX="372.0" layoutY="39.0" prefHeight="52.0" prefWidth="142.0" text="Sous Matiere" />
          </children>
       </AnchorPane>
    </children>

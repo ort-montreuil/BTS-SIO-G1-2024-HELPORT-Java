@@ -80,6 +80,28 @@ public class AccueilController implements Initializable {
     private BarChart graphSoutiens;
     @FXML
     private AnchorPane apStats;
+    @FXML
+    private AnchorPane apCreerCompetence;
+    @FXML
+    private ListView lvsSousmatiereComp;
+    @FXML
+    private ComboBox cboMatiereSComp;
+    @FXML
+    private Button btnValidComp;
+    @FXML
+    private Button btnAnnuleComp;
+    @FXML
+    private Button btnValidCompFinale;
+    @FXML
+    private AnchorPane apVC;
+    @FXML
+    private Button btnModifCompetence;
+    @FXML
+    private Label lblMatiereCompModif;
+    @FXML
+    private ListView lstvModifComp;
+    @FXML
+    private Label lblSelec11;
 
 
     @Override
@@ -104,7 +126,17 @@ public class AccueilController implements Initializable {
 
         // Ajouter un gestionnaire d'événements à la lvsousmatiere
         lvsSousmatiere.setOnMouseClicked(event -> ajouterSousMatiereSelectionnee());
+
+
+        MenuItem creerCompetencesItem = new MenuItem("Créer ses compétences");
+        creerCompetencesItem.setOnAction(event -> afficherApCreerCompetence());
+
+        MenuItem visualiserCompetencesItem = new MenuItem("Visualiser ses compétences");
+        visualiserCompetencesItem.setOnAction(event -> afficherApVC());
+
+        mnubtnCompte.getItems().addAll(creerCompetencesItem, visualiserCompetencesItem);
     }
+
 
     private void ajouterSousMatiereSelectionnee() {
         String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem();
@@ -134,10 +166,38 @@ public class AccueilController implements Initializable {
         apAider.setVisible(false);
         apModifDemande.setVisible(false);
         apStats.setVisible(false);
+        apVC.setVisible(false);
+        apCreerCompetence.setVisible(false);
+
+
 
 
 
     }
+
+    private void afficherApCreerCompetence() {
+        apCreerCompetence.setVisible(true);
+        apSDemande.setVisible(false);
+        apAccueil.setVisible(false);
+        apVD.setVisible(false);
+        apAider.setVisible(false);
+        apModifDemande.setVisible(false);
+        apStats.setVisible(false);
+        apVC.setVisible(false);
+    }
+
+    private void afficherApVC() {
+        apVC.setVisible(true);
+        apSDemande.setVisible(false);
+        apAccueil.setVisible(false);
+        apVD.setVisible(false);
+        apAider.setVisible(false);
+        apModifDemande.setVisible(false);
+        apStats.setVisible(false);
+        apCreerCompetence.setVisible(false);
+    }
+
+
 
     private void afficherVisualiserDemandes() {
         // Mettez ici le code pour afficher l'AnchorPane approprié
@@ -148,6 +208,10 @@ public class AccueilController implements Initializable {
         apAider.setVisible(false);
         apModifDemande.setVisible(false);
         apStats.setVisible(false);
+        apVC.setVisible(false);
+        apCreerCompetence.setVisible(false);
+
+
 
 
     }
@@ -163,6 +227,10 @@ public class AccueilController implements Initializable {
         apAider.setVisible(false);
         apModifDemande.setVisible(false);
         apAccueil.setVisible(false);
+        apVC.setVisible(false);
+        apCreerCompetence.setVisible(false);
+
+
 
 
 
@@ -175,6 +243,10 @@ public class AccueilController implements Initializable {
         apAider.setVisible(false);
         apModifDemande.setVisible(false);
         apStats.setVisible(false);
+        apVC.setVisible(false);
+        apCreerCompetence.setVisible(false);
+
+
 
 
     }
@@ -186,6 +258,10 @@ public class AccueilController implements Initializable {
         apVD.setVisible(false);
         apModifDemande.setVisible(false);
         apStats.setVisible(false);
+        apVC.setVisible(false);
+        apCreerCompetence.setVisible(false);
+
+
 
 
 
