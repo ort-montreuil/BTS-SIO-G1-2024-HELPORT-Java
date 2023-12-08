@@ -18,7 +18,7 @@
 
 <AnchorPane fx:id="apPrincipal" prefHeight="583.0" prefWidth="808.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.AccueilController">
    <children>
-      <AnchorPane fx:id="apAccueil" layoutX="42.0" prefHeight="599.0" prefWidth="812.0">
+      <AnchorPane fx:id="apAccueil" layoutX="42.0" prefHeight="599.0" prefWidth="812.0" visible="false">
          <children>
             <Label layoutX="99.0" layoutY="88.0" text="Bienvenue sur l'application HelpOrt ( Prénom de l'eleve )">
                <font>
@@ -156,7 +156,7 @@
             </BarChart>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="apCreerCompetence" layoutX="113.0" layoutY="76.0" prefHeight="550.0" prefWidth="757.0" visible="false">
+      <AnchorPane fx:id="apCreerCompetence" layoutX="113.0" layoutY="76.0" prefHeight="550.0" prefWidth="757.0">
          <children>
             <Label layoutX="119.0" layoutY="53.0" prefHeight="27.0" prefWidth="200.0" text="Creer ses compétences">
                <font>
@@ -169,7 +169,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <ListView layoutX="510.0" layoutY="135.0" prefHeight="260.0" prefWidth="232.0" />
+            <ListView fx:id="lstvRecap" layoutX="510.0" layoutY="135.0" prefHeight="260.0" prefWidth="232.0" />
             <Label id="label1" layoutX="37.0" layoutY="170.0" text="Matière souhaitée :" />
             <Label id="label2" layoutX="50.0" layoutY="277.0" text="Sous matière :" />
             <ListView fx:id="lvsSousmatiereComp" layoutX="214.0" layoutY="257.0" prefHeight="57.0" prefWidth="232.0" />

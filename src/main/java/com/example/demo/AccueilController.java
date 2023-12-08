@@ -1,142 +1,200 @@
-package com.example.demo;
+    package com.example.demo;
 
-import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
-import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+    import javafx.application.Platform;
+    import javafx.fxml.FXML;
+    import javafx.fxml.FXMLLoader;
+    import javafx.fxml.Initializable;
+    import javafx.scene.Parent;
+    import javafx.scene.Scene;
+    import javafx.scene.chart.BarChart;
+    import javafx.scene.control.*;
+    import javafx.scene.layout.AnchorPane;
+    import javafx.stage.Stage;
 
-import javax.swing.text.html.ImageView;
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-import java.util.stream.Collectors;
+    import javax.swing.text.html.ImageView;
+    import java.io.IOException;
+    import java.net.URL;
+    import java.util.*;
+    import java.util.stream.Collectors;
 
-public class AccueilController implements Initializable {
+    public class AccueilController implements Initializable {
 
-    @FXML
-    private MenuButton mnubtnDemande;
-    @FXML
-    private AnchorPane apSDemande;
-    @FXML
-    private AnchorPane apAccueil;
-    @FXML
-    private Button btnAccueil;
-    @FXML
-    private Button btnDeco;
-    @FXML
-    private ComboBox cboMatiereSouhaitee;
-    @FXML
-    private MenuButton mnubtnCompte;
-    @FXML
-    private Button btnStat;
-    @FXML
-    private AnchorPane apVD;
-    @FXML
-    private ListView lsvSMS;
-    @FXML
-    private ListView<String> lvsSousmatiere;
-    private List<String> sousMatieresSelectionnees = new ArrayList<>();
-    @FXML
-    private AnchorPane apPrincipal;
-    @FXML
-    private AnchorPane apAider;
-    @FXML
-    private ListView lstvAider;
-    @FXML
-    private Button btnAiderFinale;
-    @FXML
-    private Button btnAider;
-    @FXML
-    private Button btnModifDemande;
-    @FXML
-    private Label lblSelec;
-    @FXML
-    private ListView lstVMesdemandes;
-    @FXML
-    private AnchorPane apSDemande1;
-    @FXML
-    private ListView lvsSousmatiere1;
-    @FXML
-    private ComboBox cboMatiereSouhaitee1;
-    @FXML
-    private ListView lsvSMS1;
-    @FXML
-    private AnchorPane apModifDemande;
-    @FXML
-    private ListView lvsSousmatiere11;
-    @FXML
-    private ComboBox cboMatiereSouhaitee11;
-    @FXML
-    private ListView lsvSMS11;
-    @FXML
-    private BarChart graphDemande;
-    @FXML
-    private BarChart graphSoutiens;
-    @FXML
-    private AnchorPane apStats;
-    @FXML
-    private AnchorPane apCreerCompetence;
-    @FXML
-    private ListView lvsSousmatiereComp;
-    @FXML
-    private ComboBox cboMatiereSComp;
-    @FXML
-    private Button btnValidComp;
-    @FXML
-    private Button btnAnnuleComp;
-    @FXML
-    private Button btnValidCompFinale;
-    @FXML
-    private AnchorPane apVC;
-    @FXML
-    private Button btnModifCompetence;
-    @FXML
-    private Label lblMatiereCompModif;
-    @FXML
-    private ListView lstvModifComp;
-    @FXML
-    private Label lblSelec11;
+        @FXML
+        private MenuButton mnubtnDemande;
+        @FXML
+        private AnchorPane apSDemande;
+        @FXML
+        private AnchorPane apAccueil;
+        @FXML
+        private Button btnAccueil;
+        @FXML
+        private Button btnDeco;
+        @FXML
+        private ComboBox cboMatiereSouhaitee;
+        @FXML
+        private MenuButton mnubtnCompte;
+        @FXML
+        private Button btnStat;
+        @FXML
+        private AnchorPane apVD;
+        @FXML
+        private ListView lsvSMS;
+        @FXML
+        private ListView<String> lvsSousmatiere;
+        private List<String> sousMatieresSelectionnees = new ArrayList<>();
 
+        @FXML
+        private AnchorPane apPrincipal;
+        @FXML
+        private AnchorPane apAider;
+        @FXML
+        private ListView lstvAider;
+        @FXML
+        private Button btnAiderFinale;
+        @FXML
+        private Button btnAider;
+        @FXML
+        private Button btnModifDemande;
+        @FXML
+        private Label lblSelec;
+        @FXML
+        private ListView lstVMesdemandes;
+        @FXML
+        private AnchorPane apSDemande1;
+        @FXML
+        private ListView lvsSousmatiere1;
+        @FXML
+        private ComboBox cboMatiereSouhaitee1;
+        @FXML
+        private ListView lsvSMS1;
+        @FXML
+        private AnchorPane apModifDemande;
+        @FXML
+        private ListView lvsSousmatiere11;
+        @FXML
+        private ComboBox cboMatiereSouhaitee11;
+        @FXML
+        private ListView lsvSMS11;
+        @FXML
+        private BarChart graphDemande;
+        @FXML
+        private BarChart graphSoutiens;
+        @FXML
+        private AnchorPane apStats;
+        @FXML
+        private AnchorPane apCreerCompetence;
+        @FXML
+        private ListView lvsSousmatiereComp;
+        @FXML
+        private ComboBox cboMatiereSComp;
+        @FXML
+        private Button btnValidComp;
+        @FXML
+        private Button btnAnnuleComp;
+        @FXML
+        private Button btnValidCompFinale;
+        @FXML
+        private AnchorPane apVC;
+        @FXML
+        private Button btnModifCompetence;
+        @FXML
+        private Label lblMatiereCompModif;
+        @FXML
+        private ListView lstvModifComp;
+        @FXML
+        private Label lblSelec11;
+        @FXML
+        private ListView lstvRecap;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        MenuItem faireDemandeItem = new MenuItem("Faire une demande");
-        faireDemandeItem.setOnAction(event -> afficherFaireDemande());
-        MenuItem visualiserDemandesItem = new MenuItem("Visualiser mes demandes");
-        visualiserDemandesItem.setOnAction(event -> afficherVisualiserDemandes());
-        peuplerComboBoxMatiere();
-        cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
-
-        lvsSousmatiere.setOnMouseClicked(event -> sousMatiereSelectionnee());
+        private Set<String> matieresSelectionneesComp = new HashSet<>();
+        private Set<String> sousMatieresSelectionneesComp = new HashSet<>();
 
 
-        mnubtnDemande.getItems().addAll(faireDemandeItem, visualiserDemandesItem);
-
-        btnAccueil.setOnAction(event -> afficherAccueil());
-        btnDeco.setOnAction(event -> deconnexion());
-        btnAider.setOnAction(event -> afficherAider());
-        btnStat.setOnAction(event -> afficherStats());
 
 
-        // Ajouter un gestionnaire d'événements à la lvsousmatiere
-        lvsSousmatiere.setOnMouseClicked(event -> ajouterSousMatiereSelectionnee());
+        @Override
+        public void initialize(URL url, ResourceBundle resourceBundle) {
+            MenuItem faireDemandeItem = new MenuItem("Faire une demande");
+            faireDemandeItem.setOnAction(event -> afficherFaireDemande());
+            MenuItem visualiserDemandesItem = new MenuItem("Visualiser mes demandes");
+            visualiserDemandesItem.setOnAction(event -> afficherVisualiserDemandes());
+            peuplerComboBoxMatiere();
+            peuplerComboBoxMatieresC();
+            cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
+            cboMatiereSComp.setOnAction(event -> miseAJourSousMatieresComp());
 
 
-        MenuItem creerCompetencesItem = new MenuItem("Créer ses compétences");
-        creerCompetencesItem.setOnAction(event -> afficherApCreerCompetence());
+            lvsSousmatiere.setOnMouseClicked(event -> sousMatiereSelectionnee());
 
-        MenuItem visualiserCompetencesItem = new MenuItem("Visualiser ses compétences");
-        visualiserCompetencesItem.setOnAction(event -> afficherApVC());
+            mnubtnDemande.getItems().addAll(faireDemandeItem, visualiserDemandesItem);
 
-        mnubtnCompte.getItems().addAll(creerCompetencesItem, visualiserCompetencesItem);
+            btnAccueil.setOnAction(event -> afficherAccueil());
+            btnDeco.setOnAction(event -> deconnexion());
+            btnAider.setOnAction(event -> afficherAider());
+            btnStat.setOnAction(event -> afficherStats());
+
+
+            // Ajouter un gestionnaire d'événements à la lvsousmatiere
+            lvsSousmatiere.setOnMouseClicked(event -> ajouterSousMatiereSelectionnee());
+            lvsSousmatiereComp.setOnMouseClicked(event -> ajouterSousMatiereSelecC());
+
+
+
+            MenuItem creerCompetencesItem = new MenuItem("Créer ses compétences");
+            creerCompetencesItem.setOnAction(event -> afficherApCreerCompetence());
+
+            MenuItem visualiserCompetencesItem = new MenuItem("Visualiser ses compétences");
+            visualiserCompetencesItem.setOnAction(event -> afficherApVC());
+
+            mnubtnCompte.getItems().addAll(creerCompetencesItem, visualiserCompetencesItem);
+        }
+
+
+    private void ajouterSousMatiereSelecC() {
+        String matiereSelectionnee = (String) cboMatiereSComp.getSelectionModel().getSelectedItem();
+        String sousMatiereSelectionnee = (String) lvsSousmatiereComp.getSelectionModel().getSelectedItem();
+
+        if (matiereSelectionnee != null && sousMatiereSelectionnee != null) {
+            String matiereAvecSousMatiere = matiereSelectionnee + " : " + sousMatiereSelectionnee;
+
+            if (!sousMatieresSelectionneesComp.contains(matiereAvecSousMatiere)) {
+                lvsSousmatiereComp.getItems().add(matiereAvecSousMatiere);
+                sousMatieresSelectionneesComp.add(matiereAvecSousMatiere);
+                lstvRecap.getItems().add(matiereAvecSousMatiere);
+            } else {
+                // Affiche un message d'erreur si la sous-matière est déjà sélectionnée
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur de sélection");
+                alert.setHeaderText(null);
+                alert.setContentText("Vous avez déjà sélectionné cette sous-matière.");
+                alert.showAndWait();
+            }
+        }
     }
 
+    private void miseAJourSousMatieresComp() {
+        String matiereSelectionnee = (String) cboMatiereSComp.getSelectionModel().getSelectedItem();
+
+        if (matiereSelectionnee != null && !matieresSelectionneesComp.contains(matiereSelectionnee)) {
+            // Efface la liste des sous-matières sélectionnées précédemment
+            lvsSousmatiereComp.getItems().clear();
+            sousMatieresSelectionneesComp.clear();
+
+            RequeteSQLController requeteSQLController = new RequeteSQLController();
+            List<String> sousMatieres = requeteSQLController.getSousMatieresPourMatiere(matiereSelectionnee);
+            Set<String> sousMatieresUniques = new HashSet<>();
+
+            for (String sousMatiere : sousMatieres) {
+                String[] sousMatiereSplit = sousMatiere.split("#");
+                sousMatieresUniques.addAll(Arrays.stream(sousMatiereSplit)
+                        .filter(part -> !part.isEmpty())
+                        .collect(Collectors.toList()));
+            }
+
+            lvsSousmatiereComp.getItems().addAll(sousMatieresUniques);
+            matieresSelectionneesComp.add(matiereSelectionnee);
+        }
+    }
 
     private void ajouterSousMatiereSelectionnee() {
         String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem();
@@ -157,6 +215,10 @@ public class AccueilController implements Initializable {
             }
         }
     }
+
+
+
+
 
 
     private void afficherFaireDemande() {
@@ -288,6 +350,13 @@ public class AccueilController implements Initializable {
         cboMatiereSouhaitee.getSelectionModel().selectFirst();
     }
 
+    private void peuplerComboBoxMatieresC() {
+        RequeteSQLController requeteSQLController = new RequeteSQLController();
+        List<String> designationsMatiere = requeteSQLController.getDesignationsMatiere();
+        cboMatiereSComp.getItems().addAll(designationsMatiere);
+        cboMatiereSComp.getSelectionModel().selectFirst();
+    }
+
     private String matiereSelectionneeActuelle = null; // Variable pour stocker la matière sélectionnée
 
     private void miseAJourSousMatieres() {
@@ -347,5 +416,8 @@ public class AccueilController implements Initializable {
             sousMatieresSelectionnees.add(nouvelleSousMatiere);
         }
     }
+
+
+
 }
 
