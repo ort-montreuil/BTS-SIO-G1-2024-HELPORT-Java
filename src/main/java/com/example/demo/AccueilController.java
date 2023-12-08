@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,7 +40,10 @@ public class AccueilController implements Initializable {
     @FXML
     private ListView lsvSMS;
     @FXML
-    private ListView lvsSousmatiere;
+    private ListView<String> lvsSousmatiere;
+    private List<String> sousMatieresSelectionnees = new ArrayList<>();
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -51,6 +55,9 @@ public class AccueilController implements Initializable {
         modifierDemandeItem.setOnAction(event -> afficherModifierDemande());
         peuplerComboBoxMatiere();
         cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
+
+        lvsSousmatiere.setOnMouseClicked(event -> sousMatiereSelectionnee());
+
 
         mnubtnDemande.getItems().addAll(faireDemandeItem, visualiserDemandesItem, modifierDemandeItem);
 
@@ -67,7 +74,17 @@ public class AccueilController implements Initializable {
 
         if (matiereSelectionnee != null && sousMatiereSelectionnee != null) {
             String matiereAvecSousMatiere = matiereSelectionnee + " : " + sousMatiereSelectionnee;
-            lsvSMS.getItems().add(matiereAvecSousMatiere);
+
+            if (!lsvSMS.getItems().contains(matiereAvecSousMatiere)) {
+                lsvSMS.getItems().add(matiereAvecSousMatiere);
+            } else {
+                // Affiche un message d'erreur si la sous-matière est déjà sélectionnée
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur de sélection");
+                alert.setHeaderText(null);
+                alert.setContentText("Vous avez déjà sélectionné cette sous-matière.");
+                alert.showAndWait();
+            }
         }
     }
 
@@ -145,4 +162,30 @@ public class AccueilController implements Initializable {
             cboMatiereSouhaitee.getSelectionModel().select(matiereSelectionneeActuelle);
         }
     }
+
+    private void sousMatiereSelectionnee() {
+        String nouvelleSousMatiere = lvsSousmatiere.getSelectionModel().getSelectedItem();
+
+        if (nouvelleSousMatiere != null) {
+            verifierReselectionSousMatiere(nouvelleSousMatiere);
+        }
+    }
+
+    private void verifierReselectionSousMatiere(String  nouvelleSousMatiere) {
+        if (sousMatieresSelectionnees.contains(nouvelleSousMatiere)) {
+            // Affiche un message d'erreur si la sous-matière est déjà sélectionnée
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de sélection");
+            alert.setHeaderText(null);
+            alert.setContentText("Vous avez déjà sélectionné cette sous-matière.");
+            alert.showAndWait();
+
+            // Désélectionne la sous-matière incorrecte
+            Platform.runLater(() -> lvsSousmatiere.getSelectionModel().clearSelection());
+        } else {
+            // Ajoute la sous-matière à la liste des sous-matières sélectionnées
+            sousMatieresSelectionnees.add(nouvelleSousMatiere);
+        }
+    }
 }
+
