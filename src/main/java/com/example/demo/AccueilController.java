@@ -108,13 +108,14 @@
 
         private Set<String> matieresSelectionneesComp = new HashSet<>();
         private Set<String> sousMatieresSelectionneesComp = new HashSet<>();
+        private String emailUtilisateur;
 
-
+        @FXML
+        private Label lblNomPrenom;
 
 
         @Override
         public void initialize(URL url, ResourceBundle resourceBundle) {
-            afficherAccueil();
             MenuItem faireDemandeItem = new MenuItem("Faire une demande");
             faireDemandeItem.setOnAction(event -> afficherFaireDemande());
             MenuItem visualiserDemandesItem = new MenuItem("Visualiser mes demandes");
@@ -123,6 +124,7 @@
             peuplerComboBoxMatieresC();
             cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
             cboMatiereSComp.setOnAction(event -> miseAJourSousMatieresComp());
+
 
 
 
@@ -149,6 +151,21 @@
             visualiserCompetencesItem.setOnAction(event -> afficherApVC());
 
             mnubtnCompte.getItems().addAll(creerCompetencesItem, visualiserCompetencesItem);
+        }
+        public void initialiserUtilisateur(String emailUtilisateur) {
+            // Stocker l'e-mail de l'utilisateur connecté
+            this.emailUtilisateur = emailUtilisateur;
+
+            // Utiliser la classe RequeteSQLController pour obtenir le nom et le prénom
+            RequeteSQLController requeteSQLController = new RequeteSQLController();
+            Map<String, String> utilisateurInfo = requeteSQLController.getNomPrenomUtilisateur(emailUtilisateur);
+
+            // Initialiser les attributs nomUtilisateur et prenomUtilisateur
+            String nomUtilisateur = utilisateurInfo.get("nom");
+            String prenomUtilisateur = utilisateurInfo.get("prenom");
+
+            // Mettez ici le code pour afficher le nom et le prénom dans votre interface graphique
+            lblNomPrenom.setText("Bienvenue, " + prenomUtilisateur + " " + nomUtilisateur);
         }
 
 

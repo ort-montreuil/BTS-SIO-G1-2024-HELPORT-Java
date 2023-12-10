@@ -79,6 +79,8 @@ public class ConnexionController implements Initializable
 
             Stage currentStage = (Stage) btnLogin.getScene().getWindow();
             currentStage.close();
+            AccueilController accueilController = loader.getController();
+            accueilController.initialiserUtilisateur(getTxtIdText());
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

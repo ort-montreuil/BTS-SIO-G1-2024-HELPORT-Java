@@ -42,6 +42,24 @@ public class RequeteSQLController
 
         return verification;
     }
+
+    public Map<String, String> getNomPrenomUtilisateur(String emailUtilisateur) {
+            Map<String, String> utilisateurInfo = new HashMap<>();
+            try {
+                ps = cnx.prepareStatement("SELECT user.nom, user.prenom FROM user WHERE user.email = ?");
+                ps.setString(1, emailUtilisateur);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    utilisateurInfo.put("nom", rs.getString("nom"));
+                    utilisateurInfo.put("prenom", rs.getString("prenom"));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return utilisateurInfo;
+        }
+
+
     public List<String> getDesignationsMatiere() {
         List<String> designations = new ArrayList<>();
         try {
