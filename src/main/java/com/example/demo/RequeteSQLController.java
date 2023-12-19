@@ -132,6 +132,8 @@ public class RequeteSQLController {
                     String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s",
                          date2.toString(), sousMatiere);
 
+
+
                     demandesList.add(informationDemande);
                 }
             }
