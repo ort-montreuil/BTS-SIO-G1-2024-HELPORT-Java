@@ -9,34 +9,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class RequeteSQLController
-{
+public class RequeteSQLController {
     private Connection cnx;
     private PreparedStatement ps;
     private ResultSet rs;
 
-    public RequeteSQLController()
-    {
+    public RequeteSQLController() {
         cnx = ConnexionBDD.getCnx();
 
     }
-// Partie connexion et check dans la base de données
-    public boolean verifierIdentifiants(String emailUtilisateur, String mdpUtilisateur)
-    {
+
+    // Partie connexion et check dans la base de données
+    public boolean verifierIdentifiants(String emailUtilisateur, String mdpUtilisateur) {
         boolean verification = false;
-        try
-        {
+        try {
             ps = cnx.prepareStatement("SELECT user.email, user.password FROM user WHERE user.email = ? AND user.password = ?;");
             ps.setString(1, emailUtilisateur);
             ps.setString(2, mdpUtilisateur);
             rs = ps.executeQuery();
-            while (rs.next())
-            {
+            while (rs.next()) {
                 verification = true;
             }
-        }
-        catch (SQLException e)
-        {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -44,20 +38,20 @@ public class RequeteSQLController
     }
 
     public Map<String, String> getNomPrenomUtilisateur(String emailUtilisateur) {
-            Map<String, String> utilisateurInfo = new HashMap<>();
-            try {
-                ps = cnx.prepareStatement("SELECT user.nom, user.prenom FROM user WHERE user.email = ?");
-                ps.setString(1, emailUtilisateur);
-                rs = ps.executeQuery();
-                if (rs.next()) {
-                    utilisateurInfo.put("nom", rs.getString("nom"));
-                    utilisateurInfo.put("prenom", rs.getString("prenom"));
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+        Map<String, String> utilisateurInfo = new HashMap<>();
+        try {
+            ps = cnx.prepareStatement("SELECT user.nom, user.prenom FROM user WHERE user.email = ?");
+            ps.setString(1, emailUtilisateur);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                utilisateurInfo.put("nom", rs.getString("nom"));
+                utilisateurInfo.put("prenom", rs.getString("prenom"));
             }
-            return utilisateurInfo;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+        return utilisateurInfo;
+    }
 
 
     public List<String> getDesignationsMatiere() {
@@ -74,6 +68,7 @@ public class RequeteSQLController
         }
         return designations;
     }
+
     public List<String> getSousMatieresPourMatiere(String matiereSelectionnee) {
         List<String> sousMatieres = new ArrayList<>();
         try {
@@ -92,37 +87,6 @@ public class RequeteSQLController
         }
         return sousMatieres;
     }
-
-
-    public List<DemandeAide> getDemandesUtilisateur(int idUtilisateur) {
-        List<DemandeAide> demandes = new ArrayList<>();
-
-        try {
-            String query = "SELECT id, date_updated, date_fin_demande, sous_matiere, id_user, id_matiere, status " +
-                    "FROM demande " +
-                    "WHERE id_user = ?";
-            ps = cnx.prepareStatement(query);
-            ps.setInt(1, idUtilisateur);
-            rs = ps.executeQuery();
-
-            while (rs.next()) {
-                DemandeAide demande = new DemandeAide();
-                demande.setId(rs.getInt("id"));
-                demande.setDateUpdated(rs.getDate("date_updated"));
-                demande.setDateFinDemande(rs.getDate("date_fin_demande"));
-                demande.setSousMatiere(rs.getString("sous_matiere"));
-                demande.setIdUser(rs.getInt("id_user"));
-                demande.setIdMatiere(rs.getInt("id_matiere"));
-                demande.setStatus(rs.getString("status"));
-                demandes.add(demande);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return demandes;
-    }
-
 
 
     public int getIdUtilisateur(String emailUtilisateur, String mdpUtilisateur) {
@@ -146,82 +110,40 @@ public class RequeteSQLController
 
         return idUtilisateur;
     }
+    public List<String> getToutesDemandes() {
+        List<String> demandesList = new ArrayList<>();
 
+        try {
 
+            // Créer une instruction SQL pour sélectionner toutes les demandes
+            String sqlQuery = "SELECT * FROM demande";
 
-    public class DemandeAide {
-        private int id;
-        private Date dateUpdated;
-        private Date dateFinDemande;
-        private String sousMatiere;
-        private int idUser;
-        private int idMatiere;
-        private String status;
+            try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
+                // Exécuter la requête SQL
+                ResultSet resultSet = preparedStatement.executeQuery();
 
-        // Ajoutez d'autres attributs nécessaires
+                // Parcourir les résultats et ajouter chaque demande à la liste
+                while (resultSet.next()) {
+                    String sousMatiere = resultSet.getString("sous_matiere");
+                    Date date = resultSet.getDate("date_updated");
+                    Date date2 = resultSet.getDate("date_fin_demande");
+                    int status = resultSet.getInt("status");
 
-        public int getId() {
-            return id;
+                    String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s",
+                         date2.toString(), sousMatiere);
+
+                    demandesList.add(informationDemande);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Gérer les exceptions SQL correctement dans votre application
         }
 
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public Date getDateUpdated() {
-            return dateUpdated;
-        }
-
-        public void setDateUpdated(Date dateUpdated) {
-            this.dateUpdated = dateUpdated;
-        }
-
-        public Date getDateFinDemande() {
-            return dateFinDemande;
-        }
-
-        public void setDateFinDemande(Date dateFinDemande) {
-            this.dateFinDemande = dateFinDemande;
-        }
-
-        public String getSousMatiere() {
-            return sousMatiere;
-        }
-
-        public void setSousMatiere(String sousMatiere) {
-            this.sousMatiere = sousMatiere;
-        }
-
-        public int getIdUser() {
-            return idUser;
-        }
-
-        public void setIdUser(int idUser) {
-            this.idUser = idUser;
-        }
-
-        public int getIdMatiere() {
-            return idMatiere;
-        }
-
-        public void setIdMatiere(int idMatiere) {
-            this.idMatiere = idMatiere;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        // Ajoutez des getters et setters pour les autres attributs si nécessaire
+        // Retourner la liste de demandes
+        return demandesList;
     }
 
 
 
 
-
 }
-
