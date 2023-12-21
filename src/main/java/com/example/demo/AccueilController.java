@@ -8,6 +8,9 @@
     import javafx.scene.Parent;
     import javafx.scene.Scene;
     import javafx.scene.chart.BarChart;
+    import javafx.scene.chart.CategoryAxis;
+    import javafx.scene.chart.NumberAxis;
+    import javafx.scene.chart.XYChart;
     import javafx.scene.control.*;
     import javafx.scene.layout.AnchorPane;
     import javafx.stage.Stage;
@@ -145,9 +148,12 @@
             btnAccueil.setOnAction(event -> afficherAccueil());
             btnDeco.setOnAction(event -> deconnexion());
             btnAider.setOnAction(event -> afficherAider());
-            btnStat.setOnAction(event -> afficherStats());
-
-
+            //btnStat.setOnAction(event -> afficherStats());
+            btnStat.setOnAction(event -> {
+                afficherStats();
+                afficherStatistiques1();
+                //afficherStatistiques2();
+            });
             // Ajouter un gestionnaire d'événements à la lvsousmatiere
             lvsSousmatiere.setOnMouseClicked(event -> ajouterSousMatiereSelectionnee());
             lvsSousmatiereComp.setOnMouseClicked(event -> ajouterSousMatiereSelecC());
@@ -502,8 +508,48 @@
         {
             return String.valueOf(lvSMS.getSelectionModel().getSelectedItem());
         }
+        private void afficherStatistiques1() {
+
+            Map<String, Integer> nombreDemandesParMatiere = sqlController.getNombreDemandesParMatiere();
+
+            graphDemande.getData().clear();
+
+            // Ajouter les données au BarChart
+            for (Map.Entry<String, Integer> entry : nombreDemandesParMatiere.entrySet()) {
+                String matiere_designation = entry.getKey();
+                int nombreDemandes = entry.getValue();
+                String matiere = matiere_designation;
+
+                XYChart.Series<String, Number> series = new XYChart.Series<>();
+                series.getData().add(new XYChart.Data<>(matiere, nombreDemandes));
+
+                graphDemande.getData().add(series);
+
+            }
+
 
         }
+
+//        public void afficherStatistiques2() {
+//            // Appelez votre méthode de service pour obtenir les données
+//            Map<String, Integer> soutiensParMatiere = sqlController.getNombreSoutiensParUtilisateurConnecte();
+//
+//            graphSoutiens.getData().clear();
+//            // Créez une série de données pour le graphique
+//            XYChart.Series<String, Number> series = new XYChart.Series<>();
+//            series.setName("Nombre de soutiens");
+//
+//            // Ajoutez les données à la série
+//            soutiensParMatiere.forEach((matiere, nombreSoutiens) -> {
+//                series.getData().add(new XYChart.Data<>(matiere, nombreSoutiens));
+//            });
+//
+//            // Ajoutez la série au graphique
+//            graphSoutiens.getData().add(series);
+//        }
+    }
+
+
 
 
 
