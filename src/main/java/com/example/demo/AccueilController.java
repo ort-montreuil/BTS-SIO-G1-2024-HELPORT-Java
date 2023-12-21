@@ -1,8 +1,7 @@
     package com.example.demo;
 
+    import com.example.demo.Entity.Utilisateur;
     import javafx.application.Platform;
-    import javafx.collections.FXCollections;
-    import javafx.collections.ObservableList;
     import javafx.fxml.FXML;
     import javafx.fxml.FXMLLoader;
     import javafx.fxml.Initializable;
@@ -14,6 +13,9 @@
     import javafx.stage.Stage;
     import java.io.IOException;
     import java.net.URL;
+    import java.time.Instant;
+    import java.time.LocalDate;
+    import java.time.ZoneId;
     import java.util.*;
     import java.util.stream.Collectors;
 
@@ -37,8 +39,6 @@
         private Button btnStat;
         @FXML
         private AnchorPane apVD;
-        @FXML
-        private ListView lsvSMS;
         @FXML
         private ListView<String> lvsSousmatiere;
         private List<String> sousMatieresSelectionnees = new ArrayList<>();
@@ -115,8 +115,13 @@
         private Label lblNomPrenom;
         private RequeteSQLController sqlController = new RequeteSQLController();
 
-
-
+        @FXML
+        private Button btnSoumettreDemande;
+        private DatePicker datePickerFinDemande;
+        @FXML
+        private ListView lvSMS;
+        @FXML
+        private DatePicker DtpFinDemande;
 
 
         @Override
@@ -131,8 +136,7 @@
             cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
 
             cboMatiereSComp.setOnAction(event -> miseAJourSousMatieresComp());
-
-
+            btnSoumettreDemande.setOnAction(event -> soumettreDemande());
 
             lvsSousmatiere.setOnMouseClicked(event -> sousMatiereSelectionnee());
 
@@ -158,6 +162,8 @@
             mnubtnCompte.getItems().addAll(creerCompetencesItem, visualiserCompetencesItem);
 
         }
+
+
         private void updateDemandesListView() {
             // Appeler la méthode pour récupérer toutes les demandes de la base de données
             List<String> toutesDemandes = sqlController.getToutesDemandes();
@@ -169,7 +175,7 @@
             lstvAider.getItems().addAll(toutesDemandes);
         }
 
-        public void initialiserUtilisateur(String emailUtilisateur) {
+        public int initialiserUtilisateur(String emailUtilisateur) {
             // Stocker l'e-mail de l'utilisateur connecté
             this.emailUtilisateur = emailUtilisateur;
 
@@ -183,6 +189,7 @@
 
             // Mettez ici le code pour afficher le nom et le prénom dans votre interface graphique
             lblNomPrenom.setText("Bienvenue, " + prenomUtilisateur + " " + nomUtilisateur);
+            return 0;
         }
 
         private void ajouterSousMatiereSelecC() {
@@ -238,8 +245,8 @@
             if (matiereSelectionnee != null && sousMatiereSelectionnee != null) {
                 String matiereAvecSousMatiere = matiereSelectionnee + " : " + sousMatiereSelectionnee;
 
-                if (!lsvSMS.getItems().contains(matiereAvecSousMatiere)) {
-                    lsvSMS.getItems().add(matiereAvecSousMatiere);
+                if (!lvSMS.getItems().contains(matiereAvecSousMatiere)) {
+                    lvSMS.getItems().add(matiereAvecSousMatiere);
                 } else {
                     // Affiche un message d'erreur si la sous-matière est déjà sélectionnée
                     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -428,6 +435,75 @@
             }
 
         }
+        private void soumettreDemande() {
+            try {
+                // Récupérer les informations nécessaires de l'interface utilisateur
 
-    }
+
+                // Ajoutez une vérification pour vous assurer que la date de fin de demande est sélectionnée
+                if (DtpFinDemande.getValue() == null) {
+                    // Afficher un message d'erreur si la date n'est pas sélectionnée
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Erreur de saisie");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Veuillez sélectionner une date de fin de demande.");
+                    alert.showAndWait();
+                    return; // Sortir de la méthode si la date n'est pas sélectionnée
+                }
+
+                Date dateFinDemande = getDateFinDemande(); // Méthode à implémenter pour récupérer la date de fin de demande
+                String sousMatiereDemandee = getSousMatiereDemandee(); // Méthode à implémenter pour récupérer la sous-matière demandée
+                String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem(); // Supposons que vous avez une ComboBox pour la matière
+                int idUtilisateur = Utilisateur.getId();
+                System.out.println(idUtilisateur);// Utilisez la méthode existante pour récupérer l'ID de l'utilisateur
+
+                // Appeler la méthode de votre RequeteSQLController pour créer la demande
+                sqlController.creerDemandeUtilisateurConnecte(new Date(), dateFinDemande, sousMatiereDemandee, idUtilisateur, getIdMatiere(matiereSelectionnee), 1);
+
+                // Afficher un message de réussite
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Demande soumise");
+                alert.setHeaderText(null);
+                alert.setContentText("Votre demande a été soumise avec succès.");
+                alert.showAndWait();
+
+                // Mettre à jour la ListView des demandes après l'ajout
+                updateDemandesListView();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Afficher un message d'erreur en cas d'échec
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText(null);
+                alert.setContentText("Une erreur s'est produite lors de la soumission de votre demande.");
+                alert.showAndWait();
+            }
+        }
+
+
+        private int getIdMatiere(String matiereSelectionnee) {
+
+            RequeteSQLController requeteSQLController = new RequeteSQLController();
+            int idMatiere = requeteSQLController.getIdMatiere(matiereSelectionnee);
+
+            return idMatiere;
+        }
+
+        private Date getDateFinDemande()
+        {
+
+
+            LocalDate localDate = DtpFinDemande.getValue();
+            Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
+            return Date.from(instant);
+        }
+        private String getSousMatiereDemandee()
+        {
+            return String.valueOf(lvSMS.getSelectionModel().getSelectedItem());
+        }
+
+        }
+
+
 

@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.Entity.Utilisateur;
 import com.example.demo.Tools.ConnexionBDD;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -130,7 +131,7 @@ public class ConnexionController implements Initializable
         if (RequeteSql.verifierIdentifiants(txtId.getText(), txtMdp.getText())) {
             ouvrirAccueil(event);
             int idUtilisateur = RequeteSql.getIdUtilisateur(txtId.getText(), txtMdp.getText());
-
+            Utilisateur.setId(idUtilisateur);
         }
         else {
                 afficherMessageErreur("Identifiants incorrects. Veuillez réessayer.");

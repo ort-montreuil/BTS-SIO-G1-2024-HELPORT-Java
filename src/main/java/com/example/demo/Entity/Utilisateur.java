@@ -2,7 +2,7 @@ package com.example.demo.Entity;
 
 public class Utilisateur
 {
-    private int id;
+    private static int id;
     private String nom;
     private String prenom;
     private String identifiant;
@@ -27,12 +27,16 @@ public class Utilisateur
         this.telephone = telephone;
     }
 
-    public int getId() {
+    public Utilisateur() {
+
+    }
+
+    public static int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public static void setId(int unId)  {
+        id = unId;
     }
 
     public String getNom() {

@@ -18,7 +18,7 @@
 
 <AnchorPane fx:id="apPrincipal" prefHeight="583.0" prefWidth="808.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.AccueilController">
    <children>
-      <AnchorPane fx:id="apAccueil" layoutX="42.0" prefHeight="599.0" prefWidth="812.0">
+      <AnchorPane fx:id="apAccueil" layoutX="42.0" prefHeight="599.0" prefWidth="812.0" visible="false">
          <children>
             <Label fx:id="lblNomPrenom" layoutX="99.0" layoutY="88.0">
                <font>
@@ -55,18 +55,18 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="apSDemande" layoutX="112.0" layoutY="75.0" prefHeight="531.0" prefWidth="749.0" visible="false">
+      <AnchorPane fx:id="apSDemande" layoutX="112.0" layoutY="75.0" prefHeight="531.0" prefWidth="749.0">
          <children>
             <Label id="label1" layoutX="288.0" layoutY="83.0" text="Matière souhaitée :" />
             <Label id="label2" layoutX="307.0" layoutY="155.0" text="Sous matière :" />
             <Label id="label3" layoutX="292.0" layoutY="248.0" prefHeight="17.0" prefWidth="156.0" text="Date de l'examen :" />
-            <DatePicker layoutX="232.0" layoutY="285.0" prefHeight="25.0" prefWidth="259.0" />
+            <DatePicker fx:id="DtpFinDemande" layoutX="232.0" layoutY="285.0" prefHeight="25.0" prefWidth="259.0" />
             <Button id="bouton_demande" layoutX="92.0" layoutY="387.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="184.0" text="Annuler la demande" />
-            <Button id="bouton_demande" layoutX="437.0" layoutY="387.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="184.0" text="Soumettre la demande" />
+            <Button id="bouton_demande" fx:id="btnSoumettreDemande" layoutX="437.0" layoutY="387.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="184.0" text="Soumettre la demande" />
             <Label layoutX="270.0" layoutY="26.0" text="SOUMETTRE UNE DEMANDE DE SOUTIEN" />
             <ListView fx:id="lvsSousmatiere" layoutX="244.0" layoutY="172.0" prefHeight="73.0" prefWidth="252.0" />
             <ComboBox fx:id="cboMatiereSouhaitee" layoutX="252.0" layoutY="108.0" prefHeight="25.0" prefWidth="240.0" />
-            <ListView fx:id="lsvSMS" layoutX="551.0" layoutY="168.0" prefHeight="81.0" prefWidth="192.0" />
+            <ListView fx:id="lvSMS" layoutX="551.0" layoutY="168.0" prefHeight="81.0" prefWidth="192.0" />
             <Label id="label2" layoutX="586.0" layoutY="125.0" text="Sous matières selectionnés :" />
          </children>
       </AnchorPane>

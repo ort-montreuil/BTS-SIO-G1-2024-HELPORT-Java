@@ -3,15 +3,14 @@ package com.example.demo;
 
 import com.example.demo.Tools.ConnexionBDD;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
+import java.util.Date;
 
 public class RequeteSQLController {
-    private Connection cnx;
-    private PreparedStatement ps;
+    private  Connection cnx;
+    private  PreparedStatement ps;
     private ResultSet rs;
 
     public RequeteSQLController() {
@@ -110,6 +109,7 @@ public class RequeteSQLController {
 
         return idUtilisateur;
     }
+
     public List<String> getToutesDemandes() {
         List<String> demandesList = new ArrayList<>();
 
@@ -130,8 +130,7 @@ public class RequeteSQLController {
                     int status = resultSet.getInt("status");
 
                     String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s",
-                         date2.toString(), sousMatiere);
-
+                            date2.toString(), sousMatiere);
 
 
                     demandesList.add(informationDemande);
@@ -145,7 +144,51 @@ public class RequeteSQLController {
         return demandesList;
     }
 
+    public void creerDemandeUtilisateurConnecte(Date dateupdated, Date dateFinDemande, String sousMatiereDemandee, int idUtilisateur, int idMatiere, int status) {
+        try {
+            ps = cnx.prepareStatement("INSERT INTO demande (date_updated, date_fin_demande, sous_matiere, id_user,id_matiere, status) " +
+                    "VALUES (NOW(), ?, ?, ?, ?,?)");
 
+            // Paramètres de la requête
 
+            ps.setDate(1, new java.sql.Date(dateFinDemande.getTime()));
+            ps.setString(2, sousMatiereDemandee);
+            ps.setInt(3, idUtilisateur);
+            ps.setInt(4, idMatiere);
+            ps.setInt(5, status);
 
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+    }
+
+    public int getIdMatiere(String matiereSelectionnee) {
+        int idMatiere = -1;
+
+        try {
+            ps = cnx.prepareStatement("SELECT id FROM matiere WHERE designation = ?");
+            ps.setString(1, matiereSelectionnee);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                idMatiere = rs.getInt("id");
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        return idMatiere;
+    }
 }
+
+
+
+
+
+
+
