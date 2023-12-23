@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import com.example.demo.Entity.Utilisateur;
-import com.example.demo.Tools.PopUpAiderController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -135,6 +134,7 @@ public class AccueilController implements Initializable {
         peuplerComboBoxMatiere();
         peuplerComboBoxMatieresC();
         updateDemandesListView();
+
         cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
 
         cboMatiereSComp.setOnAction(event -> miseAJourSousMatieresComp());
@@ -149,6 +149,7 @@ public class AccueilController implements Initializable {
         btnDeco.setOnAction(event -> deconnexion());
         btnAider.setOnAction(event -> afficherAider());
         btnStat.setOnAction(event -> afficherStats());
+
 
 
 
@@ -357,6 +358,7 @@ public class AccueilController implements Initializable {
         apStats.setVisible(false);
         apVC.setVisible(false);
         apCreerCompetence.setVisible(false);
+        afficherDemandesUtilisateurConnecte();
 
 
     }
@@ -622,4 +624,25 @@ public class AccueilController implements Initializable {
     {
         return String.valueOf(lstvRecap.getSelectionModel().getSelectedItem());
     }
+    public void afficherDemandesUtilisateurConnecte() {
+        // Supposons que vous ayez l'ID de l'utilisateur connecté stocké dans une variable idUtilisateur
+
+        // Remplacez cela par la manière dont vous obtenez l'ID de l'utilisateur connecté
+        int idUtilisateur = Utilisateur.getId();
+
+        System.out.println("ID Utilisateur: " + idUtilisateur); // Ajoutez cette ligne
+
+        // Créez une instance de RequeteSQLController
+        RequeteSQLController requeteSQLController = new RequeteSQLController();
+
+        // Appelez la nouvelle méthode pour récupérer les demandes de l'utilisateur connecté
+        List<String> demandesUtilisateur = requeteSQLController.getDemandesUtilisateurConnecte(idUtilisateur);
+
+        System.out.println("Demandes Utilisateur: " + demandesUtilisateur); // Ajoutez cette ligne
+
+        // Maintenant, vous pouvez utiliser la liste de demandes pour peupler votre interface utilisateur (ListView, etc.)
+        // Exemple : mettre à jour votre composant d'interface utilisateur (remplacez listView par votre composant réel)
+        lstVMesdemandes.getItems().addAll(demandesUtilisateur);
+    }
+
 }

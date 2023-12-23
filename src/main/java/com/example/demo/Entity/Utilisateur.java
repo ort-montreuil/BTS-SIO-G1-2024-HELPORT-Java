@@ -27,9 +27,7 @@ public class Utilisateur
         this.telephone = telephone;
     }
 
-    public Utilisateur() {
 
-    }
 
     public static int getId() {
         return id;

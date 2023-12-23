@@ -203,5 +203,37 @@ public class RequeteSQLController {
 
         }
     }
+    public List<String> getDemandesUtilisateurConnecte(int idUtilisateur) {
+        List<String> demandesUtilisateur = new ArrayList<>();
+
+        try {
+            // Créer une instruction SQL pour sélectionner les demandes de l'utilisateur connecté
+            String sqlQuery = "SELECT * FROM demande WHERE id_user = ? ORDER BY date_fin_demande DESC";
+
+            ps = cnx.prepareStatement(sqlQuery);
+            ps.setInt(1, idUtilisateur);
+
+            // Exécuter la requête SQL
+            ResultSet resultSet = ps.executeQuery();
+
+            // Parcourir les résultats et ajouter chaque demande à la liste
+            while (resultSet.next()) {
+                String sousMatiere = resultSet.getString("sous_matiere");
+                Date date = resultSet.getDate("date_updated");
+                Date date2 = resultSet.getDate("date_fin_demande");
+                int status = resultSet.getInt("status");
+                String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s",
+                        date2.toString(), sousMatiere);
+
+                demandesUtilisateur.add(informationDemande);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Gérer les exceptions SQL correctement dans votre application
+        }
+
+        // Retourner la liste de demandes de l'utilisateur connecté
+        return demandesUtilisateur;
+    }
+
 
 }
