@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import com.example.demo.Entity.Utilisateur;
-import com.example.demo.Tools.PopUpAiderController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
