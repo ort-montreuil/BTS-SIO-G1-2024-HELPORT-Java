@@ -199,6 +199,7 @@ public class RequeteSQLController {
             ps.setInt(5, demande.getIdMatiere());
             ps.setInt(6, demande.getStatus());
 
+
             ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
