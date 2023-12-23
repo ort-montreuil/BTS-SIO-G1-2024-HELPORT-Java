@@ -236,4 +236,62 @@ public class RequeteSQLController {
     }
 
 
+    public HashMap<String, Integer> getNombreSoutiensParUtilisateurConnecte(int idUtilisateurConnecte) {
+        HashMap<String, Integer> soutiensParMatiere = new HashMap<>();
+        try {
+            // Préparer la requête SQL
+            String sql = "SELECT matiere.designation AS matiere, COUNT(soutien.id) AS nombre_soutiens " +
+                    "FROM user " +
+                    "JOIN competence ON user.id = competence.id_user " +
+                    "JOIN matiere ON competence.id_matiere = matiere.id " +
+                    "LEFT JOIN soutien ON competence.id = soutien.id_competence " +
+                    "WHERE user.id = ? " +
+                    "GROUP BY matiere.id, matiere.designation " +
+                    "ORDER BY matiere.designation";
+            PreparedStatement ps = cnx.prepareStatement(sql);
+            ps.setInt(1, idUtilisateurConnecte);
+            // Exécuter la requête
+            ResultSet rs = ps.executeQuery();
+            // Récupérer le résultat
+            while (rs.next()) {
+                String matiere = rs.getString("matiere");
+                int nombreSoutiens = rs.getInt("nombre_soutiens");
+                soutiensParMatiere.put(matiere, nombreSoutiens);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Gérer les exceptions SQL
+        }
+        return soutiensParMatiere;
+    }
+    public HashMap<String, Integer> getNombreDemandesParMatiere(int idUtilisateurConnecte) {
+        HashMap<String, Integer> nombreDemandesParMatiere = new HashMap<>();
+
+        try {
+
+            // Préparer la requête SQL
+            String sql = "SELECT matiere.designation AS matiere_designation, COUNT(*) " +
+                    "AS nombreDemandes FROM demande JOIN matiere ON demande.id_matiere = matiere.id " +
+                    "WHERE demande.id_user = ? GROUP BY demande.id_matiere";
+            ps = cnx.prepareStatement(sql);
+
+            ps.setInt(1, idUtilisateurConnecte);
+
+
+            // Exécuter la requête
+            rs = ps.executeQuery();
+
+            // Récupérer les résultats
+            while (rs.next()) {
+                String designation = rs.getString("matiere_designation");
+                int nombreDemandes = rs.getInt("nombreDemandes");
+                nombreDemandesParMatiere.put(designation, nombreDemandes);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Gérer les exceptions SQL
+        }
+        return nombreDemandesParMatiere;
+    }
 }

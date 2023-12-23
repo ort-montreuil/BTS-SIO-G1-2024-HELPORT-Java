@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.Entity.Utilisateur;
+import com.example.demo.PopUpAiderController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -134,7 +136,6 @@ public class AccueilController implements Initializable {
         peuplerComboBoxMatiere();
         peuplerComboBoxMatieresC();
         updateDemandesListView();
-
         cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
 
         cboMatiereSComp.setOnAction(event -> miseAJourSousMatieresComp());
@@ -148,8 +149,11 @@ public class AccueilController implements Initializable {
         btnAccueil.setOnAction(event -> afficherAccueil());
         btnDeco.setOnAction(event -> deconnexion());
         btnAider.setOnAction(event -> afficherAider());
-        btnStat.setOnAction(event -> afficherStats());
-
+        btnStat.setOnAction(event -> {
+            afficherStats();
+            afficherStatistiques1();
+            afficherStatistiques2();
+        });
 
 
 
@@ -358,7 +362,6 @@ public class AccueilController implements Initializable {
         apStats.setVisible(false);
         apVC.setVisible(false);
         apCreerCompetence.setVisible(false);
-        afficherDemandesUtilisateurConnecte();
 
 
     }
@@ -624,25 +627,50 @@ public class AccueilController implements Initializable {
     {
         return String.valueOf(lstvRecap.getSelectionModel().getSelectedItem());
     }
-    public void afficherDemandesUtilisateurConnecte() {
-        // Supposons que vous ayez l'ID de l'utilisateur connecté stocké dans une variable idUtilisateur
 
-        // Remplacez cela par la manière dont vous obtenez l'ID de l'utilisateur connecté
+    private void afficherStatistiques1() {
+
         int idUtilisateur = Utilisateur.getId();
+        HashMap<String, Integer> nombreDemandesParMatiere = sqlController.getNombreDemandesParMatiere(idUtilisateur);
 
-        System.out.println("ID Utilisateur: " + idUtilisateur); // Ajoutez cette ligne
+        graphDemande.getData().clear();
 
-        // Créez une instance de RequeteSQLController
-        RequeteSQLController requeteSQLController = new RequeteSQLController();
+        // Ajouter les données au BarChart
+        for (Map.Entry<String, Integer> entry : nombreDemandesParMatiere.entrySet()) {
+            String matiere_designation = entry.getKey();
+            int nombreDemandes = entry.getValue();
+            String matiere = matiere_designation;
 
-        // Appelez la nouvelle méthode pour récupérer les demandes de l'utilisateur connecté
-        List<String> demandesUtilisateur = requeteSQLController.getDemandesUtilisateurConnecte(idUtilisateur);
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Nombre de demandes");
+            series.getData().add(new XYChart.Data<>(matiere, nombreDemandes));
 
-        System.out.println("Demandes Utilisateur: " + demandesUtilisateur); // Ajoutez cette ligne
+            graphDemande.setStyle("-fx-bar-width: 1px");
 
-        // Maintenant, vous pouvez utiliser la liste de demandes pour peupler votre interface utilisateur (ListView, etc.)
-        // Exemple : mettre à jour votre composant d'interface utilisateur (remplacez listView par votre composant réel)
-        lstVMesdemandes.getItems().addAll(demandesUtilisateur);
+            graphDemande.getData().add(series);
+
+        }
+
+
     }
 
-}
+        public void afficherStatistiques2() {
+            // Appelez votre méthode de service pour obtenir les données
+            int idUtilisateur = Utilisateur.getId();
+            HashMap<String, Integer> soutiensParMatiere = sqlController.getNombreSoutiensParUtilisateurConnecte(idUtilisateur);
+
+            graphSoutiens.getData().clear();
+            // Créez une série de données pour le graphique
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
+            series.setName("Nombre de soutiens");
+
+            // Ajoutez les données à la série
+            soutiensParMatiere.forEach((matiere, nombreSoutiens) -> {
+                if(nombreSoutiens > 0 ) {
+                    series.getData().add(new XYChart.Data<>(matiere, nombreSoutiens));
+                }});
+
+            // Ajoutez la série au graphique
+            graphSoutiens.getData().add(series);
+        }
+    }
