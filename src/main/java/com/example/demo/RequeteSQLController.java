@@ -1,7 +1,6 @@
 package com.example.demo;
 
 
-import com.example.demo.Entity.Demande;
 import com.example.demo.Tools.ConnexionBDD;
 
 import java.sql.*;
@@ -185,99 +184,24 @@ public class RequeteSQLController {
 
         return idMatiere;
     }
-
-    public void enregistrerDemande(Demande demande) {
+    public void creerCompetenceConnecte(int idMatiere,int idUtilisateur,String sousMatiereDemandee, int status) {
         try {
-            String query = "INSERT INTO demande (date_updated, date_fin_demande, sous_matiere, id_user, id_matiere, status) " +
-                    "VALUES (?, ?, ?, ?, ?, ?)";
-            ps = cnx.prepareStatement(query);
+            ps = cnx.prepareStatement("INSERT INTO competence (id_matiere,id_user,sous_matiere,statut) " +
+                    "VALUES ( ?, ?, ?, ?)");
 
-            ps.setDate(1, new java.sql.Date(demande.getDateUpdated().getTime()));
-            ps.setDate(2, new java.sql.Date(demande.getDateFinDemande().getTime()));
-            ps.setString(3, demande.getSousMatiere());
-            ps.setInt(4, demande.getIdUser());
-            ps.setInt(5, demande.getIdMatiere());
-            ps.setInt(6, demande.getStatus());
+            // Paramètres de la requête
 
-
+            ps.setInt(1, idMatiere);
+            ps.setInt(2, idUtilisateur);
+            ps.setString(3, sousMatiereDemandee);
+            ps.setInt(4, status);
 
             ps.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-    public Map<String, Integer> getNombreDemandesParMatiere() {
-        Map<String, Integer> nombreDemandesParMatiere = new HashMap<>();
-
-        try {
-
-            // Préparer la requête SQL
-            String sql = "SELECT m.designation AS matiere_designation, COUNT(*) " +
-                    "AS nombreDemandes FROM demande d JOIN matiere m ON d.id_matiere = m.id GROUP BY d.id_matiere;\n";
-            ps = cnx.prepareStatement(sql);
-
-            // Exécuter la requête
-            rs = ps.executeQuery();
-
-            // Récupérer les résultats
-            while (rs.next()) {
-                String designation = rs.getString("matiere_designation");
-                int nombreDemandes = rs.getInt("nombreDemandes");
-                nombreDemandesParMatiere.put(designation, nombreDemandes);
-            }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Gérer les exceptions SQL
+
         }
-        return nombreDemandesParMatiere;
     }
-
-    /*
-    public Map<String, Integer> getNombreSoutiensParUtilisateurConnecte(int idUtilisateurConnecte) {
-        Map<String, Integer> soutiensParMatiere = new HashMap<>();
-
-        try {
-
-            // Préparer la requête SQL
-            String sql = "SELECT m.designation AS matiere, COUNT(s.id) AS nombre_soutiens " +
-                    "FROM user u " +
-                    "JOIN competence c ON u.id = c.id_user " +
-                    "JOIN matiere m ON c.id_matiere = m.id " +
-                    "LEFT JOIN soutien s ON c.id = s.id_competence " +
-                    "WHERE u.id = ? " +
-                    "GROUP BY m.id, m.designation " +
-                    "ORDER BY m.designation";
-
-            PreparedStatement ps = cnx.prepareStatement(sql);
-            ps.setInt(1, idUtilisateurConnecte);
-
-            // Exécuter la requête
-            ResultSet rs = ps.executeQuery();
-
-            // Récupérer le résultat
-            while (rs.next()) {
-                String matiere = rs.getString("matiere");
-                int nombreSoutiens = rs.getInt("nombres_soutiens");
-                soutiensParMatiere.put(matiere, nombreSoutiens);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Gérer les exceptions SQL
-        }
-
-        return soutiensParMatiere;
-    }
-     */
-
-
 
 }
-
-
-
-
-
-

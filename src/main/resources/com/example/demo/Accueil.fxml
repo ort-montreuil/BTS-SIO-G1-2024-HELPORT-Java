@@ -61,7 +61,7 @@
             <Label id="label2" layoutX="307.0" layoutY="155.0" text="Sous matière :" />
             <Label id="label3" layoutX="292.0" layoutY="248.0" prefHeight="17.0" prefWidth="156.0" text="Date de l'examen :" />
             <DatePicker fx:id="DtpFinDemande" layoutX="232.0" layoutY="285.0" prefHeight="25.0" prefWidth="259.0" />
-            <Button id="bouton_demande" fx:id="btnAnnulerDemande" layoutX="92.0" layoutY="387.0" mnemonicParsing="false" onAction="#annulerDemande" prefHeight="30.0" prefWidth="184.0" text="Annuler la demande" />
+            <Button id="bouton_demande" layoutX="92.0" layoutY="387.0" mnemonicParsing="false" onAction="#annulerDemande" prefHeight="30.0" prefWidth="184.0" text="Annuler la demande" />
             <Button id="bouton_demande" fx:id="btnSoumettreDemande" layoutX="437.0" layoutY="387.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="184.0" text="Soumettre la demande" />
             <Label layoutX="270.0" layoutY="26.0" text="SOUMETTRE UNE DEMANDE DE SOUTIEN" />
             <ListView fx:id="lvsSousmatiere" layoutX="244.0" layoutY="172.0" prefHeight="73.0" prefWidth="252.0" />
