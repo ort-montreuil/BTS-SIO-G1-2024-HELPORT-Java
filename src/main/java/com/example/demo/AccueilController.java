@@ -115,6 +115,41 @@
 
 
         @FXML
+        private void annulerDemande() {
+            // Créer une boîte de dialogue de confirmation
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Confirmation");
+            confirmationAlert.setHeaderText(null);
+            confirmationAlert.setContentText("Voulez-vous vraiment annuler la demande?");
+
+            // Ajouter les boutons "Oui" et "Non"
+            ButtonType btnOui = new ButtonType("Oui");
+            ButtonType btnNon = new ButtonType("Non", ButtonBar.ButtonData.CANCEL_CLOSE);
+            confirmationAlert.getButtonTypes().setAll(btnOui, btnNon);
+
+            // Afficher la boîte de dialogue et attendre la réponse de l'utilisateur
+            Optional<ButtonType> resultat = confirmationAlert.showAndWait();
+
+            // Vérifier la réponse de l'utilisateur
+            if (resultat.isPresent() && resultat.get() == btnOui) {
+                // L'utilisateur a choisi "Oui"
+                // Mettre à jour la visibilité des AnchorPane
+                apAccueil.setVisible(true);
+                apSDemande.setVisible(false);
+                apVD.setVisible(false);
+                apAider.setVisible(false);
+                apModifDemande.setVisible(false);
+                apStats.setVisible(false);
+                apVC.setVisible(false);
+                apCreerCompetence.setVisible(false);
+            } else {
+                // L'utilisateur a choisi "Non" ou a fermé la boîte de dialogue
+                // Ne rien faire, la boîte de dialogue disparaîtra simplement
+            }
+        }
+
+
+        @FXML
         private Label lblNomPrenom;
         private RequeteSQLController sqlController = new RequeteSQLController();
 
@@ -125,6 +160,8 @@
         private ListView lvSMS;
         @FXML
         private DatePicker DtpFinDemande;
+        @FXML
+        private Button btnAnnulerDemande;
 
 
         @Override
