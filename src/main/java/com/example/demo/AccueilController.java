@@ -437,6 +437,7 @@
             try {
                 // Récupérer les informations nécessaires de l'interface utilisateur
 
+
                 // Ajoutez une vérification pour vous assurer que la date de fin de demande est sélectionnée
                 if (DtpFinDemande.getValue() == null) {
                     // Afficher un message d'erreur si la date n'est pas sélectionnée
