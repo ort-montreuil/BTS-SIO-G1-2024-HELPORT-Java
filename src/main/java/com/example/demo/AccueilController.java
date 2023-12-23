@@ -204,19 +204,7 @@
 
             if (matiereSelectionnee != null && sousMatiereSelectionnee != null) {
                 String matiereAvecSousMatiere = matiereSelectionnee + " : " + sousMatiereSelectionnee;
-
-                if (!sousMatieresSelectionneesComp.contains(matiereAvecSousMatiere)) {
-                    lvsSousmatiereComp.getItems().add(matiereAvecSousMatiere);
-                    sousMatieresSelectionneesComp.add(matiereAvecSousMatiere);
-                    lstvRecap.getItems().add(matiereAvecSousMatiere);
-                } else {
-                    // Affiche un message d'erreur si la sous-matière est déjà sélectionnée
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Erreur de sélection");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Vous avez déjà sélectionné cette sous-matière.");
-                    alert.showAndWait();
-                }
+                ajouterSousMatiereComp(matiereAvecSousMatiere);
             }
         }
 
@@ -250,17 +238,21 @@
 
             if (matiereSelectionnee != null && sousMatiereSelectionnee != null) {
                 String matiereAvecSousMatiere = matiereSelectionnee + " : " + sousMatiereSelectionnee;
-
-                if (!lvSMS.getItems().contains(matiereAvecSousMatiere)) {
-                    lvSMS.getItems().add(matiereAvecSousMatiere);
-                } else {
-                    // Affiche un message d'erreur si la sous-matière est déjà sélectionnée
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Erreur de sélection");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Vous avez déjà sélectionné cette sous-matière.");
-                    alert.showAndWait();
-                }
+                ajouterSousMatiereComp(matiereAvecSousMatiere);
+            }
+        }
+        private void ajouterSousMatiereComp(String matiereAvecSousMatiere) {
+            if (!sousMatieresSelectionneesComp.contains(matiereAvecSousMatiere)) {
+                // Ajoute à la liste de récapitulatif
+                lstvRecap.getItems().add(matiereAvecSousMatiere);
+                sousMatieresSelectionneesComp.add(matiereAvecSousMatiere);
+            } else {
+                // Affiche un message d'erreur si la sous-matière est déjà sélectionnée dans le récapitulatif
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur de sélection");
+                alert.setHeaderText(null);
+                alert.setContentText("Vous avez déjà sélectionné cette sous-matière dans le récapitulatif.");
+                alert.showAndWait();
             }
         }
 
