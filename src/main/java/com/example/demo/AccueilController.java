@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.Entity.Utilisateur;
+import com.example.demo.Tools.PopUpAiderController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
@@ -149,6 +151,27 @@ public class AccueilController implements Initializable {
         btnStat.setOnAction(event -> afficherStats());
 
 
+
+// pour lorsqu'on a selec une demande
+
+        btnAiderFinale.setOnAction(event -> {
+            // Récupérer la demande sélectionnée dans la ListView
+            String demandeSelectionnee = (String) lstvAider.getSelectionModel().getSelectedItem();
+
+            if (demandeSelectionnee != null) {
+                // Afficher la pop-up avec les détails de la demande sélectionnée
+                afficherPopUpAider(demandeSelectionnee);
+            } else {
+                // Afficher un message d'erreur si aucune demande n'est sélectionnée
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur de sélection");
+                alert.setHeaderText(null);
+                alert.setContentText("Veuillez sélectionner une demande.");
+                alert.showAndWait();
+            }
+        });
+
+
         // Ajouter un gestionnaire d'événements à la lvsousmatiere
         lvsSousmatiere.setOnMouseClicked(event -> ajouterSousMatiereSelectionnee());
         lvsSousmatiereComp.setOnMouseClicked(event -> ajouterSousMatiereSelecC());
@@ -163,6 +186,7 @@ public class AccueilController implements Initializable {
         mnubtnCompte.getItems().addAll(creerCompetencesItem, visualiserCompetencesItem);
 
     }
+
 
 
     private void updateDemandesListView() {
@@ -439,6 +463,35 @@ public class AccueilController implements Initializable {
         }
     }
 
+
+    private void afficherPopUpAider(String demandeSelectionnee) {
+        try {
+            // Charger le contenu de apPopUpAider depuis le fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/PopUpAider.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer le contrôleur de la pop-up
+            PopUpAiderController popUpController = loader.getController();
+
+            // Initialiser le contrôleur de la pop-up avec les détails de la demande sélectionnée
+            popUpController.initialiserDemande(demandeSelectionnee);
+
+            // Créer une nouvelle fenêtre (Stage) pour la pop-up
+            Stage popUpStage = new Stage();
+            popUpStage.initModality(Modality.APPLICATION_MODAL);
+            popUpStage.setTitle("Pop-up Aider");
+
+            // Définir la scène avec le contenu de apPopUpAider
+            Scene scene = new Scene(root);
+            popUpStage.setScene(scene);
+
+            // Afficher la pop-up
+            popUpStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void sousMatiereSelectionnee() {
         String nouvelleSousMatiere = lvsSousmatiere.getSelectionModel().getSelectedItem();
 
