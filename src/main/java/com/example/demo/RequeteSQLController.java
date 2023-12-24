@@ -9,8 +9,8 @@ import java.util.*;
 import java.util.Date;
 
 public class RequeteSQLController {
-    private  Connection cnx;
-    private  PreparedStatement ps;
+    private static Connection cnx;
+    private static PreparedStatement ps;
     private ResultSet rs;
 
     public RequeteSQLController() {
@@ -233,6 +233,30 @@ public class RequeteSQLController {
 
         // Retourner la liste de demandes de l'utilisateur connecté
         return demandesUtilisateur;
+    }
+    public static List<String> getCompetencesUtilisateurConnecte(int idUtilisateur) {
+        List<String> competencesUtilisateur = new ArrayList<>();
+
+        try {
+            // Créer une instruction SQL pour sélectionner les compétences de l'utilisateur connecté
+            String sqlQuery = "SELECT * FROM competence WHERE id_user = ?";
+            ps = cnx.prepareStatement(sqlQuery);
+            ps.setInt(1, idUtilisateur);
+
+            // Exécuter la requête SQL
+            ResultSet resultSet = ps.executeQuery();
+
+            // Parcourir les résultats et ajouter chaque compétence à la liste
+            while (resultSet.next()) {
+                String competence = resultSet.getString("sous_matiere");
+                competencesUtilisateur.add(competence);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Gérer les exceptions SQL correctement dans votre application
+        }
+
+        // Retourner la liste de compétences de l'utilisateur connecté
+        return competencesUtilisateur;
     }
 
 

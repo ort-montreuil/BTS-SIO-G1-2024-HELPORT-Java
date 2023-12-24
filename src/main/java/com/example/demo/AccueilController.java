@@ -3,6 +3,8 @@ package com.example.demo;
 import com.example.demo.Entity.Utilisateur;
 import com.example.demo.PopUpAiderController;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -350,6 +352,7 @@ public class AccueilController implements Initializable {
         apModifDemande.setVisible(false);
         apStats.setVisible(false);
         apCreerCompetence.setVisible(false);
+        afficherVisualiserCompetences();
     }
 
 
@@ -362,7 +365,7 @@ public class AccueilController implements Initializable {
         apStats.setVisible(false);
         apVC.setVisible(false);
         apCreerCompetence.setVisible(false);
-
+        afficherDemandesUtilisateurConnecte();
 
     }
 
@@ -627,6 +630,26 @@ public class AccueilController implements Initializable {
     {
         return String.valueOf(lstvRecap.getSelectionModel().getSelectedItem());
     }
+    public void afficherDemandesUtilisateurConnecte() {
+        // Supposons que vous ayez l'ID de l'utilisateur connecté stocké dans une variable idUtilisateur
+
+        // Remplacez cela par la manière dont vous obtenez l'ID de l'utilisateur connecté
+        int idUtilisateur = Utilisateur.getId();
+
+        System.out.println("ID Utilisateur: " + idUtilisateur); // Ajoutez cette ligne
+
+        // Créez une instance de RequeteSQLController
+        RequeteSQLController requeteSQLController = new RequeteSQLController();
+
+        // Appelez la nouvelle méthode pour récupérer les demandes de l'utilisateur connecté
+        List<String> demandesUtilisateur = requeteSQLController.getDemandesUtilisateurConnecte(idUtilisateur);
+
+        System.out.println("Demandes Utilisateur: " + demandesUtilisateur); // Ajoutez cette ligne
+
+        // Maintenant, vous pouvez utiliser la liste de demandes pour peupler votre interface utilisateur (ListView, etc.)
+        // Exemple : mettre à jour votre composant d'interface utilisateur (remplacez listView par votre composant réel)
+        lstVMesdemandes.getItems().addAll(demandesUtilisateur);
+    }
 
     private void afficherStatistiques1() {
 
@@ -651,6 +674,21 @@ public class AccueilController implements Initializable {
 
         }
 
+
+    }
+    private void afficherVisualiserCompetences() {
+        // Récupérer l'ID de l'utilisateur connecté (remplacez ceci par la méthode appropriée pour obtenir l'ID)
+        int idUtilisateur = Utilisateur.getId()/* Appel de la méthode pour obtenir l'ID de l'utilisateur connecté */;
+
+        // Appeler la méthode pour récupérer les compétences de l'utilisateur connecté
+        List<String> competences = RequeteSQLController.getCompetencesUtilisateurConnecte(idUtilisateur);
+        ObservableList<String> items = FXCollections.observableArrayList(competences);
+        lstvModifComp.setItems(items);
+
+        // Afficher les compétences (vous pouvez remplacer cela par le code d'affichage approprié dans votre application)
+        for (String competence : competences) {
+            System.out.println("Compétence : " + competence);
+        }
 
     }
 
