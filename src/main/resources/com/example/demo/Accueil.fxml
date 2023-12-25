@@ -96,7 +96,7 @@
       <Button fx:id="btnDeco" layoutX="752.0" layoutY="29.0" mnemonicParsing="false" text="Se déconnecter" />
       <AnchorPane fx:id="apVD" layoutX="113.0" layoutY="75.0" prefHeight="488.0" prefWidth="739.0" visible="false">
          <children>
-            <Button fx:id="btnModifDemande" layoutX="594.0" layoutY="243.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Modifier la demande " />
+            <Button fx:id="btnModifDemande" layoutX="594.0" layoutY="243.0" mnemonicParsing="false" onAction="#afficherPopUpModifDemande" prefHeight="25.0" prefWidth="149.0" text="Modifier la demande " />
             <Label fx:id="lblSelec" layoutX="597.0" layoutY="14.0" prefHeight="52.0" prefWidth="142.0" text="Selectionner une matière" />
             <ListView fx:id="lstVMesdemandes" layoutX="68.0" layoutY="34.0" prefHeight="390.0" prefWidth="470.0" />
          </children>

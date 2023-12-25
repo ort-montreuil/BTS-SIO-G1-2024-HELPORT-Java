@@ -42,7 +42,8 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button layoutX="190.0" layoutY="428.0" mnemonicParsing="false" text="Button" />
+            <Button fx:id="btnAnnulerAider" layoutX="130.0" layoutY="428.0" mnemonicParsing="false" onAction="#AnnulerAider" text="Annuler l'aide " />
+            <Button fx:id="btnOuiAide" layoutX="442.0" layoutY="428.0" mnemonicParsing="false" text="Aider la personne " />
          </children>
       </AnchorPane>
    </children>

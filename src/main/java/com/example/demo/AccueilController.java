@@ -5,6 +5,7 @@ import com.example.demo.PopUpAiderController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -157,6 +158,26 @@ public class AccueilController implements Initializable {
             afficherStatistiques2();
         });
 
+        btnModifDemande.setOnAction(actionEvent -> {
+
+                    String demandeSelectionnee = (String) lstVMesdemandes.getSelectionModel().getSelectedItem();
+
+                    if (demandeSelectionnee != null) {
+                        // Afficher la pop-up avec les détails de la demande sélectionnée
+                        afficherPopUpModifDemande(demandeSelectionnee);
+                    } else {
+                        // Afficher un message d'erreur si aucune demande n'est sélectionnée
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Erreur de sélection");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Veuillez sélectionner une demande.");
+                        alert.showAndWait();
+
+                    }
+
+
+                });
+
 
 
 // pour lorsqu'on a selec une demande
@@ -177,6 +198,11 @@ public class AccueilController implements Initializable {
                 alert.showAndWait();
             }
         });
+
+
+
+
+
 
 
         // Ajouter un gestionnaire d'événements à la lvsousmatiere
@@ -317,6 +343,7 @@ public class AccueilController implements Initializable {
             // Ne rien faire, la boîte de dialogue disparaîtra simplement
         }
     }
+
 
 
     private void afficherFaireDemande() {
@@ -490,6 +517,8 @@ public class AccueilController implements Initializable {
             popUpStage.setTitle("Pop-up Aider");
 
             // Définir la scène avec le contenu de apPopUpAider
+            popUpController.setStage(popUpStage);
+
             Scene scene = new Scene(root);
             popUpStage.setScene(scene);
 
@@ -500,6 +529,39 @@ public class AccueilController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
+    private void afficherPopUpModifDemande(String demandeSelectionnee) {
+        try {
+            // Charger le contenu de apPopUpAider depuis le fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/ModifierDemande.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer le contrôleur de la pop-up
+            PopUpAiderController popUpController = loader.getController();
+
+            // Initialiser le contrôleur de la pop-up avec les détails de la demande sélectionnée
+            popUpController.initialiserDemande(demandeSelectionnee);
+
+            // Créer une nouvelle fenêtre (Stage) pour la pop-up
+            Stage popUpStage = new Stage();
+            popUpStage.initModality(Modality.APPLICATION_MODAL);
+            popUpStage.setTitle("Pop-up Modifier");
+
+            // Définir la scène avec le contenu de apPopUpAider
+            popUpController.setStage(popUpStage);
+
+            Scene scene = new Scene(root);
+            popUpStage.setScene(scene);
+
+            // Afficher la pop-up
+            popUpStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void sousMatiereSelectionnee() {
         String nouvelleSousMatiere = lvsSousmatiere.getSelectionModel().getSelectedItem();
 
@@ -711,4 +773,8 @@ public class AccueilController implements Initializable {
             // Ajoutez la série au graphique
             graphSoutiens.getData().add(series);
         }
+
+    @FXML
+    public void afficherPopUpModifDemande(ActionEvent actionEvent) {
     }
+}

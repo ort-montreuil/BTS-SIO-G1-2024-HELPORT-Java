@@ -4,13 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class PopUpAiderController {
-    @javafx.fxml.FXML
-    private AnchorPane apPopUpAider;
-    @javafx.fxml.FXML
-    private Button btnAnnulerAider;
-    @javafx.fxml.FXML
-    private Button btnOuiAide;
+public class ModifierDemandeController {
 
     // Ajoutez une référence à la scène principale (Stage)
     private Stage stage;
