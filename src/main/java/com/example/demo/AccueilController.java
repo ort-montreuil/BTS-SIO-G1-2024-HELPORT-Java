@@ -566,7 +566,7 @@ public class AccueilController implements Initializable {
             Parent root = loader.load();
 
             // Récupérer le contrôleur de la pop-up
-            PopUpAiderController popUpController = loader.getController();
+            ModifierDemandeController popUpController = loader.getController();
 
             // Initialiser le contrôleur de la pop-up avec les détails de la demande sélectionnée
             popUpController.initialiserDemande(demandeSelectionnee);
@@ -844,6 +844,12 @@ public class AccueilController implements Initializable {
 
     @FXML
     public void AfficherModifCompetence(ActionEvent actionEvent) {
+    }
+
+
+    @FXML
+    private void AnnulerModifD(ActionEvent event) {
+        // Le code pour annuler la modification ici
     }
 
 

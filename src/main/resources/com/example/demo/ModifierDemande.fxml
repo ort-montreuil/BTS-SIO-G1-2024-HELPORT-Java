@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.PopUpAiderController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.ModifierDemandeController">
    <children>
-      <AnchorPane fx:id="apPopUpModif" layoutX="4.0" prefHeight="476.0" prefWidth="683.0">
+      <AnchorPane id="main-pane" fx:id="apPopUpModif" layoutX="4.0" prefHeight="476.0" prefWidth="683.0" stylesheets="@../../../CSS/ModifierDemande.css">
          <children>
             <Label layoutX="91.0" layoutY="75.0" text="Date 📅">
                <font>
@@ -37,13 +37,13 @@
             <ComboBox fx:id="cboModifDemande" editable="true" layoutX="255.0" layoutY="153.0" prefWidth="150.0" />
             <ListView fx:id="lstvModifDemande" editable="true" layoutX="242.0" layoutY="215.0" prefHeight="73.0" prefWidth="200.0" />
             <TextField fx:id="txtDescModifDemande" layoutX="231.0" layoutY="320.0" prefHeight="73.0" prefWidth="222.0" />
-            <Label layoutX="242.0" layoutY="14.0" text="Modifier une demande">
+            <Label id="title-label" layoutX="242.0" layoutY="14.0" stylesheets="@../../../CSS/ModifierDemande.css" text="Modifier une demande">
                <font>
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button fx:id="btnAnnulerModifD" layoutX="130.0" layoutY="428.0" mnemonicParsing="false" onAction="#AnnulerModifD" text="Annuler la modification " />
-            <Button fx:id="btnModifDemandeValider" layoutX="442.0" layoutY="428.0" mnemonicParsing="false" text="Modifier la demande" />
+            <Button id="save-button" fx:id="btnAnnulerModifD" layoutX="130.0" layoutY="428.0" mnemonicParsing="false" onAction="#AnnulerModifD" text="Annuler la modification " />
+            <Button id="save-button" fx:id="btnModifDemandeValider" layoutX="442.0" layoutY="428.0" mnemonicParsing="false" text="Modifier la demande" />
          </children>
       </AnchorPane>
    </children>
