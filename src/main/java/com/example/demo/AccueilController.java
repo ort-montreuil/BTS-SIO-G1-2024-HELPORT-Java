@@ -180,6 +180,34 @@ public class AccueilController implements Initializable {
 
 
 
+
+        btnModifCompetence.setOnAction(actionEvent -> {
+
+            String demandeSelectionnee = (String) lstvModifComp.getSelectionModel().getSelectedItem();
+
+            if (demandeSelectionnee != null) {
+                // Afficher la pop-up avec les détails de la demande sélectionnée
+                AfficherModifCompetence(demandeSelectionnee);
+            } else {
+                // Afficher un message d'erreur si aucune demande n'est sélectionnée
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur de sélection");
+                alert.setHeaderText(null);
+                alert.setContentText("Veuillez sélectionner une competence.");
+                alert.showAndWait();
+
+            }
+
+
+        });
+
+
+
+
+
+
+
+
 // pour lorsqu'on a selec une demande
 
         btnAiderFinale.setOnAction(event -> {
@@ -562,6 +590,37 @@ public class AccueilController implements Initializable {
         }
     }
 
+    private void AfficherModifCompetence(String demandeSelectionnee) {
+        try {
+            // Charger le contenu de apPopUpAider depuis le fichier FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/ModifierCompetence.fxml"));
+            Parent root = loader.load();
+
+            // Récupérer le contrôleur de la pop-up
+            ModifierCompetenceController popUpController = loader.getController();
+
+            // Initialiser le contrôleur de la pop-up avec les détails de la demande sélectionnée
+            popUpController.initialiserCompetence(demandeSelectionnee);
+
+            // Créer une nouvelle fenêtre (Stage) pour la pop-up
+            Stage popUpStage = new Stage();
+            popUpStage.initModality(Modality.APPLICATION_MODAL);
+            popUpStage.setTitle("Pop-up Modifier");
+
+            // Définir la scène avec le contenu de apPopUpAider
+            popUpController.setStage(popUpStage);
+
+            Scene scene = new Scene(root);
+            popUpStage.setScene(scene);
+
+            // Afficher la pop-up
+            popUpStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void sousMatiereSelectionnee() {
         String nouvelleSousMatiere = lvsSousmatiere.getSelectionModel().getSelectedItem();
 
@@ -777,4 +836,25 @@ public class AccueilController implements Initializable {
     @FXML
     public void afficherPopUpModifDemande(ActionEvent actionEvent) {
     }
+
+
+
+
+
+
+    @FXML
+    public void AfficherModifCompetence(ActionEvent actionEvent) {
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }
