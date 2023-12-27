@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 
 public class PopUpAiderController {
 
-    // Ajoutez une référence à la scène principale (Stage)
     private Stage stage;
     @javafx.fxml.FXML
     private AnchorPane apPopUpModif;
@@ -20,20 +19,17 @@ public class PopUpAiderController {
     @javafx.fxml.FXML
     private ListView lstvModifDemande;
 
-    // Méthode pour injecter la scène principale
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
     @javafx.fxml.FXML
     private void AnnulerAider() {
-        // Fermez simplement la scène principale (fenêtre pop-up)
         if (stage != null) {
             stage.close();
         }
     }
 
     public void initialiserDemande(String demandeSelectionnee) {
-        // Initialisation de la demande
     }
 }

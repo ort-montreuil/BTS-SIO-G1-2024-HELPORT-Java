@@ -89,7 +89,7 @@ public class RequeteSQLController {
 
 
     public int getIdUtilisateur(String emailUtilisateur, String mdpUtilisateur) {
-        int idUtilisateur = -1; // Valeur par défaut si l'utilisateur n'est pas trouvé
+        int idUtilisateur = -1; // c'est la valeur par défaut si l'utilisateur n'est pas trouvé
 
         try {
             ps = cnx.prepareStatement("SELECT id FROM user WHERE email = ? AND password = ?");
@@ -115,14 +115,12 @@ public class RequeteSQLController {
 
         try {
 
-            // Créer une instruction SQL pour sélectionner toutes les demandes
             String sqlQuery = "SELECT * FROM demande";
 
             try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
-                // Exécuter la requête SQL
+
                 ResultSet resultSet = preparedStatement.executeQuery();
 
-                // Parcourir les résultats et ajouter chaque demande à la liste
                 while (resultSet.next()) {
                     String sousMatiere = resultSet.getString("sous_matiere");
                     Date date = resultSet.getDate("date_updated");
@@ -137,10 +135,9 @@ public class RequeteSQLController {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Gérer les exceptions SQL correctement dans votre application
+            e.printStackTrace();
         }
 
-        // Retourner la liste de demandes
         return demandesList;
     }
 
@@ -149,7 +146,6 @@ public class RequeteSQLController {
             ps = cnx.prepareStatement("INSERT INTO demande (date_updated, date_fin_demande, sous_matiere, id_user,id_matiere, status) " +
                     "VALUES (NOW(), ?, ?, ?, ?,?)");
 
-            // Paramètres de la requête
 
             ps.setDate(1, new java.sql.Date(dateFinDemande.getTime()));
             ps.setString(2, sousMatiereDemandee);
@@ -189,7 +185,6 @@ public class RequeteSQLController {
             ps = cnx.prepareStatement("INSERT INTO competence (id_matiere,id_user,sous_matiere,statut) " +
                     "VALUES ( ?, ?, ?, ?)");
 
-            // Paramètres de la requête
 
             ps.setInt(1, idMatiere);
             ps.setInt(2, idUtilisateur);
@@ -207,16 +202,13 @@ public class RequeteSQLController {
         List<String> demandesUtilisateur = new ArrayList<>();
 
         try {
-            // Créer une instruction SQL pour sélectionner les demandes de l'utilisateur connecté
             String sqlQuery = "SELECT * FROM demande WHERE id_user = ? ORDER BY date_fin_demande DESC";
 
             ps = cnx.prepareStatement(sqlQuery);
             ps.setInt(1, idUtilisateur);
 
-            // Exécuter la requête SQL
             ResultSet resultSet = ps.executeQuery();
 
-            // Parcourir les résultats et ajouter chaque demande à la liste
             while (resultSet.next()) {
                 String sousMatiere = resultSet.getString("sous_matiere");
                 Date date = resultSet.getDate("date_updated");
@@ -228,34 +220,29 @@ public class RequeteSQLController {
                 demandesUtilisateur.add(informationDemande);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Gérer les exceptions SQL correctement dans votre application
+            e.printStackTrace();
         }
 
-        // Retourner la liste de demandes de l'utilisateur connecté
         return demandesUtilisateur;
     }
     public static List<String> getCompetencesUtilisateurConnecte(int idUtilisateur) {
         List<String> competencesUtilisateur = new ArrayList<>();
 
         try {
-            // Créer une instruction SQL pour sélectionner les compétences de l'utilisateur connecté
             String sqlQuery = "SELECT * FROM competence WHERE id_user = ?";
             ps = cnx.prepareStatement(sqlQuery);
             ps.setInt(1, idUtilisateur);
 
-            // Exécuter la requête SQL
             ResultSet resultSet = ps.executeQuery();
 
-            // Parcourir les résultats et ajouter chaque compétence à la liste
             while (resultSet.next()) {
                 String competence = resultSet.getString("sous_matiere");
                 competencesUtilisateur.add(competence);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Gérer les exceptions SQL correctement dans votre application
+            e.printStackTrace();
         }
 
-        // Retourner la liste de compétences de l'utilisateur connecté
         return competencesUtilisateur;
     }
 
@@ -263,7 +250,6 @@ public class RequeteSQLController {
     public HashMap<String, Integer> getNombreSoutiensParUtilisateurConnecte(int idUtilisateurConnecte) {
         HashMap<String, Integer> soutiensParMatiere = new HashMap<>();
         try {
-            // Préparer la requête SQL
             String sql = "SELECT matiere.designation AS matiere, COUNT(soutien.id) AS nombre_soutiens " +
                     "FROM user " +
                     "JOIN competence ON user.id = competence.id_user " +
@@ -274,9 +260,7 @@ public class RequeteSQLController {
                     "ORDER BY matiere.designation";
             PreparedStatement ps = cnx.prepareStatement(sql);
             ps.setInt(1, idUtilisateurConnecte);
-            // Exécuter la requête
             ResultSet rs = ps.executeQuery();
-            // Récupérer le résultat
             while (rs.next()) {
                 String matiere = rs.getString("matiere");
                 int nombreSoutiens = rs.getInt("nombre_soutiens");
@@ -284,7 +268,6 @@ public class RequeteSQLController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Gérer les exceptions SQL
         }
         return soutiensParMatiere;
     }
@@ -293,7 +276,6 @@ public class RequeteSQLController {
 
         try {
 
-            // Préparer la requête SQL
             String sql = "SELECT matiere.designation AS matiere_designation, COUNT(*) " +
                     "AS nombreDemandes FROM demande JOIN matiere ON demande.id_matiere = matiere.id " +
                     "WHERE demande.id_user = ? GROUP BY demande.id_matiere";
@@ -301,11 +283,8 @@ public class RequeteSQLController {
 
             ps.setInt(1, idUtilisateurConnecte);
 
-
-            // Exécuter la requête
             rs = ps.executeQuery();
 
-            // Récupérer les résultats
             while (rs.next()) {
                 String designation = rs.getString("matiere_designation");
                 int nombreDemandes = rs.getInt("nombreDemandes");
@@ -314,8 +293,12 @@ public class RequeteSQLController {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Gérer les exceptions SQL
         }
         return nombreDemandesParMatiere;
+    }
+
+
+    public void actualiserDemandes() {
+        List<String> nouvellesDemandes = getToutesDemandes();
     }
 }

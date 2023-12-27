@@ -163,10 +163,10 @@ public class AccueilController implements Initializable {
                     String demandeSelectionnee = (String) lstVMesdemandes.getSelectionModel().getSelectedItem();
 
                     if (demandeSelectionnee != null) {
-                        // Afficher la pop-up avec les détails de la demande sélectionnée
+                        // Affiche la pop-up avec la demande sélectionnée
                         afficherPopUpModifDemande(demandeSelectionnee);
                     } else {
-                        // Afficher un message d'erreur si aucune demande n'est sélectionnée
+                        // Affiche un message d'erreur si aucune demande n'est sélectionnée
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.setTitle("Erreur de sélection");
                         alert.setHeaderText(null);
@@ -174,51 +174,35 @@ public class AccueilController implements Initializable {
                         alert.showAndWait();
 
                     }
-
-
-                });
-
-
-
-
+        });
         btnModifCompetence.setOnAction(actionEvent -> {
 
-            String demandeSelectionnee = (String) lstvModifComp.getSelectionModel().getSelectedItem();
+            String competenceSelectionnee = (String) lstvModifComp.getSelectionModel().getSelectedItem();
 
-            if (demandeSelectionnee != null) {
-                // Afficher la pop-up avec les détails de la demande sélectionnée
-                AfficherModifCompetence(demandeSelectionnee);
+            if (competenceSelectionnee != null) {
+                // Affiche la pop-up avec la compétence sélectionnée
+                AfficherModifCompetence(competenceSelectionnee);
             } else {
-                // Afficher un message d'erreur si aucune demande n'est sélectionnée
+                // Afficher un message d'erreur si aucune compétences n'est sélectionnée
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur de sélection");
                 alert.setHeaderText(null);
-                alert.setContentText("Veuillez sélectionner une competence.");
+                alert.setContentText("Veuillez sélectionner une compétence.");
                 alert.showAndWait();
 
             }
-
-
         });
-
-
-
-
-
-
-
-
-// pour lorsqu'on a selec une demande
+        // pour lorsqu'on a selec une demande
 
         btnAiderFinale.setOnAction(event -> {
-            // Récupérer la demande sélectionnée dans la ListView
+            // Récupére la demande sélectionnée dans la ListView
             String demandeSelectionnee = (String) lstvAider.getSelectionModel().getSelectedItem();
 
             if (demandeSelectionnee != null) {
-                // Afficher la pop-up avec les détails de la demande sélectionnée
+                // Affiche la pop-up de la demande sélectionnée
                 afficherPopUpAider(demandeSelectionnee);
             } else {
-                // Afficher un message d'erreur si aucune demande n'est sélectionnée
+                // Affiche un message d'erreur si aucune demande n'est sélectionnée
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur de sélection");
                 alert.setHeaderText(null);
@@ -227,13 +211,6 @@ public class AccueilController implements Initializable {
             }
         });
 
-
-
-
-
-
-
-        // Ajouter un gestionnaire d'événements à la lvsousmatiere
         lvsSousmatiere.setOnMouseClicked(event -> ajouterSousMatiereSelectionnee());
         lvsSousmatiereComp.setOnMouseClicked(event -> ajouterSousMatiereSelecC());
 
@@ -251,29 +228,20 @@ public class AccueilController implements Initializable {
 
 
     private void updateDemandesListView() {
-        // Appeler la méthode pour récupérer toutes les demandes de la base de données
         List<String> toutesDemandes = sqlController.getToutesDemandes();
-
-        // Effacer le contenu actuel de la ListView
         lstvAider.getItems().clear();
-
-        // Ajouter toutes les demandes à la ListView
         lstvAider.getItems().addAll(toutesDemandes);
     }
 
     public int initialiserUtilisateur(String emailUtilisateur) {
-        // Stocker l'e-mail de l'utilisateur connecté
         this.emailUtilisateur = emailUtilisateur;
 
-        // Utiliser la classe RequeteSQLController pour obtenir le nom et le prénom
         RequeteSQLController requeteSQLController = new RequeteSQLController();
         Map<String, String> utilisateurInfo = requeteSQLController.getNomPrenomUtilisateur(emailUtilisateur);
 
-        // Initialiser les attributs nomUtilisateur et prenomUtilisateur
         String nomUtilisateur = utilisateurInfo.get("nom");
         String prenomUtilisateur = utilisateurInfo.get("prenom");
 
-        // Mettez ici le code pour afficher le nom et le prénom dans votre interface graphique
         lblNomPrenom.setText("Bienvenue, " + prenomUtilisateur + " " + nomUtilisateur);
         return 0;
     }
@@ -293,7 +261,6 @@ public class AccueilController implements Initializable {
         String matiereSelectionnee = (String) cboMatiereSComp.getSelectionModel().getSelectedItem();
 
         if (matiereSelectionnee != null && !matieresSelectionneesComp.contains(matiereSelectionnee)) {
-            // Efface la liste des sous-matières sélectionnées précédemment
             lvsSousmatiereComp.getItems().clear();
             sousMatieresSelectionneesComp.clear();
 
@@ -340,24 +307,20 @@ public class AccueilController implements Initializable {
     }
     @FXML
     private void annulerDemande() {
-        // Créer une boîte de dialogue de confirmation
         Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationAlert.setTitle("Confirmation");
         confirmationAlert.setHeaderText(null);
         confirmationAlert.setContentText("Voulez-vous vraiment annuler la demande?");
 
-        // Ajouter les boutons "Oui" et "Non"
+        // Ajoute les boutons "Oui" et "Non"
         ButtonType btnOui = new ButtonType("Oui");
         ButtonType btnNon = new ButtonType("Non", ButtonBar.ButtonData.CANCEL_CLOSE);
         confirmationAlert.getButtonTypes().setAll(btnOui, btnNon);
 
-        // Afficher la boîte de dialogue et attendre la réponse de l'utilisateur
         Optional<ButtonType> resultat = confirmationAlert.showAndWait();
 
-        // Vérifier la réponse de l'utilisateur
         if (resultat.isPresent() && resultat.get() == btnOui) {
-            // L'utilisateur a choisi "Oui"
-            // Mettre à jour la visibilité des AnchorPane
+
             apAccueil.setVisible(true);
             apSDemande.setVisible(false);
             apVD.setVisible(false);
@@ -366,9 +329,6 @@ public class AccueilController implements Initializable {
             apStats.setVisible(false);
             apVC.setVisible(false);
             apCreerCompetence.setVisible(false);
-        } else {
-            // L'utilisateur a choisi "Non" ou a fermé la boîte de dialogue
-            // Ne rien faire, la boîte de dialogue disparaîtra simplement
         }
     }
 
@@ -491,7 +451,7 @@ public class AccueilController implements Initializable {
         cboMatiereSComp.getSelectionModel().selectFirst();
     }
 
-    private String matiereSelectionneeActuelle = null; // Variable pour stocker la matière sélectionnée
+    private String matiereSelectionneeActuelle = null; // c'est la variable pour stocker la matière sélectionnée
 
     private void miseAJourSousMatieres() {
         String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem();
@@ -511,17 +471,14 @@ public class AccueilController implements Initializable {
             lvsSousmatiere.getItems().clear();
             lvsSousmatiere.getItems().addAll(sousMatieresUniques);
 
-            // Met à jour la matière sélectionnée actuelle
             matiereSelectionneeActuelle = matiereSelectionnee;
         } else {
-            // Affiche un message d'erreur si l'utilisateur sélectionne des sous-matières d'une autre matière
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur de sélection");
             alert.setHeaderText(null);
             alert.setContentText("Vous ne pouvez pas choisir une autre matière.");
             alert.showAndWait();
 
-            // Désélectionne la matière incorrecte
             cboMatiereSouhaitee.getSelectionModel().select(matiereSelectionneeActuelle);
         }
     }
@@ -529,29 +486,29 @@ public class AccueilController implements Initializable {
 
     private void afficherPopUpAider(String demandeSelectionnee) {
         try {
-            // Charger le contenu de apPopUpAider depuis le fichier FXML
+            // Charge le contenu de apPopUpAider depuis le fichier FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/PopUpAider.fxml"));
             Parent root = loader.load();
 
-            // Récupérer le contrôleur de la pop-up
+            // Récupére le contrôleur de la pop-up
             PopUpAiderController popUpController = loader.getController();
 
-            // Initialiser le contrôleur de la pop-up avec les détails de la demande sélectionnée
+            // Initialise le contrôleur de la pop-up avec les détails de la demande sélectionnée
             popUpController.initialiserDemande(demandeSelectionnee);
 
-            // Créer une nouvelle fenêtre (Stage) pour la pop-up
+            // Crée une nouvelle fenêtre pour la pop-up
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
             popUpStage.setTitle("Pop-up Aider");
 
-            // Définir la scène avec le contenu de apPopUpAider
             popUpController.setStage(popUpStage);
 
             Scene scene = new Scene(root);
             popUpStage.setScene(scene);
 
-            // Afficher la pop-up
+            // Affiche la pop-up
             popUpStage.showAndWait();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -561,28 +518,22 @@ public class AccueilController implements Initializable {
 
     private void afficherPopUpModifDemande(String demandeSelectionnee) {
         try {
-            // Charger le contenu de apPopUpAider depuis le fichier FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/ModifierDemande.fxml"));
             Parent root = loader.load();
 
-            // Récupérer le contrôleur de la pop-up
             ModifierDemandeController popUpController = loader.getController();
 
-            // Initialiser le contrôleur de la pop-up avec les détails de la demande sélectionnée
             popUpController.initialiserDemande(demandeSelectionnee);
 
-            // Créer une nouvelle fenêtre (Stage) pour la pop-up
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
             popUpStage.setTitle("Pop-up Modifier");
 
-            // Définir la scène avec le contenu de apPopUpAider
             popUpController.setStage(popUpStage);
 
             Scene scene = new Scene(root);
             popUpStage.setScene(scene);
 
-            // Afficher la pop-up
             popUpStage.showAndWait();
 
         } catch (IOException e) {
@@ -592,28 +543,22 @@ public class AccueilController implements Initializable {
 
     private void AfficherModifCompetence(String demandeSelectionnee) {
         try {
-            // Charger le contenu de apPopUpAider depuis le fichier FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/ModifierCompetence.fxml"));
             Parent root = loader.load();
 
-            // Récupérer le contrôleur de la pop-up
             ModifierCompetenceController popUpController = loader.getController();
 
-            // Initialiser le contrôleur de la pop-up avec les détails de la demande sélectionnée
             popUpController.initialiserCompetence(demandeSelectionnee);
 
-            // Créer une nouvelle fenêtre (Stage) pour la pop-up
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
             popUpStage.setTitle("Pop-up Modifier");
 
-            // Définir la scène avec le contenu de apPopUpAider
             popUpController.setStage(popUpStage);
 
             Scene scene = new Scene(root);
             popUpStage.setScene(scene);
 
-            // Afficher la pop-up
             popUpStage.showAndWait();
 
         } catch (IOException e) {
@@ -631,59 +576,53 @@ public class AccueilController implements Initializable {
 
     private void verifierReselectionSousMatiere(String nouvelleSousMatiere) {
         if (sousMatieresSelectionnees.contains(nouvelleSousMatiere)) {
-            // Affiche un message d'erreur si la sous-matière est déjà sélectionnée
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur de sélection");
             alert.setHeaderText(null);
             alert.setContentText("Vous avez déjà sélectionné cette sous-matière.");
             alert.showAndWait();
 
-            // Désélectionne la sous-matière incorrecte
             Platform.runLater(() -> lvsSousmatiere.getSelectionModel().clearSelection());
         } else {
-            // Ajoute la sous-matière à la liste des sous-matières sélectionnées
             sousMatieresSelectionnees.add(nouvelleSousMatiere);
         }
 
     }
     private void soumettreDemande() {
         try {
-            // Récupérer les informations nécessaires de l'interface utilisateur
 
 
-            // Ajoutez une vérification pour vous assurer que la date de fin de demande est sélectionnée
             if (DtpFinDemande.getValue() == null) {
-                // Afficher un message d'erreur si la date n'est pas sélectionnée
+                // Affiche un message d'erreur si la date n'est pas sélectionnée
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur de saisie");
                 alert.setHeaderText(null);
                 alert.setContentText("Veuillez sélectionner une date de fin de demande.");
                 alert.showAndWait();
-                return; // Sortir de la méthode si la date n'est pas sélectionnée
+                return;
             }
 
-            Date dateFinDemande = getDateFinDemande(); // Méthode à implémenter pour récupérer la date de fin de demande
-            String sousMatiereDemandee = getSousMatiereDemandee(); // Méthode à implémenter pour récupérer la sous-matière demandée
-            String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem(); // Supposons que vous avez une ComboBox pour la matière
+            Date dateFinDemande = getDateFinDemande();
+            String sousMatiereDemandee = getSousMatiereDemandee();
+            String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem();
             int idUtilisateur = Utilisateur.getId();
-            System.out.println(idUtilisateur);// Utilisez la méthode existante pour récupérer l'ID de l'utilisateur
+            System.out.println(idUtilisateur);
 
-            // Appeler la méthode de votre RequeteSQLController pour créer la demande
             sqlController.creerDemandeUtilisateurConnecte(new Date(), dateFinDemande, sousMatiereDemandee, idUtilisateur, getIdMatiere(matiereSelectionnee), 1);
 
-            // Afficher un message de réussite
+            // Affiche un message de réussite
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Demande soumise");
             alert.setHeaderText(null);
             alert.setContentText("Votre demande a été soumise avec succès.");
             alert.showAndWait();
 
-            // Mettre à jour la ListView des demandes après l'ajout
+            // Mets à jour la ListView des demandes après l'ajout
             updateDemandesListView();
 
         } catch (Exception e) {
             e.printStackTrace();
-            // Afficher un message d'erreur en cas d'échec
+            // Affiche un message d'erreur en cas d'échec
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");
             alert.setHeaderText(null);
@@ -715,31 +654,24 @@ public class AccueilController implements Initializable {
     }
     private void soumettreCompetence() {
         try {
-            // Obtenez la sous-matière demandée
-            String sousMatiereDemandee = getSousMatiereDemandee2(); // Méthode à implémenter pour récupérer la sous-matière demandée
 
-            // Obtenez la matière sélectionnée
-            String matiereSelectionnee = (String) cboMatiereSComp.getSelectionModel().getSelectedItem(); // Supposons que vous avez une ComboBox pour la matière
+            String sousMatiereDemandee = getSousMatiereDemandee2();
+            String matiereSelectionnee = (String) cboMatiereSComp.getSelectionModel().getSelectedItem();
+            int idUtilisateur = Utilisateur.getId();
 
-            // Obtenez l'ID de l'utilisateur connecté
-            int idUtilisateur = Utilisateur.getId(); // Utilisez la méthode existante pour récupérer l'ID de l'utilisateur
-
-            // Appeler la méthode de votre RequeteSQLController pour créer la compétence
             sqlController.creerCompetenceConnecte(getIdMatiere(matiereSelectionnee), idUtilisateur, sousMatiereDemandee, 1);
 
-            // Afficher un message de réussite
+            // Affiche un message de réussite
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Compétence ajoutée");
             alert.setHeaderText(null);
             alert.setContentText("Votre compétence a été ajoutée avec succès.");
             alert.showAndWait();
 
-            // Mettre à jour la ListView des compétences après l'ajout (si nécessaire)
-            // Vous pouvez implémenter cette méthode si vous avez besoin de mettre à jour la liste des compétences dans l'interface graphique.
 
         } catch (Exception e) {
             e.printStackTrace();
-            // Afficher un message d'erreur en cas d'échec
+            // Affiche un message d'erreur en cas d'échec
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur");
             alert.setHeaderText(null);
@@ -752,23 +684,17 @@ public class AccueilController implements Initializable {
         return String.valueOf(lstvRecap.getSelectionModel().getSelectedItem());
     }
     public void afficherDemandesUtilisateurConnecte() {
-        // Supposons que vous ayez l'ID de l'utilisateur connecté stocké dans une variable idUtilisateur
 
-        // Remplacez cela par la manière dont vous obtenez l'ID de l'utilisateur connecté
         int idUtilisateur = Utilisateur.getId();
 
-        System.out.println("ID Utilisateur: " + idUtilisateur); // Ajoutez cette ligne
+        System.out.println("ID Utilisateur: " + idUtilisateur);
 
-        // Créez une instance de RequeteSQLController
+
         RequeteSQLController requeteSQLController = new RequeteSQLController();
 
-        // Appelez la nouvelle méthode pour récupérer les demandes de l'utilisateur connecté
         List<String> demandesUtilisateur = requeteSQLController.getDemandesUtilisateurConnecte(idUtilisateur);
 
-        System.out.println("Demandes Utilisateur: " + demandesUtilisateur); // Ajoutez cette ligne
-
-        // Maintenant, vous pouvez utiliser la liste de demandes pour peupler votre interface utilisateur (ListView, etc.)
-        // Exemple : mettre à jour votre composant d'interface utilisateur (remplacez listView par votre composant réel)
+        System.out.println("Demandes Utilisateur: " + demandesUtilisateur);
         lstVMesdemandes.getItems().addAll(demandesUtilisateur);
     }
 
@@ -779,7 +705,7 @@ public class AccueilController implements Initializable {
 
         graphDemande.getData().clear();
 
-        // Ajouter les données au BarChart
+        // Ajoute les données au BarChart
         for (Map.Entry<String, Integer> entry : nombreDemandesParMatiere.entrySet()) {
             String matiere_designation = entry.getKey();
             int nombreDemandes = entry.getValue();
@@ -794,19 +720,14 @@ public class AccueilController implements Initializable {
             graphDemande.getData().add(series);
 
         }
-
-
     }
     private void afficherVisualiserCompetences() {
-        // Récupérer l'ID de l'utilisateur connecté (remplacez ceci par la méthode appropriée pour obtenir l'ID)
-        int idUtilisateur = Utilisateur.getId()/* Appel de la méthode pour obtenir l'ID de l'utilisateur connecté */;
+        int idUtilisateur = Utilisateur.getId();
 
-        // Appeler la méthode pour récupérer les compétences de l'utilisateur connecté
         List<String> competences = RequeteSQLController.getCompetencesUtilisateurConnecte(idUtilisateur);
         ObservableList<String> items = FXCollections.observableArrayList(competences);
         lstvModifComp.setItems(items);
 
-        // Afficher les compétences (vous pouvez remplacer cela par le code d'affichage approprié dans votre application)
         for (String competence : competences) {
             System.out.println("Compétence : " + competence);
         }
@@ -814,22 +735,18 @@ public class AccueilController implements Initializable {
     }
 
         public void afficherStatistiques2() {
-            // Appelez votre méthode de service pour obtenir les données
             int idUtilisateur = Utilisateur.getId();
             HashMap<String, Integer> soutiensParMatiere = sqlController.getNombreSoutiensParUtilisateurConnecte(idUtilisateur);
 
             graphSoutiens.getData().clear();
-            // Créez une série de données pour le graphique
             XYChart.Series<String, Number> series = new XYChart.Series<>();
             series.setName("Nombre de soutiens");
 
-            // Ajoutez les données à la série
             soutiensParMatiere.forEach((matiere, nombreSoutiens) -> {
                 if(nombreSoutiens > 0 ) {
                     series.getData().add(new XYChart.Data<>(matiere, nombreSoutiens));
                 }});
 
-            // Ajoutez la série au graphique
             graphSoutiens.getData().add(series);
         }
 
@@ -837,30 +754,13 @@ public class AccueilController implements Initializable {
     public void afficherPopUpModifDemande(ActionEvent actionEvent) {
     }
 
-
-
-
-
-
     @FXML
     public void AfficherModifCompetence(ActionEvent actionEvent) {
     }
 
-
     @FXML
     private void AnnulerModifD(ActionEvent event) {
-        // Le code pour annuler la modification ici
+
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

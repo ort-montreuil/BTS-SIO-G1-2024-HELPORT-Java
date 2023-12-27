@@ -4,25 +4,30 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class ModifierDemandeController {
+import java.time.LocalDate;
 
-    // Ajoutez une référence à la scène principale (Stage)
+public class ModifierDemandeController {
+    private RequeteSQLController requeteSQLController;
+    public void setRequeteSQLController(RequeteSQLController requeteSQLController) {
+        this.requeteSQLController = requeteSQLController;
+    }
+
+
     private Stage stage;
 
-    // Méthode pour injecter la scène principale
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
     @javafx.fxml.FXML
     private void AnnulerModifD() {
-        // Fermez simplement la scène principale (fenêtre pop-up)
         if (stage != null) {
             stage.close();
         }
     }
 
     public void initialiserDemande(String demandeSelectionnee) {
-        // Initialisation de la demande
     }
-}
+
+    }
+
