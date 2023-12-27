@@ -700,7 +700,7 @@ public class AccueilController implements Initializable {
             String matiere = matiere_designation;
 
             XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("Nombre de demandes");
+            series.setName(matiere_designation);
             series.getData().add(new XYChart.Data<>(matiere, nombreDemandes));
 
             graphDemande.setStyle("-fx-bar-width: 1px");
@@ -727,15 +727,17 @@ public class AccueilController implements Initializable {
             HashMap<String, Integer> soutiensParMatiere = sqlController.getNombreSoutiensParUtilisateurConnecte(idUtilisateur);
 
             graphSoutiens.getData().clear();
-            XYChart.Series<String, Number> series = new XYChart.Series<>();
-            series.setName("Nombre de soutiens");
+
 
             soutiensParMatiere.forEach((matiere, nombreSoutiens) -> {
                 if(nombreSoutiens > 0 ) {
+                    XYChart.Series<String, Number> series = new XYChart.Series<>();
+                    series.setName(matiere);
                     series.getData().add(new XYChart.Data<>(matiere, nombreSoutiens));
+                    graphSoutiens.getData().add(series);
+
                 }});
 
-            graphSoutiens.getData().add(series);
         }
 
     @FXML
