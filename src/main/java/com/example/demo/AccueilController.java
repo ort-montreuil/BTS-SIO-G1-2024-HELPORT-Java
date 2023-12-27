@@ -48,7 +48,6 @@ public class AccueilController implements Initializable {
     @FXML
     private ListView<String> lvsSousmatiere;
     private List<String> sousMatieresSelectionnees = new ArrayList<>();
-
     @FXML
     private AnchorPane apPrincipal;
     @FXML
@@ -111,12 +110,9 @@ public class AccueilController implements Initializable {
     private Label lblSelec11;
     @FXML
     private ListView lstvRecap;
-
     private Set<String> matieresSelectionneesComp = new HashSet<>();
     private Set<String> sousMatieresSelectionneesComp = new HashSet<>();
     private String emailUtilisateur;
-
-
     @FXML
     private Label lblNomPrenom;
     private RequeteSQLController sqlController = new RequeteSQLController();
@@ -236,8 +232,7 @@ public class AccueilController implements Initializable {
     public int initialiserUtilisateur(String emailUtilisateur) {
         this.emailUtilisateur = emailUtilisateur;
 
-        RequeteSQLController requeteSQLController = new RequeteSQLController();
-        Map<String, String> utilisateurInfo = requeteSQLController.getNomPrenomUtilisateur(emailUtilisateur);
+        Map<String, String> utilisateurInfo = sqlController.getNomPrenomUtilisateur(emailUtilisateur);
 
         String nomUtilisateur = utilisateurInfo.get("nom");
         String prenomUtilisateur = utilisateurInfo.get("prenom");
@@ -264,8 +259,8 @@ public class AccueilController implements Initializable {
             lvsSousmatiereComp.getItems().clear();
             sousMatieresSelectionneesComp.clear();
 
-            RequeteSQLController requeteSQLController = new RequeteSQLController();
-            List<String> sousMatieres = requeteSQLController.getSousMatieresPourMatiere(matiereSelectionnee);
+
+            List<String> sousMatieres = sqlController.getSousMatieresPourMatiere(matiereSelectionnee);
             Set<String> sousMatieresUniques = new HashSet<>();
 
             for (String sousMatiere : sousMatieres) {
@@ -438,8 +433,8 @@ public class AccueilController implements Initializable {
     }
 
     private void peuplerComboBoxMatiere() {
-        RequeteSQLController requeteSQLController = new RequeteSQLController();
-        List<String> designationsMatiere = requeteSQLController.getDesignationsMatiere();
+
+        List<String> designationsMatiere = sqlController.getDesignationsMatiere();
         cboMatiereSouhaitee.getItems().addAll(designationsMatiere);
         cboMatiereSouhaitee.getSelectionModel().selectFirst();
     }
@@ -456,8 +451,8 @@ public class AccueilController implements Initializable {
         String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem();
 
         if (matiereSelectionnee != null && (matiereSelectionneeActuelle == null || matiereSelectionnee.equals(matiereSelectionneeActuelle))) {
-            RequeteSQLController requeteSQLController = new RequeteSQLController();
-            List<String> sousMatieres = requeteSQLController.getSousMatieresPourMatiere(matiereSelectionnee);
+
+            List<String> sousMatieres = sqlController.getSousMatieresPourMatiere(matiereSelectionnee);
             Set<String> sousMatieresUniques = new HashSet<>();
 
             for (String sousMatiere : sousMatieres) {
