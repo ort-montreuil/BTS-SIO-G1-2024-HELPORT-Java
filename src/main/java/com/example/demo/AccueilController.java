@@ -445,8 +445,7 @@ public class AccueilController implements Initializable {
     }
 
     private void peuplerComboBoxMatieresC() {
-        RequeteSQLController requeteSQLController = new RequeteSQLController();
-        List<String> designationsMatiere = requeteSQLController.getDesignationsMatiere();
+        List<String> designationsMatiere = sqlController.getDesignationsMatiere();
         cboMatiereSComp.getItems().addAll(designationsMatiere);
         cboMatiereSComp.getSelectionModel().selectFirst();
     }
@@ -473,11 +472,6 @@ public class AccueilController implements Initializable {
 
             matiereSelectionneeActuelle = matiereSelectionnee;
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de sélection");
-            alert.setHeaderText(null);
-            alert.setContentText("Vous ne pouvez pas choisir une autre matière.");
-            alert.showAndWait();
 
             cboMatiereSouhaitee.getSelectionModel().select(matiereSelectionneeActuelle);
         }
@@ -634,8 +628,8 @@ public class AccueilController implements Initializable {
 
     private int getIdMatiere(String matiereSelectionnee) {
 
-        RequeteSQLController requeteSQLController = new RequeteSQLController();
-        int idMatiere = requeteSQLController.getIdMatiere(matiereSelectionnee);
+
+        int idMatiere = sqlController.getIdMatiere(matiereSelectionnee);
 
         return idMatiere;
     }
@@ -690,9 +684,8 @@ public class AccueilController implements Initializable {
         System.out.println("ID Utilisateur: " + idUtilisateur);
 
 
-        RequeteSQLController requeteSQLController = new RequeteSQLController();
 
-        List<String> demandesUtilisateur = requeteSQLController.getDemandesUtilisateurConnecte(idUtilisateur);
+        List<String> demandesUtilisateur = sqlController.getDemandesUtilisateurConnecte(idUtilisateur);
 
         System.out.println("Demandes Utilisateur: " + demandesUtilisateur);
         lstVMesdemandes.getItems().addAll(demandesUtilisateur);
