@@ -467,6 +467,11 @@ public class AccueilController implements Initializable {
 
             matiereSelectionneeActuelle = matiereSelectionnee;
         } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Vous ne pouvez pas choisir plusieurs matieres lors d'une demande.");
+            alert.showAndWait();
 
             cboMatiereSouhaitee.getSelectionModel().select(matiereSelectionneeActuelle);
         }
