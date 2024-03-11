@@ -25,12 +25,12 @@
                   <Font size="26.0" />
                </font>
             </Label>
-            <Label layoutX="99.0" layoutY="167.0" prefHeight="17.0" prefWidth="594.0" text="Vous avez ? demandes en attentes">
+            <Label layoutX="99.0" layoutY="167.0" prefHeight="17.0" prefWidth="594.0" text="Vous avez plusieurs demandes en attentes">
                <font>
                   <Font size="22.0" />
                </font>
             </Label>
-            <Label layoutX="99.0" layoutY="216.0" prefHeight="17.0" prefWidth="594.0" text="Il vous reste ? soutiens à effectuer ">
+            <Label layoutX="99.0" layoutY="216.0" prefHeight="17.0" prefWidth="594.0" text="Plusieurs soutiens sont disponibles">
                <font>
                   <Font size="22.0" />
                </font>

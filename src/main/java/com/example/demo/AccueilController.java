@@ -678,18 +678,18 @@ public class AccueilController implements Initializable {
         return String.valueOf(lstvRecap.getSelectionModel().getSelectedItem());
     }
     public void afficherDemandesUtilisateurConnecte() {
-
         int idUtilisateur = Utilisateur.getId();
-
         System.out.println("ID Utilisateur: " + idUtilisateur);
 
-
+        // Vide la ListView avant d'ajouter de nouvelles demandes
+        lstVMesdemandes.getItems().clear();
 
         List<String> demandesUtilisateur = sqlController.getDemandesUtilisateurConnecte(idUtilisateur);
 
         System.out.println("Demandes Utilisateur: " + demandesUtilisateur);
         lstVMesdemandes.getItems().addAll(demandesUtilisateur);
     }
+
 
     private void afficherStatistiques1() {
 
@@ -749,7 +749,7 @@ public class AccueilController implements Initializable {
     public void afficherPopUpModifDemande(ActionEvent actionEvent) {
     }
 
-    @FXML
+    @Deprecated
     public void AfficherModifCompetence(ActionEvent actionEvent) {
     }
 
