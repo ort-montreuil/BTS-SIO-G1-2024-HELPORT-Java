@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ff7178e-16a9-4baa-8718-82b0d93c4b5f" name="Changes" comment="Test">
+    <list default="true" id="6ff7178e-16a9-4baa-8718-82b0d93c4b5f" name="Changes" comment="Demande erreur">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_12_2023_22_52_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_12_2023_22_52__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_12_2023_15_06_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_12_2023_15_06__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/AccueilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/AccueilController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/ConnexionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/ConnexionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/RequeteSQLController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/RequeteSQLController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Tools/ConnexionBDD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Tools/ConnexionBDD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/demo/Accueil.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/demo/Accueil.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/Accueil.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/Accueil.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/AccueilController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/AccueilController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/ConnexionController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/ConnexionController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/RequeteSQLController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/RequeteSQLController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +83,10 @@
       <workItem from="1701850103040" duration="14500000" />
       <workItem from="1701870082296" duration="6695000" />
       <workItem from="1701939465940" duration="3602000" />
+      <workItem from="1709718567391" duration="829000" />
+      <workItem from="1709815469606" duration="2451000" />
+      <workItem from="1709884722451" duration="2595000" />
+      <workItem from="1710143037572" duration="321000" />
     </task>
     <task id="LOCAL-00001" summary="connexion">
       <option name="closed" value="true" />
@@ -118,7 +120,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701875871186</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Demande erreur">
+      <option name="closed" value="true" />
+      <created>1709815832017</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1709815832017</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -129,6 +139,7 @@
     <MESSAGE value="ouvre l'autre page" />
     <MESSAGE value="Connexion et check dans la base de donnees" />
     <MESSAGE value="Test" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test" />
+    <MESSAGE value="Demande erreur" />
+    <option name="LAST_COMMIT_MESSAGE" value="Demande erreur" />
   </component>
 </project>

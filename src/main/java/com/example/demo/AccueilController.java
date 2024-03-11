@@ -636,7 +636,7 @@ public class AccueilController implements Initializable {
 
     private Date getDateFinDemande()
     {
-
+    
 
         LocalDate localDate = DtpFinDemande.getValue();
         Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
