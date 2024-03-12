@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -93,8 +95,6 @@ public class AccueilController implements Initializable {
     @FXML
     private ComboBox cboMatiereSComp;
     @FXML
-    private Button btnValidComp;
-    @FXML
     private Button btnAnnuleComp;
     @FXML
     private Button btnValidCompFinale;
@@ -125,6 +125,8 @@ public class AccueilController implements Initializable {
     @FXML
     private DatePicker DtpFinDemande;
 
+    List<String> designationsMatiere = sqlController.getDesignationsMatiere();
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -137,6 +139,7 @@ public class AccueilController implements Initializable {
         updateDemandesListView();
         cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
 
+
         cboMatiereSComp.setOnAction(event -> miseAJourSousMatieresComp());
         btnSoumettreDemande.setOnAction(event -> soumettreDemande());
         btnValidCompFinale.setOnAction(event -> soumettreCompetence());
@@ -144,7 +147,6 @@ public class AccueilController implements Initializable {
         lvsSousmatiere.setOnMouseClicked(event -> sousMatiereSelectionnee());
 
         mnubtnDemande.getItems().addAll(faireDemandeItem, visualiserDemandesItem);
-
         btnAccueil.setOnAction(event -> afficherAccueil());
         btnDeco.setOnAction(event -> deconnexion());
         btnAider.setOnAction(event -> afficherAider());
@@ -156,20 +158,20 @@ public class AccueilController implements Initializable {
 
         btnModifDemande.setOnAction(actionEvent -> {
 
-                    String demandeSelectionnee = (String) lstVMesdemandes.getSelectionModel().getSelectedItem();
+            String demandeSelectionnee = (String) lstVMesdemandes.getSelectionModel().getSelectedItem();
 
-                    if (demandeSelectionnee != null) {
-                        // Affiche la pop-up avec la demande sélectionnée
-                        afficherPopUpModifDemande(demandeSelectionnee);
-                    } else {
-                        // Affiche un message d'erreur si aucune demande n'est sélectionnée
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Erreur de sélection");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Veuillez sélectionner une demande.");
-                        alert.showAndWait();
+            if (demandeSelectionnee != null) {
+                // Affiche la pop-up avec la demande sélectionnée
+                afficherPopUpModifDemande(demandeSelectionnee);
+            } else {
+                // Affiche un message d'erreur si aucune demande n'est sélectionnée
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur de sélection");
+                alert.setHeaderText(null);
+                alert.setContentText("Veuillez sélectionner une demande.");
+                alert.showAndWait();
 
-                    }
+            }
         });
         btnModifCompetence.setOnAction(actionEvent -> {
 
@@ -219,6 +221,32 @@ public class AccueilController implements Initializable {
 
         mnubtnCompte.getItems().addAll(creerCompetencesItem, visualiserCompetencesItem);
 
+    }
+
+    public void recupererInfosDemande(int numeroDemande, DatePicker dateModifDemande, ComboBox<String> cboModifDemande, ListView<String> lstvModifDemande, TextField txtDescModifDemande) {
+        // Ici, vous devrez implémenter le code pour récupérer les informations de la demande
+        // en fonction du numéro de demande passé en paramètre
+
+        // Par exemple, vous pouvez accéder à votre liste de demandes
+        // et rechercher la demande correspondante en fonction de son numéro
+        // Ensuite, vous pouvez extraire les informations pertinentes et les mettre dans les composants de la pop-up
+
+        // Exemple fictif pour illustrer le remplissage des composants de la pop-up avec les informations de la demande
+        // Remplacez ces exemples par votre propre logique de récupération des données
+
+        // Date de la demande (exemple fictif)
+        dateModifDemande.setValue(LocalDate.now());
+
+        // Matière de la demande (exemple fictif)
+        cboModifDemande.setValue("Matière");
+
+        // Sous-matière de la demande (exemple fictif)
+        ObservableList<String> sousMatieres = FXCollections.observableArrayList("Sous-Matière 1", "Sous-Matière 2", "Sous-Matière 3");
+        lstvModifDemande.setItems(sousMatieres);
+        lstvModifDemande.getSelectionModel().select(0); // Sélectionnez une sous-matière par défaut
+
+        // Description de la demande (exemple fictif)
+        txtDescModifDemande.setText("Description de la demande");
     }
 
 
@@ -286,6 +314,7 @@ public class AccueilController implements Initializable {
             }
         }
     }
+
     private void ajouterSousMatiereComp(String matiereAvecSousMatiere) {
         if (!sousMatieresSelectionneesComp.contains(matiereAvecSousMatiere)) {
             // Ajoute à la liste de récapitulatif
@@ -300,6 +329,7 @@ public class AccueilController implements Initializable {
             alert.showAndWait();
         }
     }
+
     @FXML
     private void annulerDemande() {
         Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -326,7 +356,6 @@ public class AccueilController implements Initializable {
             apCreerCompetence.setVisible(false);
         }
     }
-
 
 
     private void afficherFaireDemande() {
@@ -434,13 +463,13 @@ public class AccueilController implements Initializable {
 
     private void peuplerComboBoxMatiere() {
 
-        List<String> designationsMatiere = sqlController.getDesignationsMatiere();
+        designationsMatiere = sqlController.getDesignationsMatiere();
         cboMatiereSouhaitee.getItems().addAll(designationsMatiere);
         cboMatiereSouhaitee.getSelectionModel().selectFirst();
     }
 
     private void peuplerComboBoxMatieresC() {
-        List<String> designationsMatiere = sqlController.getDesignationsMatiere();
+        designationsMatiere = sqlController.getDesignationsMatiere();
         cboMatiereSComp.getItems().addAll(designationsMatiere);
         cboMatiereSComp.getSelectionModel().selectFirst();
     }
@@ -512,6 +541,8 @@ public class AccueilController implements Initializable {
 
     private void afficherPopUpModifDemande(String demandeSelectionnee) {
         try {
+
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/ModifierDemande.fxml"));
             Parent root = loader.load();
 
@@ -582,6 +613,7 @@ public class AccueilController implements Initializable {
         }
 
     }
+
     private void soumettreDemande() {
         try {
 
@@ -634,18 +666,18 @@ public class AccueilController implements Initializable {
         return idMatiere;
     }
 
-    private Date getDateFinDemande()
-    {
-    
+    private Date getDateFinDemande() {
+
 
         LocalDate localDate = DtpFinDemande.getValue();
         Instant instant = Instant.from(localDate.atStartOfDay(ZoneId.systemDefault()));
         return Date.from(instant);
     }
-    private String getSousMatiereDemandee()
-    {
+
+    private String getSousMatiereDemandee() {
         return String.valueOf(lvSMS.getSelectionModel().getSelectedItem());
     }
+
     private void soumettreCompetence() {
         try {
 
@@ -673,10 +705,11 @@ public class AccueilController implements Initializable {
             alert.showAndWait();
         }
     }
-    private String getSousMatiereDemandee2()
-    {
+
+    private String getSousMatiereDemandee2() {
         return String.valueOf(lstvRecap.getSelectionModel().getSelectedItem());
     }
+
     public void afficherDemandesUtilisateurConnecte() {
         int idUtilisateur = Utilisateur.getId();
         System.out.println("ID Utilisateur: " + idUtilisateur);
@@ -714,6 +747,7 @@ public class AccueilController implements Initializable {
 
         }
     }
+
     private void afficherVisualiserCompetences() {
         int idUtilisateur = Utilisateur.getId();
 
@@ -727,23 +761,24 @@ public class AccueilController implements Initializable {
 
     }
 
-        public void afficherStatistiques2() {
-            int idUtilisateur = Utilisateur.getId();
-            HashMap<String, Integer> soutiensParMatiere = sqlController.getNombreSoutiensParUtilisateurConnecte(idUtilisateur);
+    public void afficherStatistiques2() {
+        int idUtilisateur = Utilisateur.getId();
+        HashMap<String, Integer> soutiensParMatiere = sqlController.getNombreSoutiensParUtilisateurConnecte(idUtilisateur);
 
-            graphSoutiens.getData().clear();
+        graphSoutiens.getData().clear();
 
 
-            soutiensParMatiere.forEach((matiere, nombreSoutiens) -> {
-                if(nombreSoutiens > 0 ) {
-                    XYChart.Series<String, Number> series = new XYChart.Series<>();
-                    series.setName(matiere);
-                    series.getData().add(new XYChart.Data<>(matiere, nombreSoutiens));
-                    graphSoutiens.getData().add(series);
+        soutiensParMatiere.forEach((matiere, nombreSoutiens) -> {
+            if (nombreSoutiens > 0) {
+                XYChart.Series<String, Number> series = new XYChart.Series<>();
+                series.setName(matiere);
+                series.getData().add(new XYChart.Data<>(matiere, nombreSoutiens));
+                graphSoutiens.getData().add(series);
 
-                }});
+            }
+        });
 
-        }
+    }
 
     @FXML
     public void afficherPopUpModifDemande(ActionEvent actionEvent) {
@@ -753,9 +788,66 @@ public class AccueilController implements Initializable {
     public void AfficherModifCompetence(ActionEvent actionEvent) {
     }
 
-    @FXML
+    @Deprecated
     private void AnnulerModifD(ActionEvent event) {
 
+    }
+
+    @FXML
+    public void lstvMesDemandesMouseClicked(MouseEvent event) {
+        // Récupérer l'élément sélectionné
+        Object selectedObject = lstVMesdemandes.getSelectionModel().getSelectedItem();
+
+        // Vérifier si un élément est sélectionné et si c'est bien une chaîne de caractères
+        if (selectedObject != null && selectedObject instanceof String) {
+            // Convertir l'élément sélectionné en String
+            String demandeSelectionnee = (String) selectedObject;
+
+            // Récupérer les informations de la demande à partir de la liste des demandes
+            // Supposons que vous ayez une méthode pour récupérer ces informations à partir du numéro de demande
+       //     String[] infosDemande = recupererInfosDemande(demandeSelectionnee);
+
+            // Afficher les informations de la demande dans la pop-up de modification
+
+            // Afficher la pop-up de modification
+            // Code pour afficher la pop-up...
+        } else {
+            // Afficher un message d'erreur si aucun élément n'est sélectionné ou si ce n'est pas une chaîne de caractères
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de sélection");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez sélectionner une demande valide.");
+            alert.showAndWait();
+        }
+    }
+
+
+
+    @FXML
+    private void annulerCompetence() {
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmation");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("Voulez-vous vraiment annuler la création de compétence?");
+
+        // Ajoute les boutons "Oui" et "Non"
+        ButtonType btnOui = new ButtonType("Oui");
+        ButtonType btnNon = new ButtonType("Non", ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirmationAlert.getButtonTypes().setAll(btnOui, btnNon);
+
+        Optional<ButtonType> resultat = confirmationAlert.showAndWait();
+
+        if (resultat.isPresent() && resultat.get() == btnOui) {
+
+            apAccueil.setVisible(true);
+            apSDemande.setVisible(false);
+            apVD.setVisible(false);
+            apAider.setVisible(false);
+            apModifDemande.setVisible(false);
+            apStats.setVisible(false);
+            apVC.setVisible(false);
+            apCreerCompetence.setVisible(false);
+        }
     }
 
 }
