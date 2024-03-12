@@ -126,6 +126,12 @@ public class AccueilController implements Initializable {
     private DatePicker DtpFinDemande;
 
     List<String> designationsMatiere = sqlController.getDesignationsMatiere();
+    @FXML
+    private Button btnAnnulerCD;
+    @FXML
+    private Button btnAnnulerCreaDemandeSoutien;
+    @FXML
+    private Button btnAnnulerCreDemande;
 
 
     @Override
@@ -138,6 +144,7 @@ public class AccueilController implements Initializable {
         peuplerComboBoxMatieresC();
         updateDemandesListView();
         cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
+
 
 
         cboMatiereSComp.setOnAction(event -> miseAJourSousMatieresComp());
@@ -155,6 +162,8 @@ public class AccueilController implements Initializable {
             afficherStatistiques1();
             afficherStatistiques2();
         });
+
+
 
         btnModifDemande.setOnAction(actionEvent -> {
 
@@ -354,6 +363,10 @@ public class AccueilController implements Initializable {
             apStats.setVisible(false);
             apVC.setVisible(false);
             apCreerCompetence.setVisible(false);
+
+            lvsSousmatiere.getItems().clear();
+            lvSMS.getItems().clear();
+
         }
     }
 
@@ -479,8 +492,7 @@ public class AccueilController implements Initializable {
     private void miseAJourSousMatieres() {
         String matiereSelectionnee = (String) cboMatiereSouhaitee.getSelectionModel().getSelectedItem();
 
-        if (matiereSelectionnee != null && (matiereSelectionneeActuelle == null || matiereSelectionnee.equals(matiereSelectionneeActuelle))) {
-
+        if (matiereSelectionnee != null && (matiereSelectionneeActuelle == null || !matiereSelectionnee.equals(matiereSelectionneeActuelle))) {
             List<String> sousMatieres = sqlController.getSousMatieresPourMatiere(matiereSelectionnee);
             Set<String> sousMatieresUniques = new HashSet<>();
 
@@ -491,17 +503,13 @@ public class AccueilController implements Initializable {
                         .collect(Collectors.toList()));
             }
 
-            lvsSousmatiere.getItems().clear();
-            lvsSousmatiere.getItems().addAll(sousMatieresUniques);
+            Platform.runLater(() -> {
+                lvsSousmatiere.getItems().clear();
+                lvsSousmatiere.getItems().addAll(sousMatieresUniques);
+            });
 
             matiereSelectionneeActuelle = matiereSelectionnee;
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Vous ne pouvez pas choisir plusieurs matieres lors d'une demande.");
-            alert.showAndWait();
-
             cboMatiereSouhaitee.getSelectionModel().select(matiereSelectionneeActuelle);
         }
     }
@@ -831,13 +839,13 @@ public class AccueilController implements Initializable {
         confirmationAlert.setContentText("Voulez-vous vraiment annuler la création de compétence?");
 
         // Ajoute les boutons "Oui" et "Non"
-        ButtonType btnOui = new ButtonType("Oui");
-        ButtonType btnNon = new ButtonType("Non", ButtonBar.ButtonData.CANCEL_CLOSE);
-        confirmationAlert.getButtonTypes().setAll(btnOui, btnNon);
+        ButtonType btnOuii = new ButtonType("Oui");
+        ButtonType btnNonn = new ButtonType("Non", ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirmationAlert.getButtonTypes().setAll(btnOuii, btnNonn);
 
         Optional<ButtonType> resultat = confirmationAlert.showAndWait();
 
-        if (resultat.isPresent() && resultat.get() == btnOui) {
+        if (resultat.isPresent() && resultat.get() == btnOuii) {
 
             apAccueil.setVisible(true);
             apSDemande.setVisible(false);
@@ -847,6 +855,9 @@ public class AccueilController implements Initializable {
             apStats.setVisible(false);
             apVC.setVisible(false);
             apCreerCompetence.setVisible(false);
+
+            lstvRecap.getItems().clear();
+            lvsSousmatiereComp.getItems().clear();
         }
     }
 
