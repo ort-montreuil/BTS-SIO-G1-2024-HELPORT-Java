@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import com.example.demo.Entity.Utilisateur;
-import com.example.demo.PopUpAiderController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -171,7 +170,6 @@ public class AccueilController implements Initializable {
 
             if (demandeSelectionnee != null) {
                 // Affiche la pop-up avec la demande sélectionnée
-                afficherPopUpModifDemande(demandeSelectionnee);
             } else {
                 // Affiche un message d'erreur si aucune demande n'est sélectionnée
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -188,7 +186,6 @@ public class AccueilController implements Initializable {
 
             if (competenceSelectionnee != null) {
                 // Affiche la pop-up avec la compétence sélectionnée
-                AfficherModifCompetence(competenceSelectionnee);
             } else {
                 // Afficher un message d'erreur si aucune compétences n'est sélectionnée
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -207,7 +204,6 @@ public class AccueilController implements Initializable {
 
             if (demandeSelectionnee != null) {
                 // Affiche la pop-up de la demande sélectionnée
-                afficherPopUpAider(demandeSelectionnee);
             } else {
                 // Affiche un message d'erreur si aucune demande n'est sélectionnée
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -515,89 +511,12 @@ public class AccueilController implements Initializable {
     }
 
 
-    private void afficherPopUpAider(String demandeSelectionnee) {
-        try {
-            // Charge le contenu de apPopUpAider depuis le fichier FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/PopUpAider.fxml"));
-            Parent root = loader.load();
-
-            // Récupére le contrôleur de la pop-up
-            PopUpAiderController popUpController = loader.getController();
-
-            // Initialise le contrôleur de la pop-up avec les détails de la demande sélectionnée
-            popUpController.initialiserDemande(demandeSelectionnee);
-
-            // Crée une nouvelle fenêtre pour la pop-up
-            Stage popUpStage = new Stage();
-            popUpStage.initModality(Modality.APPLICATION_MODAL);
-            popUpStage.setTitle("Pop-up Aider");
-
-            popUpController.setStage(popUpStage);
-
-            Scene scene = new Scene(root);
-            popUpStage.setScene(scene);
-
-            // Affiche la pop-up
-            popUpStage.showAndWait();
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 
-    private void afficherPopUpModifDemande(String demandeSelectionnee) {
-        try {
 
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/ModifierDemande.fxml"));
-            Parent root = loader.load();
-
-            ModifierDemandeController popUpController = loader.getController();
-
-            popUpController.initialiserDemande(demandeSelectionnee);
-
-            Stage popUpStage = new Stage();
-            popUpStage.initModality(Modality.APPLICATION_MODAL);
-            popUpStage.setTitle("Pop-up Modifier");
-
-            popUpController.setStage(popUpStage);
-
-            Scene scene = new Scene(root);
-            popUpStage.setScene(scene);
-
-            popUpStage.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void AfficherModifCompetence(String demandeSelectionnee) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/ModifierCompetence.fxml"));
-            Parent root = loader.load();
-
-            ModifierCompetenceController popUpController = loader.getController();
-
-            popUpController.initialiserCompetence(demandeSelectionnee);
-
-            Stage popUpStage = new Stage();
-            popUpStage.initModality(Modality.APPLICATION_MODAL);
-            popUpStage.setTitle("Pop-up Modifier");
-
-            popUpController.setStage(popUpStage);
-
-            Scene scene = new Scene(root);
-            popUpStage.setScene(scene);
-
-            popUpStage.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void sousMatiereSelectionnee() {
         String nouvelleSousMatiere = lvsSousmatiere.getSelectionModel().getSelectedItem();
