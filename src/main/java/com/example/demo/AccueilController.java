@@ -1,11 +1,11 @@
 package com.example.demo;
 
+import com.example.demo.Entity.Demande;
 import com.example.demo.Entity.Utilisateur;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,7 +16,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
@@ -197,22 +196,53 @@ public class AccueilController implements Initializable {
             }
         });
         // pour lorsqu'on a selec une demande
-
         btnAiderFinale.setOnAction(event -> {
-            // Récupére la demande sélectionnée dans la ListView
-            String demandeSelectionnee = (String) lstvAider.getSelectionModel().getSelectedItem();
 
-            if (demandeSelectionnee != null) {
-                // Affiche la pop-up de la demande sélectionnée
+            // Récupérer l'élément sélectionné dans le ListView
+            Object selectedObject = lstvAider.getSelectionModel().getSelectedItem();
+
+            if (selectedObject != null) {
+                // Afficher une boîte de dialogue de confirmation
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation");
+                alert.setHeaderText("Voulez-vous aider cette personne ?");
+                alert.setContentText("Détails de la demande :\n" + selectedObject.toString());
+
+                // Ajouter les boutons "Oui" et "Non"
+                ButtonType ouiButton = new ButtonType("Oui", ButtonBar.ButtonData.YES);
+                ButtonType nonButton = new ButtonType("Non", ButtonBar.ButtonData.NO);
+                alert.getButtonTypes().setAll(ouiButton, nonButton);
+
+                // Attendre la réponse de l'utilisateur
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ouiButton) {
+                    // L'utilisateur a choisi "Oui", effectuez les actions nécessaires
+                    // Afficher un message de confirmation
+                    System.out.println("Vous avez choisi d'aider cette personne.");
+
+
+
+
+
+
+
+
+
+                } else {
+                    // L'utilisateur a choisi "Non" ou la boîte de dialogue a été fermée, ne rien faire
+                    System.out.println("Vous avez choisi de ne pas aider cette personne.");
+                }
             } else {
-                // Affiche un message d'erreur si aucune demande n'est sélectionnée
+                // Aucun élément sélectionné dans le ListView, afficher un message d'erreur
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur de sélection");
+                alert.setTitle("Erreur");
                 alert.setHeaderText(null);
                 alert.setContentText("Veuillez sélectionner une demande.");
+
                 alert.showAndWait();
             }
         });
+
 
         lvsSousmatiere.setOnMouseClicked(event -> ajouterSousMatiereSelectionnee());
         lvsSousmatiereComp.setOnMouseClicked(event -> ajouterSousMatiereSelecC());
@@ -228,31 +258,6 @@ public class AccueilController implements Initializable {
 
     }
 
-    public void recupererInfosDemande(int numeroDemande, DatePicker dateModifDemande, ComboBox<String> cboModifDemande, ListView<String> lstvModifDemande, TextField txtDescModifDemande) {
-        // Ici, vous devrez implémenter le code pour récupérer les informations de la demande
-        // en fonction du numéro de demande passé en paramètre
-
-        // Par exemple, vous pouvez accéder à votre liste de demandes
-        // et rechercher la demande correspondante en fonction de son numéro
-        // Ensuite, vous pouvez extraire les informations pertinentes et les mettre dans les composants de la pop-up
-
-        // Exemple fictif pour illustrer le remplissage des composants de la pop-up avec les informations de la demande
-        // Remplacez ces exemples par votre propre logique de récupération des données
-
-        // Date de la demande (exemple fictif)
-        dateModifDemande.setValue(LocalDate.now());
-
-        // Matière de la demande (exemple fictif)
-        cboModifDemande.setValue("Matière");
-
-        // Sous-matière de la demande (exemple fictif)
-        ObservableList<String> sousMatieres = FXCollections.observableArrayList("Sous-Matière 1", "Sous-Matière 2", "Sous-Matière 3");
-        lstvModifDemande.setItems(sousMatieres);
-        lstvModifDemande.getSelectionModel().select(0); // Sélectionnez une sous-matière par défaut
-
-        // Description de la demande (exemple fictif)
-        txtDescModifDemande.setText("Description de la demande");
-    }
 
 
 
