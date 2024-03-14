@@ -267,27 +267,41 @@ public class AccueilController implements Initializable {
         // Récupération du niveau de l'utilisateur
         String niveauUtilisateur = Utilisateur.getNiveau();
 
-
         // Récupération des demandes en fonction du niveau de l'utilisateur
-        List<String> toutesDemandes;
-        if (niveauUtilisateur != null && (niveauUtilisateur.equals("BTS 1") || niveauUtilisateur.equals("BTS 2"))) {
-            toutesDemandes = sqlController.getDemandesTerminale();
-        } else {
-            assert niveauUtilisateur != null;
-            if (niveauUtilisateur.equals("Bachelor")) {
-                toutesDemandes = sqlController.getDemandesBTS();
-            } else if (niveauUtilisateur.equals("Master 1") || niveauUtilisateur.equals("Master 2")) {
-                toutesDemandes = sqlController.getDemandesTousNiveaux();
+        List<String> toutesDemandes = new ArrayList<>(); // Initialisation de la liste de demandes
+
+        if (niveauUtilisateur != null) {
+            if (niveauUtilisateur.equals("Terminale") || niveauUtilisateur.equals("BTS 1")) {
+                // Terminale et BTS 1 ne voient aucune demande
+            } else if (niveauUtilisateur.equals("BTS 2")) {
+                // BTS 2 voit les demandes des Terminales
+                toutesDemandes = sqlController.getDemandesTerminale();
+            } else if (niveauUtilisateur.equals("Bachelor")) {
+                // Bachelor voit les demandes des BTS 1 et des Terminales
+                toutesDemandes.addAll(sqlController.getDemandesBTS());
+                toutesDemandes.addAll(sqlController.getDemandesTerminale());
+            } else if (niveauUtilisateur.equals("Master 1")) {
+                // Master 1 et Master 2 voient les demandes des Terminales, des BTS 1 et BTS 2
+                toutesDemandes.addAll(sqlController.getDemandesMasterUn());
+
+            }
+            else if (niveauUtilisateur.equals("Master 2"))
+            {
+
+                toutesDemandes.addAll(sqlController.getDemandesMasterDeux());
+
+
             } else {
-                toutesDemandes = sqlController.getToutesDemandes(); // Par défaut, récupère toutes les demandes
+                // Par défaut, récupère toutes les demandes
+                toutesDemandes = sqlController.getToutesDemandes();
             }
         }
-
 
         // Affichage des demandes dans la ListView
         lstvAider.getItems().clear();
         lstvAider.getItems().addAll(toutesDemandes);
     }
+
 
 
 

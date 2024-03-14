@@ -352,7 +352,7 @@
             List<String> nouvellesDemandes = getToutesDemandes();
         }
 
-        public List<String> getDemandesTousNiveaux() {
+        public List<String> getDemandesMasterUn() {
             List<String> demandesList = new ArrayList<>();
 
             try {
@@ -379,8 +379,40 @@
             }
 
             return demandesList;
+
+
+
+
         }
 
+        public List<String> getDemandesMasterDeux() {
+            List<String> demandesList = new ArrayList<>();
+
+            try {
+                String sqlQuery = "SELECT d.sous_matiere, d.date_updated, d.date_fin_demande " +
+                        "FROM demande d " +
+                        "JOIN user u ON d.id_user = u.id " +
+                        "WHERE u.niveau IN ('Terminale', 'BTS 1', 'BTS 2', 'Bachelor', 'Master 1')";
+                try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
+                    ResultSet resultSet = preparedStatement.executeQuery();
+
+                    while (resultSet.next()) {
+                        String sousMatiere = resultSet.getString("sous_matiere");
+                        Date date = resultSet.getDate("date_updated");
+                        Date date2 = resultSet.getDate("date_fin_demande");
+
+                        String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s",
+                                date2.toString(), sousMatiere);
+
+                        demandesList.add(informationDemande);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return demandesList;
+        }
 
         public List<String> getDemandesBTS() {
             List<String> demandesList = new ArrayList<>();
