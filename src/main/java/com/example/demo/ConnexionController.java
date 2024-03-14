@@ -67,6 +67,7 @@ public class ConnexionController implements Initializable
         }
         RequeteSql = new RequeteSQLController();
 
+
     }
 
 
@@ -110,11 +111,6 @@ public class ConnexionController implements Initializable
 
 
 
-
-
-
-
-
 // Méthode pour message erreur
     private void afficherMessageErreur(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -125,18 +121,20 @@ public class ConnexionController implements Initializable
     }
 
 
+
     /// Méthode connexion a partir du bouton click
     @FXML
     public void btnClicked(ActionEvent event) {
         if (RequeteSql.verifierIdentifiants(txtId.getText(), txtMdp.getText())) {
-            ouvrirAccueil(event);
             int idUtilisateur = RequeteSql.getIdUtilisateur(txtId.getText(), txtMdp.getText());
             Utilisateur.setId(idUtilisateur);
-        }
-        else {
-                afficherMessageErreur("Identifiants incorrects. Veuillez réessayer.");
-            }
-    }
+            String nivUtilisateur = String.valueOf(RequeteSql.getNiveauUtilisateur(idUtilisateur));
+            Utilisateur.setNiveau(nivUtilisateur);
 
+            ouvrirAccueil(event); // Ouvrir l'accueil après la mise à jour du niveau de l'utilisateur
+        } else {
+            afficherMessageErreur("Identifiants incorrects. Veuillez réessayer.");
+        }
+    }
 
 }

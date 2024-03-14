@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.Entity.Demande;
+import com.example.demo.ConnexionController;
 import com.example.demo.Entity.Utilisateur;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -141,6 +142,8 @@ public class AccueilController implements Initializable {
         peuplerComboBoxMatiere();
         peuplerComboBoxMatieresC();
         updateDemandesListView();
+
+
         cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
 
 
@@ -260,12 +263,34 @@ public class AccueilController implements Initializable {
 
 
 
-
     private void updateDemandesListView() {
-        List<String> toutesDemandes = sqlController.getToutesDemandes();
+        // Récupération du niveau de l'utilisateur
+        String niveauUtilisateur = Utilisateur.getNiveau();
+
+
+        // Récupération des demandes en fonction du niveau de l'utilisateur
+        List<String> toutesDemandes;
+        if (niveauUtilisateur != null && (niveauUtilisateur.equals("BTS 1") || niveauUtilisateur.equals("BTS 2"))) {
+            toutesDemandes = sqlController.getDemandesTerminale();
+        } else {
+            assert niveauUtilisateur != null;
+            if (niveauUtilisateur.equals("Bachelor")) {
+                toutesDemandes = sqlController.getDemandesBTS();
+            } else if (niveauUtilisateur.equals("Master 1") || niveauUtilisateur.equals("Master 2")) {
+                toutesDemandes = sqlController.getDemandesTousNiveaux();
+            } else {
+                toutesDemandes = sqlController.getToutesDemandes(); // Par défaut, récupère toutes les demandes
+            }
+        }
+
+
+        // Affichage des demandes dans la ListView
         lstvAider.getItems().clear();
         lstvAider.getItems().addAll(toutesDemandes);
     }
+
+
+
 
     public int initialiserUtilisateur(String emailUtilisateur) {
         this.emailUtilisateur = emailUtilisateur;
@@ -464,15 +489,21 @@ public class AccueilController implements Initializable {
 
     private void deconnexion() {
         try {
+            Utilisateur.setId(-1);
+            Stage currentStage = (Stage) btnDeco.getScene().getWindow();
+            currentStage.close(); // Ferme le stage actuel
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/ConnexionInscription.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
-            Stage stage = (Stage) btnDeco.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.show();
         } catch (IOException e) {
             e.printStackTrace();
+
         }
+        lstvAider.getItems().clear();
     }
 
     private void peuplerComboBoxMatiere() {
@@ -566,6 +597,8 @@ public class AccueilController implements Initializable {
             int idUtilisateur = Utilisateur.getId();
             System.out.println(idUtilisateur);
 
+
+
             sqlController.creerDemandeUtilisateurConnecte(new Date(), dateFinDemande, sousMatiereDemandee, idUtilisateur, getIdMatiere(matiereSelectionnee), 1);
 
             // Affiche un message de réussite
@@ -644,7 +677,12 @@ public class AccueilController implements Initializable {
 
     public void afficherDemandesUtilisateurConnecte() {
         int idUtilisateur = Utilisateur.getId();
+            String nivUtilisateur = Utilisateur.getNiveau();
         System.out.println("ID Utilisateur: " + idUtilisateur);
+
+
+        System.out.println("Niv Utilisateur: " + nivUtilisateur);
+
 
         // Vide la ListView avant d'ajouter de nouvelles demandes
         lstVMesdemandes.getItems().clear();

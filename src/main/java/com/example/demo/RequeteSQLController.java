@@ -324,8 +324,119 @@
         }
 
 
+        public String getNiveauUtilisateur(int idUtilisateur) {
+            String niveauUtilisateur = ""; // Valeur par défaut si le niveau n'est pas trouvé
+
+            try {
+                PreparedStatement ps = cnx.prepareStatement("SELECT niveau FROM user WHERE id = ?");
+                ps.setInt(1, idUtilisateur);
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    niveauUtilisateur = rs.getString("niveau");
+                    System.out.println("Niveau de l'utilisateur récupéré : " + niveauUtilisateur);
+                } else {
+                    System.out.println("Aucun utilisateur trouvé avec cet identifiant.");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            return niveauUtilisateur;
+        }
+
+
+
 
         public void actualiserDemandes() {
             List<String> nouvellesDemandes = getToutesDemandes();
+        }
+
+        public List<String> getDemandesTousNiveaux() {
+            List<String> demandesList = new ArrayList<>();
+
+            try {
+                String sqlQuery = "SELECT d.sous_matiere, d.date_updated, d.date_fin_demande " +
+                        "FROM demande d " +
+                        "JOIN user u ON d.id_user = u.id " +
+                        "WHERE u.niveau IN ('Terminale', 'BTS 1', 'BTS 2', 'Bachelor')";
+                try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
+                    ResultSet resultSet = preparedStatement.executeQuery();
+
+                    while (resultSet.next()) {
+                        String sousMatiere = resultSet.getString("sous_matiere");
+                        Date date = resultSet.getDate("date_updated");
+                        Date date2 = resultSet.getDate("date_fin_demande");
+
+                        String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s",
+                                date2.toString(), sousMatiere);
+
+                        demandesList.add(informationDemande);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return demandesList;
+        }
+
+
+        public List<String> getDemandesBTS() {
+            List<String> demandesList = new ArrayList<>();
+
+            try {
+                String sqlQuery = "SELECT d.sous_matiere, d.date_updated, d.date_fin_demande " +
+                        "FROM demande d " +
+                        "JOIN user u ON d.id_user = u.id " +
+                        "WHERE u.niveau IN ('Terminale', 'BTS 1', 'BTS 2')";
+                try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
+                    ResultSet resultSet = preparedStatement.executeQuery();
+
+                    while (resultSet.next()) {
+                        String sousMatiere = resultSet.getString("sous_matiere");
+                        Date date = resultSet.getDate("date_updated");
+                        Date date2 = resultSet.getDate("date_fin_demande");
+
+                        String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s",
+                                date2.toString(), sousMatiere);
+
+                        demandesList.add(informationDemande);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return demandesList;
+        }
+
+        public List<String> getDemandesTerminale() {
+            List<String> demandesList = new ArrayList<>();
+
+            try {
+                String sqlQuery = "SELECT d.sous_matiere, d.date_updated, d.date_fin_demande " +
+                        "FROM demande d " +
+                        "JOIN user u ON d.id_user = u.id " +
+                        "WHERE u.niveau = 'Terminale'";
+                try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
+                    ResultSet resultSet = preparedStatement.executeQuery();
+
+                    while (resultSet.next()) {
+                        String sousMatiere = resultSet.getString("sous_matiere");
+                        Date date = resultSet.getDate("date_updated");
+                        Date date2 = resultSet.getDate("date_fin_demande");
+
+                        String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s",
+                                date2.toString(), sousMatiere);
+
+                        demandesList.add(informationDemande);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return demandesList;
         }
     }
