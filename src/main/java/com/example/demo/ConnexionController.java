@@ -150,6 +150,4 @@ public class ConnexionController implements Initializable
             e.printStackTrace();
         }
     }
-
-
 }

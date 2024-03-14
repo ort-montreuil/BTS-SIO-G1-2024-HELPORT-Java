@@ -182,7 +182,8 @@
 
             return idMatiere;
         }
-        public void creerCompetenceConnecte(int idMatiere,int idUtilisateur,String sousMatiereDemandee, int status) {
+
+        public void creerCompetenceConnecte(int idMatiere, int idUtilisateur, String sousMatiereDemandee, int status) {
             try {
                 ps = cnx.prepareStatement("INSERT INTO competence (id_matiere,id_user,sous_matiere,statut) " +
                         "VALUES ( ?, ?, ?, ?)");
@@ -200,6 +201,7 @@
 
             }
         }
+
         public List<String> getDemandesUtilisateurConnecte(int idUtilisateur) {
             List<String> demandesUtilisateur = new ArrayList<>();
 
@@ -227,6 +229,7 @@
 
             return demandesUtilisateur;
         }
+
         public static List<String> getCompetencesUtilisateurConnecte(int idUtilisateur) {
             List<String> competencesUtilisateur = new ArrayList<>();
 
@@ -273,6 +276,7 @@
             }
             return soutiensParMatiere;
         }
+
         public HashMap<String, Integer> getNombreDemandesParMatiere(int idUtilisateurConnecte) {
             HashMap<String, Integer> nombreDemandesParMatiere = new HashMap<>();
 
@@ -298,6 +302,7 @@
             }
             return nombreDemandesParMatiere;
         }
+
         public Demande getDemandeById(int demandeId) {
             Demande demande = new Demande(); // Crée un objet Demande pour stocker les informations récupérées
             try {
@@ -323,25 +328,26 @@
             return demande;
         }
 
-    public List<String> getMatieresModifiablesParUtilisateur(int idUtilisateur) {
-        List<String> matieresModifiables = new ArrayList<>();
-        try {
-            // Requête SQL pour récupérer les matières modifiables par l'utilisateur
-            String query = "SELECT DISTINCT matiere.designation " +
-                    "FROM demande " +
-                    "JOIN matiere ON demande.id_matiere = matiere.id " +
-                    "WHERE demande.id_user = ?";
-            ps = cnx.prepareStatement(query);
-            ps.setInt(1, idUtilisateur);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                matieresModifiables.add(rs.getString("designation"));
+        public List<String> getMatieresModifiablesParUtilisateur(int idUtilisateur) {
+            List<String> matieresModifiables = new ArrayList<>();
+            try {
+                // Requête SQL pour récupérer les matières modifiables par l'utilisateur
+                String query = "SELECT DISTINCT matiere.designation " +
+                        "FROM demande " +
+                        "JOIN matiere ON demande.id_matiere = matiere.id " +
+                        "WHERE demande.id_user = ?";
+                ps = cnx.prepareStatement(query);
+                ps.setInt(1, idUtilisateur);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    matieresModifiables.add(rs.getString("designation"));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return matieresModifiables;
         }
-        return matieresModifiables;
-    }
+
         public void actualiserDemandes() {
             List<String> nouvellesDemandes = getToutesDemandes();
         }
@@ -360,4 +366,55 @@
             }
             return role;
         }
-}
+
+        public void ajouterMatiere(String nomMatiere, String sousMatieres) {
+            try {
+                ps = cnx.prepareStatement("INSERT INTO matiere (designation, sous_matiere) VALUES (?, ?)");
+                ps.setString(1, nomMatiere);
+                ps.setString(2, sousMatieres);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                // gestion des erreurs
+                e.printStackTrace();
+            }
+        }
+
+        public ResultSet afficherAdminStatistique1() {
+            rs = null;
+            try {
+                ps = cnx.prepareStatement("SELECT user.id, user.nom, user.prenom, COUNT(*) AS \"nombre de demandes d'aide\"\n" +
+                        "FROM demande da\n" +
+                        "JOIN user user ON da.id_user = user.id\n" +
+                        "GROUP BY user.id, user.nom, user.prenom\n" +
+                        "ORDER BY \"nombre de demandes d'aide\" DESC;\n");
+                rs = ps.executeQuery();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return rs;
+        }
+
+        public ResultSet afficherAdminStatistique2() {
+
+            try {
+                // Préparation de la requête SQL
+                String query = "SELECT matiere.designation AS 'nom de la matiere', COUNT(*) AS 'nombre de demandes' " +
+                        "FROM matiere " +
+                        "INNER JOIN demande d ON d.id_matiere = matiere.id " +
+                        "GROUP BY d.id_matiere";
+
+                // Création de la déclaration préparée
+                ps = cnx.prepareStatement(query);
+
+                // Exécution de la requête
+                rs = ps.executeQuery();
+
+                // Retourner le résultat
+                return rs;
+            } catch (SQLException e) {
+                // Gestion des exceptions
+                e.printStackTrace();
+            }
+            return rs;
+        }
+    }
