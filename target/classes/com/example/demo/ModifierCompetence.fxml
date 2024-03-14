@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.ModifierCompetenceController">
+   <children>
+      <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <AnchorPane fx:id="apPopUpModif" layoutX="4.0" prefHeight="476.0" prefWidth="683.0">
+               <children>
+                  <Label layoutX="100.0" layoutY="152.0" text="Matière">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="84.0" layoutY="226.0" text="Sous matière">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="cboModifDemande" editable="true" layoutX="255.0" layoutY="153.0" prefWidth="150.0" />
+                  <ListView fx:id="lstvModifDemande" editable="true" layoutX="242.0" layoutY="215.0" prefHeight="73.0" prefWidth="200.0" />
+                  <Label layoutX="242.0" layoutY="14.0" text="Modifier une competence">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnAnnulerModifC" layoutX="130.0" layoutY="428.0" mnemonicParsing="false" onAction="#AnnulerModifC" text="Annuler la modification " />
+                  <Button fx:id="btnModifCompValider" layoutX="442.0" layoutY="428.0" mnemonicParsing="false" text="Modifier la compétence" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
