@@ -323,9 +323,41 @@
             return demande;
         }
 
-
-
+    public List<String> getMatieresModifiablesParUtilisateur(int idUtilisateur) {
+        List<String> matieresModifiables = new ArrayList<>();
+        try {
+            // Requête SQL pour récupérer les matières modifiables par l'utilisateur
+            String query = "SELECT DISTINCT matiere.designation " +
+                    "FROM demande " +
+                    "JOIN matiere ON demande.id_matiere = matiere.id " +
+                    "WHERE demande.id_user = ?";
+            ps = cnx.prepareStatement(query);
+            ps.setInt(1, idUtilisateur);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                matieresModifiables.add(rs.getString("designation"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return matieresModifiables;
+    }
         public void actualiserDemandes() {
             List<String> nouvellesDemandes = getToutesDemandes();
         }
-    }
+
+        public String getUserRole(int userId) {
+            String role = null;
+            try {
+                ps = cnx.prepareStatement("SELECT user.role FROM user WHERE user.id = ?");
+                ps.setInt(1, userId);
+                rs = ps.executeQuery();
+                if (rs.next()) {
+                    role = rs.getString("role");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return role;
+        }
+}

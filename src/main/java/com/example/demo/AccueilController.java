@@ -116,7 +116,6 @@ public class AccueilController implements Initializable {
     @FXML
     private Label lblNomPrenom;
     private RequeteSQLController sqlController = new RequeteSQLController();
-
     @FXML
     private Button btnSoumettreDemande;
     private DatePicker datePickerFinDemande;
@@ -128,6 +127,7 @@ public class AccueilController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         MenuItem faireDemandeItem = new MenuItem("Faire une demande");
         faireDemandeItem.setOnAction(event -> afficherFaireDemande());
         MenuItem visualiserDemandesItem = new MenuItem("Visualiser mes demandes");
@@ -136,6 +136,7 @@ public class AccueilController implements Initializable {
         peuplerComboBoxMatieresC();
         updateDemandesListView();
         cboMatiereSouhaitee.setOnAction(event -> miseAJourSousMatieres());
+
 
         cboMatiereSComp.setOnAction(event -> miseAJourSousMatieresComp());
         btnSoumettreDemande.setOnAction(event -> soumettreDemande());
@@ -220,7 +221,6 @@ public class AccueilController implements Initializable {
         mnubtnCompte.getItems().addAll(creerCompetencesItem, visualiserCompetencesItem);
 
     }
-
 
 
     private void updateDemandesListView() {
@@ -564,10 +564,9 @@ public class AccueilController implements Initializable {
         String nouvelleSousMatiere = lvsSousmatiere.getSelectionModel().getSelectedItem();
 
         if (nouvelleSousMatiere != null) {
-            verifierReselectionSousMatiere(nouvelleSousMatiere);
+                verifierReselectionSousMatiere(nouvelleSousMatiere);
+            }
         }
-    }
-
     private void verifierReselectionSousMatiere(String nouvelleSousMatiere) {
         if (sousMatieresSelectionnees.contains(nouvelleSousMatiere)) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -624,6 +623,7 @@ public class AccueilController implements Initializable {
             alert.showAndWait();
         }
     }
+
 
 
     private int getIdMatiere(String matiereSelectionnee) {
@@ -757,5 +757,7 @@ public class AccueilController implements Initializable {
     private void AnnulerModifD(ActionEvent event) {
 
     }
+
+
 
 }

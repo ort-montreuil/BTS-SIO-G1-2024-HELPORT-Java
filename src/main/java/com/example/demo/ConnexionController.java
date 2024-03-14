@@ -24,8 +24,6 @@ import java.util.ResourceBundle;
 
 public class ConnexionController implements Initializable
 
-
-
 {
 
     @FXML
@@ -71,8 +69,70 @@ public class ConnexionController implements Initializable
 
 
 
+    @FXML
+    public void btnClickedMotDePasseOublie(ActionEvent event) {
+        try {
+            // Ouvrir le lien dans le navigateur par défaut
+            URI uri = new URI("https://api.ecoledirecte.com/mot-de-passe-oublie.awp");
+            java.awt.Desktop.getDesktop().browse(uri);
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+            // Gérer l'exception en conséquence
+        }
+    }
+
+    public String getTxtIdText() {
+        return txtId.getText();
+    }
 
 
+// Méthode pour message erreur
+    private void afficherMessageErreur(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    /// Méthode connexion a partir du bouton click
+    @FXML
+    public void btnClicked(ActionEvent event) {
+        if (RequeteSql.verifierIdentifiants(txtId.getText(), txtMdp.getText())) {
+            int idUtilisateur = RequeteSql.getIdUtilisateur(txtId.getText(), txtMdp.getText());
+            Utilisateur.setId(idUtilisateur);
+            // Vérifier le rôle de l'utilisateur
+            String role = RequeteSql.getUserRole(idUtilisateur);
+            if (role != null && role.equals("Admin")) {
+                // Charger l'interface utilisateur d'admin
+                ouvrirAdmin(event);
+            } else {
+                // Charger l'interface utilisateur par défaut
+                ouvrirAccueil(event);
+            }
+        }
+        else {
+                afficherMessageErreur("Identifiants incorrects. Veuillez réessayer.");
+            }
+    }
+
+    public void ouvrirAdmin(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Admin.fxml"));
+            Parent root = loader.load();
+
+            Stage currentStage = (Stage) btnLogin.getScene().getWindow();
+            currentStage.close();
+            AdminController adminController = loader.getController();
+            adminController.initialiserUtilisateur(getTxtIdText());
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public void ouvrirAccueil(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/Accueil.fxml"));
@@ -89,53 +149,6 @@ public class ConnexionController implements Initializable
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    public void btnClickedMotDePasseOublie(ActionEvent event) {
-        try {
-            // Ouvrir le lien dans le navigateur par défaut
-            URI uri = new URI("https://api.ecoledirecte.com/mot-de-passe-oublie.awp");
-            java.awt.Desktop.getDesktop().browse(uri);
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-            // Gérer l'exception en conséquence
-        }
-    }
-
-
-    public String getTxtIdText() {
-        return txtId.getText();
-    }
-
-
-
-
-
-
-
-
-// Méthode pour message erreur
-    private void afficherMessageErreur(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-
-    /// Méthode connexion a partir du bouton click
-    @FXML
-    public void btnClicked(ActionEvent event) {
-        if (RequeteSql.verifierIdentifiants(txtId.getText(), txtMdp.getText())) {
-            ouvrirAccueil(event);
-            int idUtilisateur = RequeteSql.getIdUtilisateur(txtId.getText(), txtMdp.getText());
-            Utilisateur.setId(idUtilisateur);
-        }
-        else {
-                afficherMessageErreur("Identifiants incorrects. Veuillez réessayer.");
-            }
     }
 
 
