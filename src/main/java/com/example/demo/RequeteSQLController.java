@@ -182,6 +182,30 @@
 
             return idMatiere;
         }
+
+
+
+        public void updateDemandeStatut(int demandeId) {
+            try {
+                String sqlQuery = "UPDATE demande SET status = ? WHERE id = ?";
+                try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
+                    // Nouveau statut à mettre à jour (2 pour votre cas)
+                    preparedStatement.setInt(1, 2);
+                    // ID de la demande à mettre à jour
+                    preparedStatement.setInt(2, demandeId);
+
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    if (rowsAffected == 0) {
+                        System.out.println("Aucune ligne mise à jour. L'ID de la demande peut ne pas exister.");
+                    } else {
+                        System.out.println("Statut de la demande mis à jour avec succès.");
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         public void creerCompetenceConnecte(int idMatiere,int idUtilisateur,String sousMatiereDemandee, int status) {
             try {
                 ps = cnx.prepareStatement("INSERT INTO competence (id_matiere,id_user,sous_matiere,statut) " +
@@ -359,7 +383,9 @@
                 String sqlQuery = "SELECT d.sous_matiere, d.date_updated, d.date_fin_demande " +
                         "FROM demande d " +
                         "JOIN user u ON d.id_user = u.id " +
-                        "WHERE u.niveau IN ('Terminale', 'BTS 1', 'BTS 2', 'Bachelor')";
+                        "WHERE u.niveau IN ('Terminale', 'BTS 1', 'BTS 2', 'Bachelor')"
+                        +"AND d.status=1";
+
                 try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
                     ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -389,20 +415,24 @@
             List<String> demandesList = new ArrayList<>();
 
             try {
-                String sqlQuery = "SELECT d.sous_matiere, d.date_updated, d.date_fin_demande " +
+                String sqlQuery = "SELECT d.sous_matiere, d.date_updated, d.date_fin_demande, d.id " +
                         "FROM demande d " +
                         "JOIN user u ON d.id_user = u.id " +
-                        "WHERE u.niveau IN ('Terminale', 'BTS 1', 'BTS 2', 'Bachelor', 'Master 1')";
+                        "WHERE u.niveau IN ('Terminale', 'BTS 1', 'BTS 2', 'Bachelor', 'Master 1')"
+                        +"AND d.status=1";
                 try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
                     ResultSet resultSet = preparedStatement.executeQuery();
 
                     while (resultSet.next()) {
                         String sousMatiere = resultSet.getString("sous_matiere");
-                        Date date = resultSet.getDate("date_updated");
                         Date date2 = resultSet.getDate("date_fin_demande");
+                        int demandeId = resultSet.getInt("id");
 
-                        String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s",
-                                date2.toString(), sousMatiere);
+
+                        String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s, %s",
+                                date2.toString(), sousMatiere,demandeId);
+
+
 
                         demandesList.add(informationDemande);
                     }
@@ -450,7 +480,9 @@
                 String sqlQuery = "SELECT d.sous_matiere, d.date_updated, d.date_fin_demande " +
                         "FROM demande d " +
                         "JOIN user u ON d.id_user = u.id " +
-                        "WHERE u.niveau = 'Terminale'";
+                        "WHERE u.niveau = 'Terminale'"
+                        +"AND d.status=1";
+
                 try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
                     ResultSet resultSet = preparedStatement.executeQuery();
 

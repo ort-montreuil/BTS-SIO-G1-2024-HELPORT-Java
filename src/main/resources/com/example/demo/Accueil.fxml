@@ -68,6 +68,8 @@
             <ComboBox fx:id="cboMatiereSouhaitee" layoutX="252.0" layoutY="108.0" prefHeight="25.0" prefWidth="240.0" />
             <ListView fx:id="lvSMS" layoutX="551.0" layoutY="168.0" prefHeight="81.0" prefWidth="192.0" />
             <Label id="label2" layoutX="586.0" layoutY="125.0" text="Sous matière(s) selectionnée(s) :" />
+            <Label layoutX="551.0" layoutY="248.0" prefHeight="57.0" prefWidth="192.0" text="Veuillez cliquer sur la sous matière" />
+            <Label layoutX="551.0" layoutY="277.0" prefHeight="57.0" prefWidth="192.0" text="que vous souhaitez insérer" />
          </children>
       </AnchorPane>
       <VBox layoutX="-6.0" layoutY="-4.0" prefHeight="636.0" prefWidth="119.0" style="-fx-background-color: #498FA7;">
@@ -114,6 +116,8 @@
             <ComboBox fx:id="cboMatiereSouhaitee1" layoutX="252.0" layoutY="108.0" prefHeight="25.0" prefWidth="240.0" />
             <ListView fx:id="lsvSMS1" layoutX="551.0" layoutY="168.0" prefHeight="81.0" prefWidth="192.0" />
             <Label id="label2" layoutX="586.0" layoutY="125.0" text="Sous matières selectionnés :" />
+            <Label layoutX="551.0" layoutY="245.0" prefHeight="57.0" prefWidth="192.0" text="Veuillez cliquer sur la sous matière" />
+            <Label layoutX="551.0" layoutY="269.0" prefHeight="57.0" prefWidth="192.0" text="que vous souhaitez insérer" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="apModifDemande" layoutX="112.0" layoutY="95.0" prefHeight="531.0" prefWidth="749.0" visible="false">

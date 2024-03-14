@@ -201,39 +201,55 @@ public class AccueilController implements Initializable {
         // pour lorsqu'on a selec une demande
         btnAiderFinale.setOnAction(event -> {
 
+
             // Récupérer l'élément sélectionné dans le ListView
-            Object selectedObject = lstvAider.getSelectionModel().getSelectedItem();
+            String selectedString = (String) lstvAider.getSelectionModel().getSelectedItem();
 
-            if (selectedObject != null) {
-                // Afficher une boîte de dialogue de confirmation
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation");
-                alert.setHeaderText("Voulez-vous aider cette personne ?");
-                alert.setContentText("Détails de la demande :\n" + selectedObject.toString());
+            if (selectedString != null) {
+                // Extraire les informations de la chaîne sélectionnée
+                String[] demandeInfoArray = selectedString.split(", ");
 
-                // Ajouter les boutons "Oui" et "Non"
-                ButtonType ouiButton = new ButtonType("Oui", ButtonBar.ButtonData.YES);
-                ButtonType nonButton = new ButtonType("Non", ButtonBar.ButtonData.NO);
-                alert.getButtonTypes().setAll(ouiButton, nonButton);
+                // Ajoutez ces instructions de journalisation
+                System.out.println("Contenu de la chaîne extraite : " + selectedString);
+                System.out.println("Nombre d'éléments dans le tableau : " + demandeInfoArray.length);
 
-                // Attendre la réponse de l'utilisateur
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.isPresent() && result.get() == ouiButton) {
-                    // L'utilisateur a choisi "Oui", effectuez les actions nécessaires
-                    // Afficher un message de confirmation
-                    System.out.println("Vous avez choisi d'aider cette personne.");
+                // Pour éviter les erreurs, vérifiez si le tableau contient suffisamment d'éléments
+                if (demandeInfoArray.length >= 3) {
+                    String sousMatiere = demandeInfoArray[0];
+                    String dateUpdated = demandeInfoArray[1];
+                    int demandeId = Integer.parseInt(demandeInfoArray[2]);
+
+                    // Afficher une boîte de dialogue de confirmation
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation");
+                    alert.setHeaderText("Voulez-vous aider cette personne ?");
+                    alert.setContentText("Détails de la demande :\n" +
+                            "Sous-matière: " + sousMatiere + "\n" +
+                            "Date Updated: " + dateUpdated + "\n" );
+
+                    // Ajouter les boutons "Oui" et "Non"
+                    ButtonType ouiButton = new ButtonType("Oui", ButtonBar.ButtonData.YES);
+                    ButtonType nonButton = new ButtonType("Non", ButtonBar.ButtonData.NO);
+                    alert.getButtonTypes().setAll(ouiButton, nonButton);
+
+                    // Attendre la réponse de l'utilisateur
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ouiButton) {
+                        // L'utilisateur a choisi "Oui", effectuez les actions nécessaires
+                        System.out.println("Vous avez choisi d'aider cette personne.");
+
+                        // Mettre à jour le statut de la demande
+                        sqlController.updateDemandeStatut(demandeId);
+                        lstvAider.getItems().clear();
+                        updateDemandesListView();
 
 
-
-
-
-
-
-
-
+                    } else {
+                        // L'utilisateur a choisi "Non" ou la boîte de dialogue a été fermée, ne rien faire
+                        System.out.println("Vous avez choisi de ne pas aider cette personne.");
+                    }
                 } else {
-                    // L'utilisateur a choisi "Non" ou la boîte de dialogue a été fermée, ne rien faire
-                    System.out.println("Vous avez choisi de ne pas aider cette personne.");
+                    System.err.println("Erreur: La chaîne extraite ne contient pas suffisamment d'informations.");
                 }
             } else {
                 // Aucun élément sélectionné dans le ListView, afficher un message d'erreur
@@ -243,8 +259,15 @@ public class AccueilController implements Initializable {
                 alert.setContentText("Veuillez sélectionner une demande.");
 
                 alert.showAndWait();
+
+                lstvAider.getItems().clear();
+
             }
         });
+
+
+
+
 
 
         lvsSousmatiere.setOnMouseClicked(event -> ajouterSousMatiereSelectionnee());
@@ -293,7 +316,6 @@ public class AccueilController implements Initializable {
 
             } else {
                 // Par défaut, récupère toutes les demandes
-                toutesDemandes = sqlController.getToutesDemandes();
             }
         }
 
@@ -518,6 +540,7 @@ public class AccueilController implements Initializable {
 
         }
         lstvAider.getItems().clear();
+        updateDemandesListView();
     }
 
     private void peuplerComboBoxMatiere() {

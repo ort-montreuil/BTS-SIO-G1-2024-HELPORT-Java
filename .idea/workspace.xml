@@ -7,11 +7,11 @@
     <list default="true" id="6ff7178e-16a9-4baa-8718-82b0d93c4b5f" name="Changes" comment="Demande erreur">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/AccueilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/AccueilController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/ConnexionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/ConnexionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Entity/Utilisateur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Entity/Utilisateur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/Entity/Demande.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/Entity/Demande.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/RequeteSQLController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/RequeteSQLController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/demo/Accueil.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/demo/Accueil.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/Accueil.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/Accueil.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/AccueilController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/AccueilController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/Entity/Utilisateur.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/Entity/Utilisateur.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/RequeteSQLController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/RequeteSQLController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
