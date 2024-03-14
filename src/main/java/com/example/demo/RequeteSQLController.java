@@ -379,6 +379,20 @@
             }
         }
 
+        public void ajouterSalle(String numSalle, int etage) {
+            try {
+                String codeSalle = "Salle " + numSalle;
+
+                ps = cnx.prepareStatement("INSERT INTO salle (code_salle, etage) VALUES (?, ?)");
+                ps.setString(1, codeSalle);
+                ps.setInt(2, etage);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                // gestion des erreurs
+                e.printStackTrace();
+            }
+        }
+
         public ResultSet afficherAdminStatistique1() {
             rs = null;
             try {
