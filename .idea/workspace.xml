@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ff7178e-16a9-4baa-8718-82b0d93c4b5f" name="Changes" comment="id">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/PopUpModifierDemandeController.java" afterDir="false" />
+    <list default="true" id="6ff7178e-16a9-4baa-8718-82b0d93c4b5f" name="Changes" comment="Pop up modif + qlq modifs dans aider">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/AccueilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/AccueilController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/RequeteSQLController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/RequeteSQLController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/RequeteSQLController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/RequeteSQLController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +83,7 @@
       <workItem from="1710143037572" duration="321000" />
       <workItem from="1710402130341" duration="9099000" />
       <workItem from="1710429799924" duration="300000" />
-      <workItem from="1710489750721" duration="1561000" />
+      <workItem from="1710489750721" duration="3325000" />
     </task>
     <task id="LOCAL-00001" summary="connexion">
       <option name="closed" value="true" />
@@ -152,7 +149,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710430021079</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Pop up modif + qlq modifs dans aider">
+      <option name="closed" value="true" />
+      <created>1710492361503</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1710492361503</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,6 +171,7 @@
     <MESSAGE value="Demande erreur" />
     <MESSAGE value="AIDER QUELQU'UN" />
     <MESSAGE value="id" />
-    <option name="LAST_COMMIT_MESSAGE" value="id" />
+    <MESSAGE value="Pop up modif + qlq modifs dans aider" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pop up modif + qlq modifs dans aider" />
   </component>
 </project>

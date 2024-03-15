@@ -163,6 +163,11 @@
         }
 
 
+
+
+
+
+
         public int getIdMatiere(String matiereSelectionnee) {
             int idMatiere = -1;
 
@@ -235,11 +240,13 @@
 
                 while (resultSet.next()) {
                     String sousMatiere = resultSet.getString("sous_matiere");
-                    Date date = resultSet.getDate("date_updated");
                     Date date2 = resultSet.getDate("date_fin_demande");
-                    int status = resultSet.getInt("status");
-                    String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s",
-                            date2.toString(), sousMatiere);
+                    int demandeId = resultSet.getInt("id");
+
+
+                    String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s, %s",
+                            date2.toString(), sousMatiere,demandeId);
+
 
                     demandesUtilisateur.add(informationDemande);
                 }
