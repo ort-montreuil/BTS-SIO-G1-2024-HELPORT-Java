@@ -20,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -200,57 +201,53 @@ public class AccueilController implements Initializable {
         });
         // pour lorsqu'on a selec une demande
         btnAiderFinale.setOnAction(event -> {
-
-
-            // Récupérer l'élément sélectionné dans le ListView
             String selectedString = (String) lstvAider.getSelectionModel().getSelectedItem();
 
             if (selectedString != null) {
-                // Extraire les informations de la chaîne sélectionnée
                 String[] demandeInfoArray = selectedString.split(", ");
 
-                System.out.println("Contenu de la chaîne extraite : " + selectedString);
-                System.out.println("Nombre d'éléments dans le tableau : " + demandeInfoArray.length);
-
                 if (demandeInfoArray.length >= 3) {
-                    String sousMatiere = demandeInfoArray[0];
-                    String dateUpdated = demandeInfoArray[1];
+                    String sousMatiere = demandeInfoArray[1].split(": ")[1];
                     int demandeId = Integer.parseInt(demandeInfoArray[2]);
 
-                    // Afficher une boîte de dialogue de confirmation
+                    String[] sousMatieresDemande = sousMatiere.split("#");
+
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Confirmation");
                     alert.setHeaderText("Voulez-vous aider cette personne ?");
                     alert.setContentText("Détails de la demande :\n" +
-                            "Sous-matière: " + sousMatiere + "\n" +
-                            "Date Updated: " + dateUpdated + "\n" );
+                            "Sous-matière: " + sousMatiere + "\n");
 
-                    // Ajouter les boutons "Oui" et "Non"
                     ButtonType ouiButton = new ButtonType("Oui", ButtonBar.ButtonData.YES);
                     ButtonType nonButton = new ButtonType("Non", ButtonBar.ButtonData.NO);
                     alert.getButtonTypes().setAll(ouiButton, nonButton);
 
-                    // Attendre la réponse de l'utilisateur
                     Optional<ButtonType> result = alert.showAndWait();
                     if (result.isPresent() && result.get() == ouiButton) {
-                        // L'utilisateur a choisi "Oui", effectuez les actions nécessaires
                         System.out.println("Vous avez choisi d'aider cette personne.");
 
-                        // Mettre à jour le statut de la demande
-                        sqlController.updateDemandeStatut(demandeId);
-                        lstvAider.getItems().clear();
-                        updateDemandesListView();
-
-
+                        try {
+                            List<Integer> competenceIds = sqlController.getCompetenceIds(sousMatieresDemande);
+                            if (!competenceIds.isEmpty()) {
+                                for (int competenceId : competenceIds) {
+                                    sqlController.updateDemandeStatut(demandeId);
+                                    sqlController.aiderDemande(demandeId, competenceId);
+                                }
+                                lstvAider.getItems().clear();
+                                updateDemandesListView();
+                            } else {
+                                System.err.println("Aucune compétence trouvée pour la sous-matière sélectionnée : " + sousMatiere);
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
                     } else {
-                        // L'utilisateur a choisi "Non" ou la boîte de dialogue a été fermée, ne rien faire
                         System.out.println("Vous avez choisi de ne pas aider cette personne.");
                     }
                 } else {
                     System.err.println("Erreur: La chaîne extraite ne contient pas suffisamment d'informations.");
                 }
             } else {
-                // Aucun élément sélectionné dans le ListView, afficher un message d'erreur
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Erreur");
                 alert.setHeaderText(null);
@@ -259,9 +256,9 @@ public class AccueilController implements Initializable {
                 alert.showAndWait();
 
                 lstvAider.getItems().clear();
-
             }
         });
+
 
 
 

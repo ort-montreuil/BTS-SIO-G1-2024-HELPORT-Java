@@ -6,6 +6,7 @@
 
     import java.sql.*;
     import java.time.LocalDate;
+    import java.time.format.DateTimeFormatter;
     import java.util.*;
     import java.util.Date;
 
@@ -163,11 +164,6 @@
         }
 
 
-
-
-
-
-
         public int getIdMatiere(String matiereSelectionnee) {
             int idMatiere = -1;
 
@@ -189,7 +185,6 @@
         }
 
 
-
         public void updateDemandeStatut(int demandeId) {
             try {
                 String sqlQuery = "UPDATE demande SET status = ? WHERE id = ?";
@@ -209,7 +204,7 @@
             }
         }
 
-        public void creerCompetenceConnecte(int idMatiere,int idUtilisateur,String sousMatiereDemandee, int status) {
+        public void creerCompetenceConnecte(int idMatiere, int idUtilisateur, String sousMatiereDemandee, int status) {
             try {
                 ps = cnx.prepareStatement("INSERT INTO competence (id_matiere,id_user,sous_matiere,statut) " +
                         "VALUES ( ?, ?, ?, ?)");
@@ -227,6 +222,7 @@
 
             }
         }
+
         public List<String> getDemandesUtilisateurConnecte(int idUtilisateur) {
             List<String> demandesUtilisateur = new ArrayList<>();
 
@@ -245,7 +241,7 @@
 
 
                     String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s, %s",
-                            date2.toString(), sousMatiere,demandeId);
+                            date2.toString(), sousMatiere, demandeId);
 
 
                     demandesUtilisateur.add(informationDemande);
@@ -256,6 +252,7 @@
 
             return demandesUtilisateur;
         }
+
         public static List<String> getCompetencesUtilisateurConnecte(int idUtilisateur) {
             List<String> competencesUtilisateur = new ArrayList<>();
 
@@ -302,6 +299,7 @@
             }
             return soutiensParMatiere;
         }
+
         public HashMap<String, Integer> getNombreDemandesParMatiere(int idUtilisateurConnecte) {
             HashMap<String, Integer> nombreDemandesParMatiere = new HashMap<>();
 
@@ -327,6 +325,7 @@
             }
             return nombreDemandesParMatiere;
         }
+
         public Demande getDemandeById(int demandeId) {
             Demande demande = new Demande(); // Crée un objet Demande pour stocker les informations récupérées
             try {
@@ -374,9 +373,6 @@
         }
 
 
-
-
-
         public List<String> getDemandesMasterUn() {
             List<String> demandesList = new ArrayList<>();
 
@@ -385,7 +381,7 @@
                         "FROM demande d " +
                         "JOIN user u ON d.id_user = u.id " +
                         "WHERE u.niveau IN ('Terminale', 'BTS 1', 'BTS 2', 'Bachelor')"
-                        +"AND d.status=1";
+                        + "AND d.status=1";
 
                 try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
                     ResultSet resultSet = preparedStatement.executeQuery();
@@ -397,8 +393,7 @@
 
 
                         String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s, %s",
-                                date2.toString(), sousMatiere,demandeId);
-
+                                date2.toString(), sousMatiere, demandeId);
 
 
                         demandesList.add(informationDemande);
@@ -411,8 +406,6 @@
             return demandesList;
 
 
-
-
         }
 
         public List<String> getDemandesMasterDeux() {
@@ -423,7 +416,7 @@
                         "FROM demande d " +
                         "JOIN user u ON d.id_user = u.id " +
                         "WHERE u.niveau IN ('Terminale', 'BTS 1', 'BTS 2', 'Bachelor', 'Master 1')"
-                        +"AND d.status=1";
+                        + "AND d.status=1";
                 try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
                     ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -434,8 +427,7 @@
 
 
                         String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s, %s",
-                                date2.toString(), sousMatiere,demandeId);
-
+                                date2.toString(), sousMatiere, demandeId);
 
 
                         demandesList.add(informationDemande);
@@ -466,8 +458,7 @@
 
 
                         String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s, %s",
-                                date2.toString(), sousMatiere,demandeId);
-
+                                date2.toString(), sousMatiere, demandeId);
 
 
                         demandesList.add(informationDemande);
@@ -488,7 +479,7 @@
                         "FROM demande d " +
                         "JOIN user u ON d.id_user = u.id " +
                         "WHERE u.niveau = 'Terminale'"
-                        +"AND d.status=1";
+                        + "AND d.status=1";
 
                 try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
                     ResultSet resultSet = preparedStatement.executeQuery();
@@ -500,8 +491,7 @@
 
 
                         String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s, %s",
-                                date2.toString(), sousMatiere,demandeId);
-
+                                date2.toString(), sousMatiere, demandeId);
 
 
                         demandesList.add(informationDemande);
@@ -513,4 +503,63 @@
 
             return demandesList;
         }
+
+
+        public void aiderDemande(int demandeId, int competenceId) {
+            try {
+                // Obtenez la date actuelle
+                LocalDate dateDuSoutien = LocalDate.now().plusWeeks(2);
+
+                // Requête SQL pour insérer une nouvelle entrée dans la table soutien
+                String sqlQuery = "INSERT INTO soutien (id_demande, id_competence, id_salle, date_du_soutien, date_updated, description, status) VALUES (?, ?, ?, ?, CURDATE(), '', 1)";
+
+                try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
+                    // Assignez les valeurs aux paramètres de la requête
+                    preparedStatement.setInt(1, demandeId);
+                    preparedStatement.setInt(2, competenceId);
+                    preparedStatement.setInt(3, 1); // id_salle = 1
+
+                    // Conversion de la date en format SQL Date
+                    java.sql.Date dateDuSoutienSQL = java.sql.Date.valueOf(dateDuSoutien);
+                    preparedStatement.setDate(4, dateDuSoutienSQL);
+
+                    // Exécutez la requête d'insertion
+                    int rowsAffected = preparedStatement.executeUpdate();
+
+                    // Vérifiez si l'insertion a réussi
+                    if (rowsAffected > 0) {
+                        System.out.println("Nouveau soutien ajouté avec succès.");
+                    } else {
+                        System.out.println("Échec de l'ajout du soutien.");
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        public List<Integer> getCompetenceIds(String[] sousMatieres) throws SQLException {
+            List<Integer> competenceIds = new ArrayList<>();
+
+            // Créer une requête SQL dynamique avec un nombre variable de paramètres
+            StringBuilder sqlBuilder = new StringBuilder("SELECT id FROM competence WHERE 1=1");
+            for (int i = 0; i < sousMatieres.length; i++) {
+                sqlBuilder.append(" AND sous_matiere LIKE ?");
+            }
+
+            try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlBuilder.toString())) {
+                for (int i = 0; i < sousMatieres.length; i++) {
+                    preparedStatement.setString(i + 1, "%" + sousMatieres[i] + "%");
+                }
+                ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    competenceIds.add(resultSet.getInt("id"));
+                }
+            }
+
+            return competenceIds;
+        }
+
     }
+
