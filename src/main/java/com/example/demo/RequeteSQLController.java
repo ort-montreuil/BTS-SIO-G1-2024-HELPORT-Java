@@ -189,9 +189,7 @@
             try {
                 String sqlQuery = "UPDATE demande SET status = ? WHERE id = ?";
                 try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
-                    // Nouveau statut à mettre à jour (2 pour votre cas)
                     preparedStatement.setInt(1, 2);
-                    // ID de la demande à mettre à jour
                     preparedStatement.setInt(2, demandeId);
 
                     int rowsAffected = preparedStatement.executeUpdate();
@@ -339,7 +337,6 @@
                     demande.setId(rs.getInt("id_demande"));
                     demande.setDateFin(rs.getDate("date_fin_demande"));
                     demande.setSousMatiere(rs.getString("sous_matiere"));
-                    // Vous pouvez ajouter d'autres champs selon votre structure de données
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -372,9 +369,6 @@
 
 
 
-        public void actualiserDemandes() {
-            List<String> nouvellesDemandes = getToutesDemandes();
-        }
 
         public List<String> getDemandesMasterUn() {
             List<String> demandesList = new ArrayList<>();
@@ -454,7 +448,7 @@
                 String sqlQuery = "SELECT d.sous_matiere, d.date_updated, d.date_fin_demande " +
                         "FROM demande d " +
                         "JOIN user u ON d.id_user = u.id " +
-                        "WHERE u.niveau IN ('Terminale', 'BTS 1', 'BTS 2')";
+                        "WHERE u.niveau IN ('Terminale', 'BTS 1')";
                 try (PreparedStatement preparedStatement = cnx.prepareStatement(sqlQuery)) {
                     ResultSet resultSet = preparedStatement.executeQuery();
 

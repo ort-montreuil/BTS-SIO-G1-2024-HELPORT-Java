@@ -209,11 +209,9 @@ public class AccueilController implements Initializable {
                 // Extraire les informations de la chaîne sélectionnée
                 String[] demandeInfoArray = selectedString.split(", ");
 
-                // Ajoutez ces instructions de journalisation
                 System.out.println("Contenu de la chaîne extraite : " + selectedString);
                 System.out.println("Nombre d'éléments dans le tableau : " + demandeInfoArray.length);
 
-                // Pour éviter les erreurs, vérifiez si le tableau contient suffisamment d'éléments
                 if (demandeInfoArray.length >= 3) {
                     String sousMatiere = demandeInfoArray[0];
                     String dateUpdated = demandeInfoArray[1];
