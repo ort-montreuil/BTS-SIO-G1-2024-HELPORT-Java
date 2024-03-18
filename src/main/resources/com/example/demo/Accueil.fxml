@@ -160,7 +160,7 @@
             </BarChart>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="apCreerCompetence" layoutX="113.0" layoutY="76.0" prefHeight="550.0" prefWidth="757.0" visible="false">
+      <AnchorPane fx:id="apCreerCompetence" layoutX="113.0" layoutY="76.0" prefHeight="550.0" prefWidth="757.0">
          <children>
             <Label layoutX="119.0" layoutY="53.0" prefHeight="27.0" prefWidth="200.0" text="Créer ses compétences">
                <font>
