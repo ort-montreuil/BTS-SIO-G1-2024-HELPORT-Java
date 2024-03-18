@@ -93,8 +93,6 @@ public class AccueilController implements Initializable {
     @FXML
     private ComboBox cboMatiereSComp;
     @FXML
-    private Button btnValidComp;
-    @FXML
     private Button btnAnnuleComp;
     @FXML
     private Button btnValidCompFinale;
@@ -123,6 +121,12 @@ public class AccueilController implements Initializable {
     private ListView lvSMS;
     @FXML
     private DatePicker DtpFinDemande;
+    @FXML
+    private Button btnAnnulerCreDemande;
+    @FXML
+    private Button btnAnnulerCreaDemandeSoutien;
+    @FXML
+    private Button btnAnnulerCD;
 
 
     @Override
@@ -753,11 +757,17 @@ public class AccueilController implements Initializable {
     public void AfficherModifCompetence(ActionEvent actionEvent) {
     }
 
-    @FXML
+    @Deprecated
     private void AnnulerModifD(ActionEvent event) {
 
     }
 
 
+    @FXML
+    public void lstvMesDemandesMouseClicked(Event event) {
+    }
 
+    @FXML
+    public void annulerCompetence(ActionEvent actionEvent) {
+    }
 }
