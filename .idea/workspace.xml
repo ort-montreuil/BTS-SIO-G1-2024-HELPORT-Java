@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ff7178e-16a9-4baa-8718-82b0d93c4b5f" name="Changes" comment="Demande erreur">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_12_2023_22_52_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_21_12_2023_22_52__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_12_2023_15_06_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_23_12_2023_15_06__Changes_.xml" beforeDir="false" />
+    <list default="true" id="6ff7178e-16a9-4baa-8718-82b0d93c4b5f" name="Changes" comment="Mes demandes = id">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/AccueilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/AccueilController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/demo/AccueilController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/demo/AccueilController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/demo/RequeteSQLController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/demo/RequeteSQLController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,6 +82,10 @@
       <workItem from="1709815469606" duration="2451000" />
       <workItem from="1709884722451" duration="2595000" />
       <workItem from="1710143037572" duration="321000" />
+      <workItem from="1710402130341" duration="9099000" />
+      <workItem from="1710429799924" duration="300000" />
+      <workItem from="1710489750721" duration="4218000" />
+      <workItem from="1710500084212" duration="3107000" />
     </task>
     <task id="LOCAL-00001" summary="connexion">
       <option name="closed" value="true" />
@@ -128,7 +127,47 @@
       <option name="project" value="LOCAL" />
       <updated>1709815832017</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="AIDER QUELQU'UN">
+      <option name="closed" value="true" />
+      <created>1710428691055</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1710428691055</updated>
+    </task>
+    <task id="LOCAL-00007" summary="AIDER QUELQU'UN">
+      <option name="closed" value="true" />
+      <created>1710429155654</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1710429155654</updated>
+    </task>
+    <task id="LOCAL-00008" summary="id">
+      <option name="closed" value="true" />
+      <created>1710430021079</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1710430021079</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Pop up modif + qlq modifs dans aider">
+      <option name="closed" value="true" />
+      <created>1710492361503</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1710492361503</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Mes demandes = id">
+      <option name="closed" value="true" />
+      <created>1710494714009</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1710494714009</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -140,6 +179,10 @@
     <MESSAGE value="Connexion et check dans la base de donnees" />
     <MESSAGE value="Test" />
     <MESSAGE value="Demande erreur" />
-    <option name="LAST_COMMIT_MESSAGE" value="Demande erreur" />
+    <MESSAGE value="AIDER QUELQU'UN" />
+    <MESSAGE value="id" />
+    <MESSAGE value="Pop up modif + qlq modifs dans aider" />
+    <MESSAGE value="Mes demandes = id" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mes demandes = id" />
   </component>
 </project>

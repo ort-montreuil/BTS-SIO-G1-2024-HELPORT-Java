@@ -9,7 +9,7 @@ public class Utilisateur
     private static String email;
     private static String motDePasse;
     private String role;
-    private String niveau;
+    private static String niveau;
     private int sexe;
     private String telephone;
 
@@ -85,12 +85,12 @@ public class Utilisateur
         this.role = role;
     }
 
-    public String getNiveau() {
+    public static String getNiveau() {
         return niveau;
     }
 
-    public void setNiveau(String niveau) {
-        this.niveau = niveau;
+    public static void setNiveau(String niveau) {
+        Utilisateur.niveau = niveau;
     }
 
     public int getSexe() {
