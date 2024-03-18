@@ -20,9 +20,9 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="637.0" prefWidth="827.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.AdminController">
+<AnchorPane prefHeight="677.0" prefWidth="914.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.AdminController">
    <children>
-      <AnchorPane layoutX="-3.0" layoutY="-1.0" prefHeight="637.0" prefWidth="838.0">
+      <AnchorPane prefHeight="631.0" prefWidth="854.0">
          <children>
             <HBox layoutX="128.0" prefHeight="116.0" prefWidth="718.0" style="-fx-background-color: #498FA7;" />
             <VBox prefHeight="482.0" prefWidth="130.0" style="-fx-background-color: #498FA7;">
@@ -121,18 +121,23 @@
                         <Font name="Candara Bold" size="23.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="tbvSalle" editable="true" layoutX="86.0" layoutY="281.0" prefHeight="200.0" prefWidth="438.0">
+                  <TableView fx:id="tbvSalle" editable="true" layoutX="66.0" layoutY="316.0" prefHeight="200.0" prefWidth="438.0">
                     <columns>
                       <TableColumn fx:id="colId" prefWidth="98.39996337890625" text="ID" />
                       <TableColumn fx:id="colCodeSalle" prefWidth="193.5999755859375" text="Code Salle" />
                         <TableColumn fx:id="colEtage" prefWidth="98" text="Etage" />
                     </columns>
                   </TableView>
-                  <Button fx:id="btnEnregistrerSalle" layoutX="560.0" layoutY="281.0" mnemonicParsing="false" onMouseClicked="#ModifierSalle" prefHeight="200.0" prefWidth="130.0" text="Enregistrer">
+                  <Button fx:id="btnEnregistrerSalle" layoutX="560.0" layoutY="316.0" mnemonicParsing="false" onMouseClicked="#ModifierSalle" prefHeight="200.0" prefWidth="130.0" text="Enregistrer">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Button>
+                  <Label alignment="CENTER" layoutX="177.0" layoutY="281.0" prefHeight="34.0" prefWidth="215.0" text="Modifier une salle">
+                     <font>
+                        <Font name="Candara Bold" size="23.0" />
+                     </font>
+                  </Label>
                </children></AnchorPane>
          </children>
       </AnchorPane>

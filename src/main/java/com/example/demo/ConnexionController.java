@@ -86,7 +86,7 @@ public class ConnexionController implements Initializable
     }
 
 
-// Méthode pour message erreur
+    // Méthode pour message erreur
     private void afficherMessageErreur(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur");
@@ -101,6 +101,8 @@ public class ConnexionController implements Initializable
         if (RequeteSql.verifierIdentifiants(txtId.getText(), txtMdp.getText())) {
             int idUtilisateur = RequeteSql.getIdUtilisateur(txtId.getText(), txtMdp.getText());
             Utilisateur.setId(idUtilisateur);
+            String nivUtilisateur = String.valueOf(RequeteSql.getNiveauUtilisateur(idUtilisateur));
+            Utilisateur.setNiveau(nivUtilisateur);
             // Vérifier le rôle de l'utilisateur
             String role = RequeteSql.getUserRole(idUtilisateur);
             if (role != null && role.equals("Admin")) {
@@ -112,8 +114,8 @@ public class ConnexionController implements Initializable
             }
         }
         else {
-                afficherMessageErreur("Identifiants incorrects. Veuillez réessayer.");
-            }
+            afficherMessageErreur("Identifiants incorrects. Veuillez réessayer.");
+        }
     }
 
     public void ouvrirAdmin(ActionEvent event) {
@@ -150,4 +152,5 @@ public class ConnexionController implements Initializable
             e.printStackTrace();
         }
     }
+
 }

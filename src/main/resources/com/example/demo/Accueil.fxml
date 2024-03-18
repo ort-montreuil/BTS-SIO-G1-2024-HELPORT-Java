@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -17,14 +18,14 @@
 
 <AnchorPane fx:id="apPrincipal" prefHeight="583.0" prefWidth="808.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.AccueilController">
    <children>
-      <AnchorPane fx:id="apAccueil" layoutX="42.0" prefHeight="599.0" prefWidth="812.0">
+      <AnchorPane fx:id="apAccueil" layoutX="42.0" prefHeight="599.0" prefWidth="812.0" visible="false">
          <children>
             <Label fx:id="lblNomPrenom" layoutX="99.0" layoutY="88.0">
                <font>
                   <Font size="26.0" />
                </font>
             </Label>
-            <Label layoutX="99.0" layoutY="167.0" prefHeight="17.0" prefWidth="594.0" text="Vous avez plusieurs demandes en attentes">
+            <Label layoutX="99.0" layoutY="167.0" prefHeight="17.0" prefWidth="594.0" text="Vous avez plusieurs demandes en attente">
                <font>
                   <Font size="22.0" />
                </font>
@@ -45,7 +46,7 @@
          <children>
             <ListView fx:id="lstvAider" layoutX="63.0" layoutY="93.0" prefHeight="367.0" prefWidth="430.0" />
             <Button fx:id="btnAiderFinale" layoutX="605.0" layoutY="191.0" mnemonicParsing="false" text="Aider " />
-            <Label layoutX="531.0" layoutY="87.0" prefHeight="42.0" prefWidth="210.0" text="Apres avoir selectionné une demande" />
+            <Label layoutX="531.0" layoutY="87.0" prefHeight="42.0" prefWidth="210.0" text="Après avoir sélectionné une demande" />
             <Label layoutX="537.0" layoutY="129.0" prefHeight="17.0" prefWidth="184.0" text=" Cliquez ici pour aider la personne" />
             <Label layoutX="330.0" prefHeight="81.0" prefWidth="81.0" text="Aider" textFill="#070505">
                <font>
@@ -67,7 +68,7 @@
             <ComboBox fx:id="cboMatiereSouhaitee" layoutX="252.0" layoutY="108.0" prefHeight="25.0" prefWidth="240.0" />
             <ListView fx:id="lvSMS" layoutX="551.0" layoutY="168.0" prefHeight="81.0" prefWidth="192.0" />
             <Label id="label2" layoutX="586.0" layoutY="125.0" text="Sous matière(s) selectionnée(s) :" />
-            <Label layoutX="551.0" layoutY="248.0" prefHeight="57.0" prefWidth="192.0" text="Veuillez cliquer sur la sous matière" />
+            <Label layoutX="551.0" layoutY="248.0" prefHeight="57.0" prefWidth="192.0" text="Veuillez cliquer sur la sous-matière" />
             <Label layoutX="551.0" layoutY="277.0" prefHeight="57.0" prefWidth="192.0" text="que vous souhaitez insérer" />
          </children>
       </AnchorPane>
@@ -95,10 +96,10 @@
          </font>
       </Label>
       <Button fx:id="btnDeco" layoutX="752.0" layoutY="29.0" mnemonicParsing="false" text="Se déconnecter" />
-      <AnchorPane fx:id="apVD" layoutX="113.0" layoutY="75.0" prefHeight="488.0" prefWidth="739.0" visible="false">
+      <AnchorPane fx:id="apVD" layoutX="113.0" layoutY="75.0" prefHeight="488.0" prefWidth="739.0">
          <children>
             <Button fx:id="btnModifDemande" layoutX="594.0" layoutY="243.0" mnemonicParsing="false" onAction="#afficherPopUpModifDemande" prefHeight="25.0" prefWidth="149.0" text="Modifier la demande " />
-            <Label fx:id="lblSelec" layoutX="597.0" layoutY="14.0" prefHeight="52.0" prefWidth="142.0" text="Selectionner une matière" />
+            <Label fx:id="lblSelec" layoutX="597.0" layoutY="14.0" prefHeight="52.0" prefWidth="142.0" text="Sélectionner une matière" />
             <ListView fx:id="lstVMesdemandes" layoutX="68.0" layoutY="34.0" onMouseClicked="#lstvMesDemandesMouseClicked" prefHeight="390.0" prefWidth="470.0" />
          </children>
       </AnchorPane>
@@ -161,20 +162,20 @@
       </AnchorPane>
       <AnchorPane fx:id="apCreerCompetence" layoutX="113.0" layoutY="76.0" prefHeight="550.0" prefWidth="757.0" visible="false">
          <children>
-            <Label layoutX="119.0" layoutY="53.0" prefHeight="27.0" prefWidth="200.0" text="Creer ses compétences">
+            <Label layoutX="119.0" layoutY="53.0" prefHeight="27.0" prefWidth="200.0" text="Créer ses compétences">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <Line endX="6.0" endY="47.0" layoutX="455.0" layoutY="30.0" startX="6.0" startY="522.0" />
-            <Label layoutX="473.0" layoutY="53.0" prefHeight="27.0" prefWidth="286.0" text="Cliquer sur la competence à inserer">
+            <Label layoutX="472.0" layoutY="53.0" prefHeight="27.0" prefWidth="285.0" text="Cliquer sur la compétence à insérer">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <ListView fx:id="lstvRecap" layoutX="510.0" layoutY="135.0" prefHeight="260.0" prefWidth="232.0" />
             <Label id="label1" layoutX="37.0" layoutY="170.0" text="Matière souhaitée :" />
-            <Label id="label2" layoutX="50.0" layoutY="277.0" text="Sous matière :" />
+            <Label id="label2" layoutX="50.0" layoutY="277.0" text="Sous-matière :" />
             <ListView fx:id="lvsSousmatiereComp" layoutX="214.0" layoutY="257.0" prefHeight="57.0" prefWidth="232.0" />
             <ComboBox fx:id="cboMatiereSComp" layoutX="210.0" layoutY="166.0" prefHeight="25.0" prefWidth="240.0" />
             <Button fx:id="btnAnnuleComp" layoutX="190.0" layoutY="451.0" mnemonicParsing="false" onAction="#annulerCompetence" text="Annuler" />
@@ -183,10 +184,10 @@
       </AnchorPane>
       <AnchorPane fx:id="apVC" layoutX="123.0" layoutY="85.0" prefHeight="488.0" prefWidth="739.0" visible="false">
          <children>
-            <Button fx:id="btnModifCompetence" layoutX="594.0" layoutY="243.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Modifier la competence " />
-            <Label fx:id="lblMatiereCompModif" layoutX="110.0" layoutY="39.0" prefHeight="52.0" prefWidth="58.0" text="Matiere" />
+            <Button fx:id="btnModifCompetence" layoutX="594.0" layoutY="243.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="149.0" text="Modifier la compétence" />
+            <Label fx:id="lblMatiereCompModif" layoutX="110.0" layoutY="39.0" prefHeight="52.0" prefWidth="58.0" text="Matière" />
             <ListView fx:id="lstvModifComp" layoutX="66.0" layoutY="98.0" prefHeight="390.0" prefWidth="470.0" />
-            <Label fx:id="lblSelec11" layoutX="372.0" layoutY="39.0" prefHeight="52.0" prefWidth="142.0" text="Sous Matiere" />
+            <Label fx:id="lblSelec11" layoutX="372.0" layoutY="39.0" prefHeight="52.0" prefWidth="142.0" text="Sous-Matière" />
          </children>
       </AnchorPane>
    </children>
