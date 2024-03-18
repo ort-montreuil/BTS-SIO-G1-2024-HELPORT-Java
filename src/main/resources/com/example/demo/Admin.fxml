@@ -22,10 +22,10 @@
 
 <AnchorPane prefHeight="677.0" prefWidth="914.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.AdminController">
    <children>
-      <AnchorPane prefHeight="631.0" prefWidth="854.0">
+      <AnchorPane prefHeight="677.0" prefWidth="914.0">
          <children>
-            <HBox layoutX="128.0" prefHeight="116.0" prefWidth="718.0" style="-fx-background-color: #498FA7;" />
-            <VBox prefHeight="482.0" prefWidth="130.0" style="-fx-background-color: #498FA7;">
+            <HBox layoutX="128.0" prefHeight="116.0" prefWidth="785.0" style="-fx-background-color: #498FA7;" />
+            <VBox prefHeight="638.0" prefWidth="130.0" style="-fx-background-color: #498FA7;">
                <children>
                   <ImageView fitHeight="125.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -86,10 +86,10 @@
                   </StackedBarChart>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="apAccueilAd" layoutX="128.0" layoutY="116.0" prefHeight="522.0" prefWidth="703.0" visible="false">
+            <AnchorPane fx:id="apAccueilAd" layoutX="128.0" layoutY="116.0" prefHeight="562.0" prefWidth="786.0">
                <children>
                   <Label layoutX="18.0" layoutY="166.0" prefHeight="44.0" prefWidth="602.0" text="Vous êtes dans la partie Admin" />
-                  <Label fx:id="lblNomAdmin" layoutX="18.0" layoutY="122.0" prefHeight="44.0" prefWidth="674.0" style="-fx-background-color: grey;" />
+                  <Label fx:id="lblNomAdmin" layoutX="18.0" layoutY="104.0" prefHeight="62.0" prefWidth="674.0" style="-fx-background-color: grey;" />
                   <Label alignment="CENTER" layoutX="4.0" layoutY="6.0" prefHeight="78.0" prefWidth="703.0" text="Accueil">
                      <font>
                         <Font name="System Bold" size="36.0" />
@@ -97,7 +97,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="apSalles" layoutX="130.0" layoutY="116.0" prefHeight="522.0" prefWidth="710.0">
+            <AnchorPane fx:id="apSalles" layoutX="130.0" layoutY="116.0" prefHeight="562.0" prefWidth="786.0" visible="false">
                <children>
                   <Label alignment="CENTER" prefHeight="62.0" prefWidth="710.0" text="Salles">
                      <font>

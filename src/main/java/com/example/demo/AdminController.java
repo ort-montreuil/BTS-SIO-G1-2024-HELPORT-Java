@@ -358,14 +358,21 @@ public class AdminController implements Initializable {
             afficherErreurMat("Vous devez rentrer le numéro de la salle.");
         }
         else if (!numSalleText.matches("\\d{1,3}")) {
-            afficherErreurEntier("Vous devez saisir un numéro de salle.");
+            afficherErreurEntier("Vous devez saisir un numéro de salle valide.");
         }
         else {
-            int etage = Integer.parseInt(etageText); // Convertir l'étage en entier
+            // Vérifier si le premier chiffre du numéro de salle correspond à l'étage sélectionné
+            String premierChiffreSalle = numSalleText.substring(0, 1);
+            if (!premierChiffreSalle.equals(etageText)) {
+                afficherErreurMat("Le premier chiffre du numéro de salle ne correspond pas à l'étage sélectionné.");
+            } else {
+                // Convertir l'étage en entier
+                int etage = Integer.parseInt(etageText);
 
-            // Appeler la méthode pour ajouter la salle dans la base de données
-            sqlController.ajouterSalle(numSalleText, etage);
-            afficherSuccesMat("La salle " + numSalleText + " à l'étage " + etage + " a été ajoutée avec succès.");
+                // Appeler la méthode pour ajouter la salle dans la base de données
+                sqlController.ajouterSalle(numSalleText, etage);
+                afficherSuccesMat("La salle " + numSalleText + " à l'étage " + etage + " a été ajoutée avec succès.");
+            }
         }
     }
     @javafx.fxml.FXML

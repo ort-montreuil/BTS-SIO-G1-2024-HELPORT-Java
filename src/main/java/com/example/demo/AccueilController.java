@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import com.example.demo.Entity.Utilisateur;
-import com.example.demo.PopUpAiderController;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,11 +13,13 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -157,20 +158,19 @@ public class AccueilController implements Initializable {
 
         btnModifDemande.setOnAction(actionEvent -> {
 
-                    String demandeSelectionnee = (String) lstVMesdemandes.getSelectionModel().getSelectedItem();
+            String demandeSelectionnee = (String) lstVMesdemandes.getSelectionModel().getSelectedItem();
 
-                    if (demandeSelectionnee != null) {
-                        // Affiche la pop-up avec la demande sélectionnée
-                        afficherPopUpModifDemande(demandeSelectionnee);
-                    } else {
-                        // Affiche un message d'erreur si aucune demande n'est sélectionnée
-                        Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Erreur de sélection");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Veuillez sélectionner une demande.");
-                        alert.showAndWait();
+            if (demandeSelectionnee != null) {
+                // Affiche la pop-up avec la demande sélectionnée
+            } else {
+                // Affiche un message d'erreur si aucune demande n'est sélectionnée
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur de sélection");
+                alert.setHeaderText(null);
+                alert.setContentText("Veuillez sélectionner une demande.");
+                alert.showAndWait();
 
-                    }
+            }
         });
         btnModifCompetence.setOnAction(actionEvent -> {
 
@@ -178,7 +178,6 @@ public class AccueilController implements Initializable {
 
             if (competenceSelectionnee != null) {
                 // Affiche la pop-up avec la compétence sélectionnée
-                AfficherModifCompetence(competenceSelectionnee);
             } else {
                 // Afficher un message d'erreur si aucune compétences n'est sélectionnée
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -190,23 +189,70 @@ public class AccueilController implements Initializable {
             }
         });
         // pour lorsqu'on a selec une demande
-
         btnAiderFinale.setOnAction(event -> {
-            // Récupére la demande sélectionnée dans la ListView
-            String demandeSelectionnee = (String) lstvAider.getSelectionModel().getSelectedItem();
+            String selectedString = (String) lstvAider.getSelectionModel().getSelectedItem();
 
-            if (demandeSelectionnee != null) {
-                // Affiche la pop-up de la demande sélectionnée
-                afficherPopUpAider(demandeSelectionnee);
+            if (selectedString != null) {
+                String[] demandeInfoArray = selectedString.split(", ");
+
+                if (demandeInfoArray.length >= 3) {
+                    String sousMatiere = demandeInfoArray[1].split(": ")[1];
+                    int demandeId = Integer.parseInt(demandeInfoArray[2]);
+
+                    String[] sousMatieresDemande = sousMatiere.split("#");
+
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation");
+                    alert.setHeaderText("Voulez-vous aider cette personne ?");
+                    alert.setContentText("Détails de la demande :\n" +
+                            "Sous-matière: " + sousMatiere + "\n");
+
+                    ButtonType ouiButton = new ButtonType("Oui", ButtonBar.ButtonData.YES);
+                    ButtonType nonButton = new ButtonType("Non", ButtonBar.ButtonData.NO);
+                    alert.getButtonTypes().setAll(ouiButton, nonButton);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ouiButton) {
+                        System.out.println("Vous avez choisi d'aider cette personne.");
+
+                        try {
+                            List<Integer> competenceIds = sqlController.getCompetenceIds(sousMatieresDemande);
+                            if (!competenceIds.isEmpty()) {
+                                for (int competenceId : competenceIds) {
+                                    sqlController.updateDemandeStatut(demandeId);
+                                    sqlController.aiderDemande(demandeId, competenceId);
+                                }
+                                lstvAider.getItems().clear();
+                                updateDemandesListView();
+                            } else {
+                                System.err.println("Aucune compétence trouvée pour la sous-matière sélectionnée : " + sousMatiere);
+                            }
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        System.out.println("Vous avez choisi de ne pas aider cette personne.");
+                    }
+                } else {
+                    System.err.println("Erreur: La chaîne extraite ne contient pas suffisamment d'informations.");
+                }
             } else {
-                // Affiche un message d'erreur si aucune demande n'est sélectionnée
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur de sélection");
+                alert.setTitle("Erreur");
                 alert.setHeaderText(null);
                 alert.setContentText("Veuillez sélectionner une demande.");
+
                 alert.showAndWait();
+
+                lstvAider.getItems().clear();
             }
         });
+
+
+
+
+
+
 
         lvsSousmatiere.setOnMouseClicked(event -> ajouterSousMatiereSelectionnee());
         lvsSousmatiereComp.setOnMouseClicked(event -> ajouterSousMatiereSelecC());
@@ -224,7 +270,39 @@ public class AccueilController implements Initializable {
 
 
     private void updateDemandesListView() {
-        List<String> toutesDemandes = sqlController.getToutesDemandes();
+        // Récupération du niveau de l'utilisateur
+        String niveauUtilisateur = Utilisateur.getNiveau();
+
+        // Récupération des demandes en fonction du niveau de l'utilisateur
+        List<String> toutesDemandes = new ArrayList<>(); // Initialisation de la liste de demandes
+
+        if (niveauUtilisateur != null) {
+            if (niveauUtilisateur.equals("Terminale") || niveauUtilisateur.equals("BTS 1")) {
+                // Terminale et BTS 1 ne voient aucune demande
+            } else if (niveauUtilisateur.equals("BTS 2")) {
+                // BTS 2 voit les demandes des Terminales
+                toutesDemandes = sqlController.getDemandesTerminale();
+            } else if (niveauUtilisateur.equals("Bachelor")) {
+                // Bachelor voit les demandes des BTS 1 et des Terminales
+                toutesDemandes.addAll(sqlController.getDemandesBTS());
+                toutesDemandes.addAll(sqlController.getDemandesTerminale());
+            } else if (niveauUtilisateur.equals("Master 1")) {
+                // Master 1 et Master 2 voient les demandes des Terminales, des BTS 1 et BTS 2
+                toutesDemandes.addAll(sqlController.getDemandesMasterUn());
+
+            }
+            else if (niveauUtilisateur.equals("Master 2"))
+            {
+
+                toutesDemandes.addAll(sqlController.getDemandesMasterDeux());
+
+
+            } else {
+                // Par défaut, récupère toutes les demandes
+            }
+        }
+
+        // Affichage des demandes dans la ListView
         lstvAider.getItems().clear();
         lstvAider.getItems().addAll(toutesDemandes);
     }
@@ -477,39 +555,6 @@ public class AccueilController implements Initializable {
         }
     }
 
-
-    private void afficherPopUpAider(String demandeSelectionnee) {
-        try {
-            // Charge le contenu de apPopUpAider depuis le fichier FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/PopUpAider.fxml"));
-            Parent root = loader.load();
-
-            // Récupére le contrôleur de la pop-up
-            PopUpAiderController popUpController = loader.getController();
-
-            // Initialise le contrôleur de la pop-up avec les détails de la demande sélectionnée
-            popUpController.initialiserDemande(demandeSelectionnee);
-
-            // Crée une nouvelle fenêtre pour la pop-up
-            Stage popUpStage = new Stage();
-            popUpStage.initModality(Modality.APPLICATION_MODAL);
-            popUpStage.setTitle("Pop-up Aider");
-
-            popUpController.setStage(popUpStage);
-
-            Scene scene = new Scene(root);
-            popUpStage.setScene(scene);
-
-            // Affiche la pop-up
-            popUpStage.showAndWait();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     private void afficherPopUpModifDemande(String demandeSelectionnee) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/ModifierDemande.fxml"));
@@ -518,31 +563,6 @@ public class AccueilController implements Initializable {
             ModifierDemandeController popUpController = loader.getController();
 
             popUpController.initialiserDemande(demandeSelectionnee);
-
-            Stage popUpStage = new Stage();
-            popUpStage.initModality(Modality.APPLICATION_MODAL);
-            popUpStage.setTitle("Pop-up Modifier");
-
-            popUpController.setStage(popUpStage);
-
-            Scene scene = new Scene(root);
-            popUpStage.setScene(scene);
-
-            popUpStage.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void AfficherModifCompetence(String demandeSelectionnee) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/ModifierCompetence.fxml"));
-            Parent root = loader.load();
-
-            ModifierCompetenceController popUpController = loader.getController();
-
-            popUpController.initialiserCompetence(demandeSelectionnee);
 
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
@@ -758,6 +778,66 @@ public class AccueilController implements Initializable {
 
     }
 
+
+    @FXML
+    public void lstvMesDemandesMouseClicked(MouseEvent event) {
+        // Récupérer l'élément sélectionné
+        Object selectedObject = lstVMesdemandes.getSelectionModel().getSelectedItem();
+
+        // Vérifier si un élément est sélectionné et si c'est bien une chaîne de caractères
+        if (selectedObject != null && selectedObject instanceof String) {
+            // Convertir l'élément sélectionné en String
+            String demandeSelectionnee = (String) selectedObject;
+
+            // Récupérer les informations de la demande à partir de la liste des demandes
+            // Supposons que vous ayez une méthode pour récupérer ces informations à partir du numéro de demande
+            //     String[] infosDemande = recupererInfosDemande(demandeSelectionnee);
+
+            // Afficher les informations de la demande dans la pop-up de modification
+
+            // Afficher la pop-up de modification
+            // Code pour afficher la pop-up...
+        } else {
+            // Afficher un message d'erreur si aucun élément n'est sélectionné ou si ce n'est pas une chaîne de caractères
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de sélection");
+            alert.setHeaderText(null);
+            alert.setContentText("Veuillez sélectionner une demande valide.");
+            alert.showAndWait();
+        }
+    }
+
+
+
+    @FXML
+    private void annulerCompetence() {
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirmation");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("Voulez-vous vraiment annuler la création de compétence?");
+
+        // Ajoute les boutons "Oui" et "Non"
+        ButtonType btnOuii = new ButtonType("Oui");
+        ButtonType btnNonn = new ButtonType("Non", ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirmationAlert.getButtonTypes().setAll(btnOuii, btnNonn);
+
+        Optional<ButtonType> resultat = confirmationAlert.showAndWait();
+
+        if (resultat.isPresent() && resultat.get() == btnOuii) {
+
+            apAccueil.setVisible(true);
+            apSDemande.setVisible(false);
+            apVD.setVisible(false);
+            apAider.setVisible(false);
+            apModifDemande.setVisible(false);
+            apStats.setVisible(false);
+            apVC.setVisible(false);
+            apCreerCompetence.setVisible(false);
+
+            lstvRecap.getItems().clear();
+            lvsSousmatiereComp.getItems().clear();
+        }
+    }
 
 
 }

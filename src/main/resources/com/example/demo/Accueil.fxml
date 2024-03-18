@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -45,7 +46,7 @@
          <children>
             <ListView fx:id="lstvAider" layoutX="63.0" layoutY="93.0" prefHeight="367.0" prefWidth="430.0" />
             <Button fx:id="btnAiderFinale" layoutX="605.0" layoutY="191.0" mnemonicParsing="false" text="Aider " />
-            <Label layoutX="531.0" layoutY="87.0" prefHeight="42.0" prefWidth="210.0" text="Apres avoir selectionné une demande" />
+            <Label layoutX="531.0" layoutY="87.0" prefHeight="42.0" prefWidth="210.0" text="Après avoir selectionné une demande" />
             <Label layoutX="537.0" layoutY="129.0" prefHeight="17.0" prefWidth="184.0" text=" Cliquez ici pour aider la personne" />
             <Label layoutX="330.0" prefHeight="81.0" prefWidth="81.0" text="Aider" textFill="#070505">
                <font>
@@ -98,7 +99,7 @@
       <AnchorPane fx:id="apVD" layoutX="113.0" layoutY="75.0" prefHeight="488.0" prefWidth="739.0" visible="false">
          <children>
             <Button fx:id="btnModifDemande" layoutX="594.0" layoutY="243.0" mnemonicParsing="false" onAction="#afficherPopUpModifDemande" prefHeight="25.0" prefWidth="149.0" text="Modifier la demande " />
-            <Label fx:id="lblSelec" layoutX="597.0" layoutY="14.0" prefHeight="52.0" prefWidth="142.0" text="Selectionner une matière" />
+            <Label fx:id="lblSelec" layoutX="597.0" layoutY="14.0" prefHeight="52.0" prefWidth="142.0" text="Sélectionner une matière" />
             <ListView fx:id="lstVMesdemandes" layoutX="68.0" layoutY="34.0" onMouseClicked="#lstvMesDemandesMouseClicked" prefHeight="390.0" prefWidth="470.0" />
          </children>
       </AnchorPane>
@@ -161,13 +162,13 @@
       </AnchorPane>
       <AnchorPane fx:id="apCreerCompetence" layoutX="113.0" layoutY="76.0" prefHeight="550.0" prefWidth="757.0" visible="false">
          <children>
-            <Label layoutX="119.0" layoutY="53.0" prefHeight="27.0" prefWidth="200.0" text="Creer ses compétences">
+            <Label layoutX="119.0" layoutY="53.0" prefHeight="27.0" prefWidth="200.0" text="Créer ses compétences">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
             <Line endX="6.0" endY="47.0" layoutX="455.0" layoutY="30.0" startX="6.0" startY="522.0" />
-            <Label layoutX="473.0" layoutY="53.0" prefHeight="27.0" prefWidth="286.0" text="Cliquer sur la competence à inserer">
+            <Label layoutX="473.0" layoutY="53.0" prefHeight="27.0" prefWidth="286.0" text="Cliquer sur la compétence à insérer">
                <font>
                   <Font size="18.0" />
                </font>
@@ -190,4 +191,5 @@
          </children>
       </AnchorPane>
    </children>
+
 </AnchorPane>
