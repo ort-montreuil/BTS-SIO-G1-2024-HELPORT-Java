@@ -70,7 +70,7 @@
                   </AnchorPane>
                   <Button fx:id="btnAjouterMat" layoutX="65.0" layoutY="214.0" mnemonicParsing="false" onMouseClicked="#AjouterUneMatiere" prefHeight="34.0" prefWidth="215.0" text="Ajouter la matière" />
                   <Line endX="527.3999633789062" layoutX="145.0" layoutY="300.0" startX="-100.0" />
-                  <TableView fx:id="tbvMatSousMat" layoutX="45.0" layoutY="317.0" prefHeight="216.0" prefWidth="555.0">
+                  <TableView fx:id="tbvMatSousMat" editable="true" layoutX="45.0" layoutY="317.0" prefHeight="216.0" prefWidth="555.0">
                     <columns>
                       <TableColumn fx:id="colIdMat" prefWidth="90.79998779296875" text="Id" />
                       <TableColumn fx:id="designationMat" prefWidth="170.80001831054688" text="Designation" />

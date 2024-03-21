@@ -152,24 +152,22 @@ public class AdminController implements Initializable {
         codeMat.setCellValueFactory(new PropertyValueFactory<>("code"));
         sousMat.setCellValueFactory(new PropertyValueFactory<>("sousMatiere"));
 
-        // Gestion de l'édition de la colonne "designationMat"
         designationMat.setCellFactory(TextFieldTableCell.forTableColumn());
-        designationMat.setOnEditCommit((TableColumn.CellEditEvent<Matiere, String> event) -> {
+        designationMat.setOnEditCommit(event -> {
             Matiere matiere = event.getRowValue();
             matiere.setDesignation(event.getNewValue());
-            matiere.setModified(true); // Marquer la matière comme modifiée
-            sqlController.updateMatiere(matiere); // Mettre à jour la matière dans la base de données
-            tbvMatSousMat.refresh(); // Actualiser la TableView pour refléter les modifications
+            matiere.setModified(true);
+            sqlController.updateMatiere(matiere);
+            tbvMatSousMat.refresh();
         });
 
-// Gestion de l'édition de la colonne "sousMat"
         sousMat.setCellFactory(TextFieldTableCell.forTableColumn());
-        sousMat.setOnEditCommit((TableColumn.CellEditEvent<Matiere, String> event) -> {
+        sousMat.setOnEditCommit(event -> {
             Matiere matiere = event.getRowValue();
             matiere.setSousMatiere(event.getNewValue());
-            matiere.setModified(true); // Marquer la matière comme modifiée
-            sqlController.updateMatiere(matiere); // Mettre à jour la matière dans la base de données
-            tbvMatSousMat.refresh(); // Actualiser la TableView pour refléter les modifications
+            matiere.setModified(true);
+            sqlController.updateMatiere(matiere);
+            tbvMatSousMat.refresh();
         });
 
         // Récupération de la liste des matières depuis RequeteSqlController
