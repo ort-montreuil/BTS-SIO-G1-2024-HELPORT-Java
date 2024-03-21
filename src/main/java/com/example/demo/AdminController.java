@@ -1,7 +1,11 @@
 package com.example.demo;
 
 import com.example.demo.Entity.Matiere;
+import com.example.demo.Entity.Utilisateur;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -16,8 +20,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -92,6 +98,8 @@ public class AdminController implements Initializable {
     private RequeteSQLController sqlController = new RequeteSQLController();
     @FXML
     private Button btnEnregisterMat;
+    @FXML
+    private Button btnDeco;
 
 
     @Deprecated
@@ -229,12 +237,12 @@ public class AdminController implements Initializable {
 
         // Vérifier si le nom de la matière est vide
         if (nomMatiere.isEmpty()) {
-            afficherErreurMat("Vous devez entrer le nom de la matière.");
+            afficherErreur("Vous devez entrer le nom de la matière.");
 
         }
         // Vérifier si la liste des sous-matières est vide
         else if(sousMatieres.isEmpty()) {
-            afficherErreurSousMat("La liste des sous-matières ne peut pas être vide.");
+            afficherErreur("La liste des sous-matières ne peut pas être vide.");
         }
         else {
             // Récupérer le texte du TextArea
@@ -257,41 +265,19 @@ public class AdminController implements Initializable {
             }
             // Appeler la méthode pour ajouter la matière dans la base de données
             sqlController.ajouterMatiere(nomMatiere, String.join("#", sousMatieresUniques));
-            afficherSuccesMat("La matière " + nomMatiere + " a été ajoutée avec succès.");
+            afficherSuccess("La matière " + nomMatiere + " a été ajoutée avec succès.");
         }
     }
 
-    private void afficherSuccesMat(String message) {
+
+    private void afficherSuccess(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Succès");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-    private void afficherModifSalleSuccess(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Succès");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private void afficherErreurMat(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-    private void afficherErreurSousMat(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-    private void afficherErreurEntier(String message) {
+    private void afficherErreur(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur");
         alert.setHeaderText(null);
@@ -398,26 +384,26 @@ public class AdminController implements Initializable {
         String etageText = "";
 
         if (cboEtage.getValue() == null || numSalleText.isEmpty()) {
-            afficherErreurMat("Veuillez entrer un numéro de salle et sélectionner un étage.");
+            afficherErreur("Veuillez entrer un numéro de salle et sélectionner un étage.");
         } else {
             etageText = cboEtage.getValue().toString();
 
             if (!numSalleText.matches("\\d{1,3}")) {
-                afficherErreurEntier("Vous devez saisir un numéro de salle valide.");
+                afficherErreur("Vous devez saisir un numéro de salle valide.");
             } else {
                 int numSalle = Integer.parseInt(numSalleText);
 
                 if (sqlController.salleExisteDeja(numSalle)) {
-                    afficherErreurMat("Le numéro de salle a déjà été ajouté.");
+                    afficherErreur("Le numéro de salle a déjà été ajouté.");
                 } else {
                     String premierChiffreSalle = numSalleText.substring(0, 1);
                     if (!premierChiffreSalle.equals(etageText)) {
-                        afficherErreurMat("Le premier chiffre du numéro de salle ne correspond pas à l'étage sélectionné.");
+                        afficherErreur("Le premier chiffre du numéro de salle ne correspond pas à l'étage sélectionné.");
                     } else {
                         int etage = Integer.parseInt(etageText);
 
                         sqlController.ajouterSalle(numSalleText, etage);
-                        afficherSuccesMat("La salle " + numSalleText + " à l'étage " + etage + " a été ajoutée avec succès.");
+                        afficherSuccess("La salle " + numSalleText + " à l'étage " + etage + " a été ajoutée avec succès.");
                     }
                 }
             }
@@ -440,27 +426,7 @@ public class AdminController implements Initializable {
         }
         // Afficher un message de succès si au moins une modification a été effectuée
         if (modificationEffectuee) {
-            afficherModifSalleSuccess("La modification a été enregistrés avec succès !");
-        }
-    }
-
-    @Deprecated
-    public void ModifierMatiere(Event event) {
-        boolean modificationEffectuee = false; // Variable pour vérifier si au moins une modification a été effectuée
-
-        // Parcourir les éléments de la TableView
-        for (Matiere matiere : tbvMatSousMat.getItems()) {
-            // Vérifier si la salle a été modifiée
-            if (matiere.isModified()) {
-                // Mettre à jour la salle dans la base de données
-                sqlController.updateMatiere(matiere);
-                matiere.setModified(false);
-                modificationEffectuee = true;
-            }
-        }
-        // Afficher un message de succès si au moins une modification a été effectuée
-        if (modificationEffectuee) {
-            afficherModifSalleSuccess("La modification a été enregistrés avec succès !");
+            afficherSuccess("La modification a été enregistrés avec succès !");
         }
     }
     private void remplirComboBoxEtage() {
@@ -468,4 +434,61 @@ public class AdminController implements Initializable {
         cboEtage.getItems().addAll("1", "2", "3", "4", "5", "6"); // Ajoutez ici tous les étages nécessaires
     }
 
+    @FXML
+    public void ModifierMatiere(Event event) {
+        boolean modificationEffectuee = false; // Variable pour vérifier si au moins une modification a été effectuée
+
+        // Parcourir les éléments de la TableView
+        for (Matiere matiere : tbvMatSousMat.getItems()) {
+            // Vérifier si la matière a été modifiée
+            if (matiere.isModified()) {
+                // Vérifier si la colonne "Designation" est vide ou contient un chiffre
+                if (matiere.getDesignation().isEmpty() || contientChiffre(matiere.getDesignation())) {
+                    afficherErreur("La colonne Designation ne peut pas être vide et ne peut pas contenir de chiffres.");
+                }
+                // Vérifier si la colonne "Sous-mat" est vide ou contient un chiffre
+                else if (matiere.getSousMatiere().isEmpty() || contientChiffre(matiere.getSousMatiere())) {
+                    afficherErreur("La colonne Sous-mat ne peut pas être vide et ne peut pas contenir de chiffres.");
+                }
+                // Si les colonnes "Designation" et "Sous-mat" ne sont ni vides ni contiennent de chiffres, mettre à jour la matière dans la base de données
+                else {
+                    sqlController.updateMatiere(matiere);
+                    matiere.setModified(false);
+                    modificationEffectuee = true;
+                }
+            }
+        }
+        // Afficher un message de succès si au moins une modification a été effectuée
+        if (modificationEffectuee) {
+            afficherSuccess("La modification a été enregistrée avec succès !");
+        }
+    }
+
+    // Méthode pour vérifier si une chaîne contient un chiffre
+    private boolean contientChiffre(String str) {
+        for (char c : str.toCharArray()) {
+            if (Character.isDigit(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @FXML
+    public void SeDeconnecter(Event event) {
+        try {
+            Utilisateur.setId(-1);
+            Stage currentStage = (Stage) btnDeco.getScene().getWindow();
+            currentStage.close(); // Ferme le stage actuel
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/ConnexionInscription.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

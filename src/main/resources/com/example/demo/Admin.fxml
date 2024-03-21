@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -24,7 +25,14 @@
    <children>
       <AnchorPane prefHeight="677.0" prefWidth="914.0">
          <children>
-            <HBox layoutX="128.0" prefHeight="116.0" prefWidth="785.0" style="-fx-background-color: #498FA7;" />
+            <HBox layoutX="128.0" prefHeight="116.0" prefWidth="785.0" style="-fx-background-color: #498FA7;">
+               <children>
+                  <Button fx:id="btnDeco" mnemonicParsing="false" onMouseClicked="#SeDeconnecter" prefHeight="33.0" prefWidth="136.0" text="Se déconnecter">
+                     <HBox.margin>
+                        <Insets left="650.0" top="30.0" />
+                     </HBox.margin>
+                  </Button>
+               </children></HBox>
             <VBox prefHeight="638.0" prefWidth="130.0" style="-fx-background-color: #498FA7;">
                <children>
                   <ImageView fitHeight="125.0" fitWidth="116.0" pickOnBounds="true" preserveRatio="true">
@@ -78,7 +86,7 @@
                         <TableColumn fx:id="sousMat" prefWidth="200.80001831054688" text="Sous-Matières" />
                     </columns>
                   </TableView>
-                  <Button fx:id="btnEnregisterMat" layoutX="629.0" layoutY="317.0" mnemonicParsing="false" onMouseClicked="#ModifierSalle" prefHeight="216.0" prefWidth="130.0" text="Enregistrer" />
+                  <Button fx:id="btnEnregisterMat" layoutX="629.0" layoutY="317.0" mnemonicParsing="false" onMouseClicked="#ModifierMatiere" prefHeight="216.0" prefWidth="130.0" text="Enregistrer" />
                </children></AnchorPane>
             <AnchorPane fx:id="apStatistique" layoutX="130.0" layoutY="116.0" prefHeight="522.0" prefWidth="710.0" visible="false">
              <children>
