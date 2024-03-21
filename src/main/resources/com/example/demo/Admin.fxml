@@ -38,7 +38,7 @@
                   <Button fx:id="btnNavStats" mnemonicParsing="false" onMouseClicked="#AfficherStatistiqueAdmin" prefHeight="54.0" prefWidth="134.0" text="Statistiques" />
                </children>
             </VBox>
-            <AnchorPane fx:id="apMatieres" layoutX="128.0" layoutY="116.0" prefHeight="522.0" prefWidth="710.0" visible="false">
+            <AnchorPane fx:id="apMatieres" layoutX="127.0" layoutY="116.0" prefHeight="541.0" prefWidth="768.0">
                <children>
                   <Label alignment="CENTER" layoutY="14.0" prefHeight="62.0" prefWidth="718.0" text="Matiere">
                      <font>
@@ -57,8 +57,28 @@
                      </font>
                   </Label>
                   <TextArea fx:id="txtAreaSousMat" layoutX="429.0" layoutY="114.0" prefHeight="134.0" prefWidth="200.0" />
+                  <AnchorPane fx:id="apAccueilAd" prefHeight="562.0" prefWidth="786.0" visible="false">
+                     <children>
+                        <Label layoutX="18.0" layoutY="166.0" prefHeight="44.0" prefWidth="602.0" text="Vous êtes dans la partie Admin" />
+                        <Label fx:id="lblNomAdmin" layoutX="18.0" layoutY="104.0" prefHeight="62.0" prefWidth="674.0" style="-fx-background-color: grey;" />
+                        <Label alignment="CENTER" layoutX="4.0" layoutY="6.0" prefHeight="78.0" prefWidth="703.0" text="Accueil">
+                           <font>
+                              <Font name="System Bold" size="36.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
                   <Button fx:id="btnAjouterMat" layoutX="65.0" layoutY="214.0" mnemonicParsing="false" onMouseClicked="#AjouterUneMatiere" prefHeight="34.0" prefWidth="215.0" text="Ajouter la matière" />
                   <Line endX="527.3999633789062" layoutX="145.0" layoutY="300.0" startX="-100.0" />
+                  <TableView fx:id="tbvMatSousMat" layoutX="45.0" layoutY="317.0" prefHeight="216.0" prefWidth="555.0">
+                    <columns>
+                      <TableColumn fx:id="colIdMat" prefWidth="90.79998779296875" text="Id" />
+                      <TableColumn fx:id="designationMat" prefWidth="170.80001831054688" text="Designation" />
+                        <TableColumn fx:id="codeMat" prefWidth="90.80001831054688" text="Code" />
+                        <TableColumn fx:id="sousMat" prefWidth="200.80001831054688" text="Sous-Matières" />
+                    </columns>
+                  </TableView>
+                  <Button fx:id="btnEnregisterMat" layoutX="629.0" layoutY="317.0" mnemonicParsing="false" onMouseClicked="#ModifierSalle" prefHeight="216.0" prefWidth="130.0" text="Enregistrer" />
                </children></AnchorPane>
             <AnchorPane fx:id="apStatistique" layoutX="130.0" layoutY="116.0" prefHeight="522.0" prefWidth="710.0" visible="false">
              <children>
@@ -84,17 +104,6 @@
                       <NumberAxis side="LEFT" />
                     </yAxis>
                   </StackedBarChart>
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="apAccueilAd" layoutX="128.0" layoutY="116.0" prefHeight="562.0" prefWidth="786.0">
-               <children>
-                  <Label layoutX="18.0" layoutY="166.0" prefHeight="44.0" prefWidth="602.0" text="Vous êtes dans la partie Admin" />
-                  <Label fx:id="lblNomAdmin" layoutX="18.0" layoutY="104.0" prefHeight="62.0" prefWidth="674.0" style="-fx-background-color: grey;" />
-                  <Label alignment="CENTER" layoutX="4.0" layoutY="6.0" prefHeight="78.0" prefWidth="703.0" text="Accueil">
-                     <font>
-                        <Font name="System Bold" size="36.0" />
-                     </font>
-                  </Label>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="apSalles" layoutX="130.0" layoutY="116.0" prefHeight="562.0" prefWidth="786.0" visible="false">

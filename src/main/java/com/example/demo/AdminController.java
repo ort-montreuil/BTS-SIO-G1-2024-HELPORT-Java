@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.Entity.Matiere;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -77,9 +78,20 @@ public class AdminController implements Initializable {
     private Button btnAjouterSalle;
     @javafx.fxml.FXML
     private TextField txtNumSalle;
+    @FXML
+    private TableView<Matiere> tbvMatSousMat;
+    @FXML
+    private TableColumn<Matiere, Integer> colIdMat;
+    @FXML
+    private TableColumn<Matiere, String> designationMat;
+    @FXML
+    private TableColumn<Matiere, Integer> codeMat;
+    @FXML
+    private TableColumn<Matiere,String> sousMat;
 
     private RequeteSQLController sqlController = new RequeteSQLController();
-
+    @FXML
+    private Button btnEnregisterMat;
 
 
     @Deprecated
@@ -94,9 +106,15 @@ public class AdminController implements Initializable {
         colId.setEditable(false);
         colCodeSalle.setEditable(true);
         colEtage.setEditable(true);
+        designationMat.setEditable(true);
+        sousMat.setEditable(true);
+
+
 
         // Définir des méthodes pour gérer les événements d'édition dans la colonne colCodeSalle
         colCodeSalle.setCellFactory(TextFieldTableCell.forTableColumn());
+        designationMat.setCellFactory(TextFieldTableCell.forTableColumn());
+        sousMat.setCellFactory(TextFieldTableCell.forTableColumn());
         colCodeSalle.setOnEditCommit(new EventHandler<CellEditEvent<Salle, String>>() {
             @Override
             public void handle(CellEditEvent<Salle, String> event) {
@@ -118,7 +136,6 @@ public class AdminController implements Initializable {
             salle.setModified(true); // Définir la salle comme modifiée
             sqlController.updateSalle(salle); // Mettre à jour la salle dans la base de données
             tbvSalle.refresh();  // Rafraîchir la TableView pour refléter les modifications
-
         });
 
         // Liaison des colonnes de TableView aux propriétés de la classe Salle
@@ -128,6 +145,35 @@ public class AdminController implements Initializable {
 
         // Récupération de la liste des salles depuis RequeteSqlController
         tbvSalle.setItems(sqlController.getListOfSalles());
+
+        // Liaison des colonnes de TableView aux propriétés de la classe Matiere
+        colIdMat.setCellValueFactory(new PropertyValueFactory<>("id"));
+        designationMat.setCellValueFactory(new PropertyValueFactory<>("designation"));
+        codeMat.setCellValueFactory(new PropertyValueFactory<>("code"));
+        sousMat.setCellValueFactory(new PropertyValueFactory<>("sousMatiere"));
+
+        // Gestion de l'édition de la colonne "designationMat"
+        designationMat.setCellFactory(TextFieldTableCell.forTableColumn());
+        designationMat.setOnEditCommit((TableColumn.CellEditEvent<Matiere, String> event) -> {
+            Matiere matiere = event.getRowValue();
+            matiere.setDesignation(event.getNewValue());
+            matiere.setModified(true); // Marquer la matière comme modifiée
+            sqlController.updateMatiere(matiere); // Mettre à jour la matière dans la base de données
+            tbvMatSousMat.refresh(); // Actualiser la TableView pour refléter les modifications
+        });
+
+// Gestion de l'édition de la colonne "sousMat"
+        sousMat.setCellFactory(TextFieldTableCell.forTableColumn());
+        sousMat.setOnEditCommit((TableColumn.CellEditEvent<Matiere, String> event) -> {
+            Matiere matiere = event.getRowValue();
+            matiere.setSousMatiere(event.getNewValue());
+            matiere.setModified(true); // Marquer la matière comme modifiée
+            sqlController.updateMatiere(matiere); // Mettre à jour la matière dans la base de données
+            tbvMatSousMat.refresh(); // Actualiser la TableView pour refléter les modifications
+        });
+
+        // Récupération de la liste des matières depuis RequeteSqlController
+        tbvMatSousMat.setItems(sqlController.getListOfMatiere());
     }
 
 
@@ -348,33 +394,38 @@ public class AdminController implements Initializable {
 
 
 
-    @javafx.fxml.FXML
+    @FXML
     public void AjouterUneSalle(Event event) {
         String numSalleText = txtNumSalle.getText();
-        String etageText = cboEtage.getValue().toString();
+        String etageText = "";
 
-        // Vérifier si le nom de la matière est vide
-        if (numSalleText.isEmpty()) {
-            afficherErreurMat("Vous devez rentrer le numéro de la salle.");
-        }
-        else if (!numSalleText.matches("\\d{1,3}")) {
-            afficherErreurEntier("Vous devez saisir un numéro de salle valide.");
-        }
-        else {
-            // Vérifier si le premier chiffre du numéro de salle correspond à l'étage sélectionné
-            String premierChiffreSalle = numSalleText.substring(0, 1);
-            if (!premierChiffreSalle.equals(etageText)) {
-                afficherErreurMat("Le premier chiffre du numéro de salle ne correspond pas à l'étage sélectionné.");
+        if (cboEtage.getValue() == null || numSalleText.isEmpty()) {
+            afficherErreurMat("Veuillez entrer un numéro de salle et sélectionner un étage.");
+        } else {
+            etageText = cboEtage.getValue().toString();
+
+            if (!numSalleText.matches("\\d{1,3}")) {
+                afficherErreurEntier("Vous devez saisir un numéro de salle valide.");
             } else {
-                // Convertir l'étage en entier
-                int etage = Integer.parseInt(etageText);
+                int numSalle = Integer.parseInt(numSalleText);
 
-                // Appeler la méthode pour ajouter la salle dans la base de données
-                sqlController.ajouterSalle(numSalleText, etage);
-                afficherSuccesMat("La salle " + numSalleText + " à l'étage " + etage + " a été ajoutée avec succès.");
+                if (sqlController.salleExisteDeja(numSalle)) {
+                    afficherErreurMat("Le numéro de salle a déjà été ajouté.");
+                } else {
+                    String premierChiffreSalle = numSalleText.substring(0, 1);
+                    if (!premierChiffreSalle.equals(etageText)) {
+                        afficherErreurMat("Le premier chiffre du numéro de salle ne correspond pas à l'étage sélectionné.");
+                    } else {
+                        int etage = Integer.parseInt(etageText);
+
+                        sqlController.ajouterSalle(numSalleText, etage);
+                        afficherSuccesMat("La salle " + numSalleText + " à l'étage " + etage + " a été ajoutée avec succès.");
+                    }
+                }
             }
         }
     }
+
     @javafx.fxml.FXML
     public void ModifierSalle(Event event) {
         boolean modificationEffectuee = false; // Variable pour vérifier si au moins une modification a été effectuée
@@ -394,8 +445,29 @@ public class AdminController implements Initializable {
             afficherModifSalleSuccess("La modification a été enregistrés avec succès !");
         }
     }
+
+    @Deprecated
+    public void ModifierMatiere(Event event) {
+        boolean modificationEffectuee = false; // Variable pour vérifier si au moins une modification a été effectuée
+
+        // Parcourir les éléments de la TableView
+        for (Matiere matiere : tbvMatSousMat.getItems()) {
+            // Vérifier si la salle a été modifiée
+            if (matiere.isModified()) {
+                // Mettre à jour la salle dans la base de données
+                sqlController.updateMatiere(matiere);
+                matiere.setModified(false);
+                modificationEffectuee = true;
+            }
+        }
+        // Afficher un message de succès si au moins une modification a été effectuée
+        if (modificationEffectuee) {
+            afficherModifSalleSuccess("La modification a été enregistrés avec succès !");
+        }
+    }
     private void remplirComboBoxEtage() {
         // Ajouter les étages à la ComboBox
         cboEtage.getItems().addAll("1", "2", "3", "4", "5", "6"); // Ajoutez ici tous les étages nécessaires
     }
+
 }

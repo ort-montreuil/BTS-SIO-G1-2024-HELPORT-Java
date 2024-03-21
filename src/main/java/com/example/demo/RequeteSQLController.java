@@ -2,6 +2,7 @@ package com.example.demo;
 
 
 import com.example.demo.Entity.Demande;
+import com.example.demo.Entity.Matiere;
 import com.example.demo.Entity.Salle;
 import com.example.demo.Tools.ConnexionBDD;
 import javafx.collections.FXCollections;
@@ -9,7 +10,6 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Date;
 
@@ -187,7 +187,6 @@ public class RequeteSQLController {
         return idMatiere;
     }
 
-
     public void updateDemandeStatut(int demandeId) {
         try {
             String sqlQuery = "UPDATE demande SET status = ? WHERE id = ?";
@@ -206,6 +205,7 @@ public class RequeteSQLController {
             e.printStackTrace();
         }
     }
+
 
     public void creerCompetenceConnecte(int idMatiere, int idUtilisateur, String sousMatiereDemandee, int status) {
         try {
@@ -239,13 +239,11 @@ public class RequeteSQLController {
 
             while (resultSet.next()) {
                 String sousMatiere = resultSet.getString("sous_matiere");
+                Date date = resultSet.getDate("date_updated");
                 Date date2 = resultSet.getDate("date_fin_demande");
-                int demandeId = resultSet.getInt("id");
-
-
-                String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s, %s",
-                        date2.toString(), sousMatiere, demandeId);
-
+                int status = resultSet.getInt("status");
+                String informationDemande = String.format(" Date Examen: %s, Sous-matière: %s",
+                        date2.toString(), sousMatiere);
 
                 demandesUtilisateur.add(informationDemande);
             }
@@ -346,14 +344,13 @@ public class RequeteSQLController {
                 demande.setId(rs.getInt("id_demande"));
                 demande.setDateFin(rs.getDate("date_fin_demande"));
                 demande.setSousMatiere(rs.getString("sous_matiere"));
+                // Vous pouvez ajouter d'autres champs selon votre structure de données
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return demande;
     }
-
-
     public String getNiveauUtilisateur(int idUtilisateur) {
         String niveauUtilisateur = ""; // Valeur par défaut si le niveau n'est pas trouvé
 
@@ -380,7 +377,7 @@ public class RequeteSQLController {
         List<String> demandesList = new ArrayList<>();
 
         try {
-            String sqlQuery = "SELECT d.sous_matiere, d.date_updated, d.date_fin_demande " +
+            String sqlQuery = "SELECT d.id,  d.sous_matiere, d.date_updated, d.date_fin_demande " +
                     "FROM demande d " +
                     "JOIN user u ON d.id_user = u.id " +
                     "WHERE u.niveau IN ('Terminale', 'BTS 1', 'BTS 2', 'Bachelor')"
@@ -564,41 +561,19 @@ public class RequeteSQLController {
         return competenceIds;
     }
 
-
-
-    public void updateSalle(Salle salle) {
-        String query = "UPDATE salle SET code_salle = ?, etage = ? WHERE id = ?";
+    public String getUserRole(int userId) {
+        String role = null;
         try {
-            ps = cnx.prepareStatement(query);
-            ps.setString(1, salle.getCodeSalle());
-            ps.setInt(2, salle.getEtage());
-            ps.setInt(3, salle.getId());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace(); // Gérer les erreurs de mise à jour de la base de données
-        }
-    }
-
-
-    public ObservableList<Salle> getListOfSalles() {
-        ObservableList<Salle> listeSalles = FXCollections.observableArrayList();
-
-        String query = "SELECT * FROM salle";
-
-        try (PreparedStatement ps = cnx.prepareStatement(query)) {
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String codeSalle = rs.getString("code_salle");
-                int etage = rs.getInt("etage");
-                Salle salle = new Salle(id, codeSalle, etage);
-                listeSalles.add(salle);
+            ps = cnx.prepareStatement("SELECT user.role FROM user WHERE user.id = ?");
+            ps.setInt(1, userId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                role = rs.getString("role");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-
-        return listeSalles;
+        return role;
     }
 
     public void ajouterMatiere(String nomMatiere, String sousMatieres) {
@@ -613,6 +588,19 @@ public class RequeteSQLController {
         }
     }
 
+    public void ajouterSalle(String numSalle, int etage) {
+        try {
+            String codeSalle = "Salle " + numSalle;
+
+            ps = cnx.prepareStatement("INSERT INTO salle (code_salle, etage) VALUES (?, ?)");
+            ps.setString(1, codeSalle);
+            ps.setInt(2, etage);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            // gestion des erreurs
+            e.printStackTrace();
+        }
+    }
 
     public List<HashMap<String, Object>> afficherAdminStatistique1() {
         List<HashMap<String, Object>> statistiques = new ArrayList<>();
@@ -684,34 +672,94 @@ public class RequeteSQLController {
         return rs;
     }
 
-    public void ajouterSalle(String numSalle, int etage) {
-        try {
-            String codeSalle = "Salle " + numSalle;
+    public ObservableList<Salle> getListOfSalles() {
+        ObservableList<Salle> listeSalles = FXCollections.observableArrayList();
 
-            ps = cnx.prepareStatement("INSERT INTO salle (code_salle, etage) VALUES (?, ?)");
-            ps.setString(1, codeSalle);
-            ps.setInt(2, etage);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            // gestion des erreurs
-            e.printStackTrace();
-        }
-    }
+        String query = "SELECT * FROM salle";
 
-    public String getUserRole(int userId) {
-        String role = null;
-        try {
-            ps = cnx.prepareStatement("SELECT user.role FROM user WHERE user.id = ?");
-            ps.setInt(1, userId);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                role = rs.getString("role");
+        try (PreparedStatement ps = cnx.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String codeSalle = rs.getString("code_salle");
+                int etage = rs.getInt("etage");
+                Salle salle = new Salle(id, codeSalle, etage);
+                listeSalles.add(salle);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-        return role;
+
+        return listeSalles;
     }
 
+    public void updateSalle(Salle salle) {
+        String query = "UPDATE salle SET code_salle = ?, etage = ? WHERE id = ?";
+        try {
+            ps = cnx.prepareStatement(query);
+            ps.setString(1, salle.getCodeSalle());
+            ps.setInt(2, salle.getEtage());
+            ps.setInt(3, salle.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Gérer les erreurs de mise à jour de la base de données
+        }
+    }
 
+    public boolean salleExisteDeja(int id) {
+        boolean salleExiste = false;
+
+        String query = "SELECT COUNT(*) FROM salle WHERE id = ?";
+        int count = 0;
+
+        try {
+            ps = cnx.prepareStatement(query);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                count = rs.getInt(1);
+                salleExiste = (count > 0); // Si count est supérieur à 0, cela signifie que la salle existe déjà
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Gérer l'exception selon vos besoins
+        }
+
+        return salleExiste;
+    }
+    public ObservableList<Matiere> getListOfMatiere() {
+        ObservableList<Matiere> listeMatieres = FXCollections.observableArrayList();
+
+        String query = "SELECT * FROM matiere";
+
+        try (PreparedStatement ps = cnx.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String designation = rs.getString("designation");
+                int code = rs.getInt("code"); // Récupérer le code comme un entier
+                String sousMatiere = rs.getString("sous_matiere");
+                Matiere matiere = new Matiere(id, designation, code, sousMatiere);
+                listeMatieres.add(matiere);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return listeMatieres;
+    }
+    public void updateMatiere(Matiere matiere) {
+        String query = "UPDATE matiere SET designation = ?, code = ?, sous_matiere = ? WHERE id = ?";
+        try {
+            ps = cnx.prepareStatement(query);
+            ps.setString(1, matiere.getDesignation());
+            ps.setInt(2, matiere.getCode());
+            ps.setString(3, matiere.getSousMatiere());
+            ps.setInt(4, matiere.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Gérer les erreurs de mise à jour de la base de données
+        }
+    }
 }

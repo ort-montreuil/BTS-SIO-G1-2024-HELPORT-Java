@@ -6,5 +6,6 @@ module com.example.demo {
 
     opens com.example.demo to javafx.fxml;
     exports com.example.demo;
-    opens com.example.demo.Entity to javafx.base;
+    exports com.example.demo.Entity;
+    opens com.example.demo.Entity to javafx.base, javafx.fxml;
 }
