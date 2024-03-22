@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.Entity.Matiere;
+import com.example.demo.Entity.Salle;
 import com.example.demo.Entity.Utilisateur;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn.CellEditEvent;
-import com.example.demo.Entity.Salle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;

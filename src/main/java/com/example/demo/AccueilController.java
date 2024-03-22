@@ -167,38 +167,8 @@ public class AccueilController implements Initializable {
 
 
 
-        btnModifDemande.setOnAction(actionEvent -> {
 
-            String demandeSelectionnee = (String) lstVMesdemandes.getSelectionModel().getSelectedItem();
 
-            if (demandeSelectionnee != null) {
-                // Affiche la pop-up avec la demande sélectionnée
-            } else {
-                // Affiche un message d'erreur si aucune demande n'est sélectionnée
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur de sélection");
-                alert.setHeaderText(null);
-                alert.setContentText("Veuillez sélectionner une demande.");
-                alert.showAndWait();
-
-            }
-        });
-        btnModifCompetence.setOnAction(actionEvent -> {
-
-            String competenceSelectionnee = (String) lstvModifComp.getSelectionModel().getSelectedItem();
-
-            if (competenceSelectionnee != null) {
-                // Affiche la pop-up avec la compétence sélectionnée
-            } else {
-                // Afficher un message d'erreur si aucune compétences n'est sélectionnée
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Erreur de sélection");
-                alert.setHeaderText(null);
-                alert.setContentText("Veuillez sélectionner une compétence.");
-                alert.showAndWait();
-
-            }
-        });
         // pour lorsqu'on a selec une demande
         btnAiderFinale.setOnAction(event -> {
             String selectedString = (String) lstvAider.getSelectionModel().getSelectedItem();
